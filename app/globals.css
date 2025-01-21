@@ -1,0 +1,36 @@
+@font-face {
+  font-family: 'SST Arabic';
+  src: url('/fonts/SST-Arabic-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* toot */
+:root {
+  /* fonts */
+  --font-sst-arabic: 'SST Arabic';
+
+  /* colors */
+  --color-primary: #E55604;
+  --color-secondary: #26577C;
+}
+
+/* reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button{
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
