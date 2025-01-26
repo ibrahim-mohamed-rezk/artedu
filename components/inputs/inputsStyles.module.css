@@ -1,0 +1,12 @@
+/* PhoneInput styles */
+.PhoneInput:has(input:focus) {
+    border-color: var(--color-primary);
+    border-width: 3px;
+}
+
+.PhoneInput:has(select:focus) {
+    border-color: var(--color-primary);
+    border-width: 3px;
+}
+
+
