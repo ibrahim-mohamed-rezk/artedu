@@ -1,11 +1,16 @@
 import axios from "axios";
 
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+
 // Create an Axios instance
 const backendServer = axios.create({
   baseURL: "https://yellow-oryx-132975.hostingersite.com/api/v1/online/",
+  // baseURL: "https://api.sportiin.com/api",
   timeout: 1000,
   headers: {
     "Content-Type": "multipart/form-data",
+    "X-CSRF-TOKEN": csrfToken,
   },
 });
 

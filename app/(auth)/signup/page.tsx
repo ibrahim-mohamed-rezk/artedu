@@ -30,7 +30,7 @@ const page = () => {
                 style={{ boxShadow: "0px 4.41px 8.81px 0px #00000005 inset" }}
               >
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   className="flex-1 px-5 py-4 bg-white rounded-tl-[73.44px] rounded-tr-[8.81px] rounded-bl-[73.44px] rounded-br-[8.81px] shadow-inner border border-gray-100/50 flex justify-center items-center"
                 >
                   <span className="text-[#232447] text-xl font-medium font-['SST Arabic']">
@@ -38,7 +38,7 @@ const page = () => {
                   </span>
                 </Link>
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   className="flex-1 px-5 py-4 flex justify-center items-center"
                 >
                   <span className="text-[#7D7D91] text-xl font-medium font-['SST Arabic']">

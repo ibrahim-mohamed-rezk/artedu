@@ -14,18 +14,18 @@ const Login = ({ className = "" }: LoginProps) => {
   const [countryCode, setCountryCode] = useState("+20");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [csrfToken, setCsrfToken] = useState("");
 
   const handelLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("phone", phone);
+    formData.append("password", password);
+    // formData.append("country_code", countryCode);
+    // formData.append("_token", csrfToken); // Include CSRF token in the request
+
     try {
-      const response = await postData("/login-api", {
-        phone,
-        password,
-        country_code: countryCode,
-        _token: csrfToken, // Include CSRF token in the request
-      });
+      const response = await postData("login-api", formData);
 
       if (response) {
         // Handle successful login
@@ -62,7 +62,7 @@ const Login = ({ className = "" }: LoginProps) => {
 
       <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-2">
         <Link
-          href="/auth/forgot-password"
+          href="/forgot-password"
           className="text-right text-[#26577c] text-xs font-bold font-['SST Arabic'] leading-none"
         >
           هل نسيت الرقم السري ؟

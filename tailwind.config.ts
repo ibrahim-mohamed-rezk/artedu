@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        "sst-arabic": ["SST Arabic", "sans-serif"],
+        "dm-sans": ["DM Sans", "sans-serif"],
+      },
     },
   },
   plugins: [],
