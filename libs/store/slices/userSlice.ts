@@ -1,5 +1,5 @@
+import { getData } from "@/libs/axios/backendServer";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getApi } from "@/libs/axios/backendServer";
 
 const initialState: any = {
   userData: {},
@@ -10,12 +10,12 @@ const initialState: any = {
 export const autoLogin = createAsyncThunk(
   "user/autoLogin",
   async (token: string) => {
-    const response = await getApi(
+    const response = await getData(
       `autoLogin`,
       {},
       { Authorization: `Bearer ${token}` }
     );
-    return response.data; // Return the response to use it in the reducer
+    return response; // Return the response to use it in the reducer
   }
 );
 
@@ -24,7 +24,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setuserData: (state, action) => {
-      state.userData = action.payload.user_data;
+      state.userData = action.payload.data;
       state.token = action.payload.token;
     },
 
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
     updateUserData: (state, action) => {
-      state.userData = action.payload.user_data;
+      state.userData = action.payload.data;
     }
   },
   extraReducers: (builder) => {

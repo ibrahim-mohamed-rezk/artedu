@@ -1,0 +1,18 @@
+  
+  /* custom Swiper Pagination Horizontal */
+  .custom-bullet-horizontal {
+    width: 16px;
+    height: 6px;
+    background: #f15a2233;
+    border-radius: 48px;
+    margin: 0 4px;
+    display: block;
+  }
+  .custom-bullet-horizontal-active {
+    width: 80px;
+    height: 6px;
+    background: #F15A22;
+    opacity: 1;
+    border-radius: 48px;
+  }
+  

@@ -5,6 +5,10 @@ import { postData } from "@/libs/axios/backendServer";
 import PhoneInput from "@/components/inputs/PhoneInput";
 import PasswordInput from "../inputs/PasswordInput";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "@/libs/store/hooks";
+import { setuserData } from "@/libs/store/slices/userSlice";
+import { useRouter } from "next/navigation";
 
 interface LoginProps {
   className?: string;
@@ -14,6 +18,8 @@ const Login = ({ className = "" }: LoginProps) => {
   const [countryCode, setCountryCode] = useState("+20");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handelLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,26 +27,24 @@ const Login = ({ className = "" }: LoginProps) => {
     const formData = new FormData();
     formData.append("phone", phone);
     formData.append("password", password);
-    // formData.append("country_code", countryCode);
-    // formData.append("_token", csrfToken); // Include CSRF token in the request
 
     try {
       const response = await postData("login-api", formData);
 
       if (response) {
         // Handle successful login
-        console.log("Login successful", response);
+        dispatch(setuserData(response));
+        toast.success(response.message);
+        router.push("/");
       }
     } catch (error) {
       console.error("Login failed", error);
+      toast.error("خطأ في تسجيل الدخول");
     }
   };
 
   return (
-    <form
-      onSubmit={handelLogin}
-      className={`w-full flex flex-col gap-4 mt-[25px] ${className}`}
-    >
+    <div className={`w-full flex flex-col gap-4 mt-[25px] ${className}`}>
       <div className="flex flex-col gap-2 w-full">
         <label className="text-gray-500 w-full text-end text-xs font-medium font-['SST Arabic']">
           رقم هاتف ولي الامر
@@ -78,12 +82,12 @@ const Login = ({ className = "" }: LoginProps) => {
       </div>
 
       <button
-        type="submit"
+        onClick={handelLogin}
         className="w-full mt-4 px-6 py-3 bg-orange-600 text-white rounded-xl text-center font-medium hover:bg-orange-700 transition-colors"
       >
         تسجيل الدخول
       </button>
-    </form>
+    </div>
   );
 };
 

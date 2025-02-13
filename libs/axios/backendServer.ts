@@ -1,6 +1,5 @@
 import axios from "axios";
 
-const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
 
 
 // Create an Axios instance
@@ -10,14 +9,13 @@ const backendServer = axios.create({
   timeout: 1000,
   headers: {
     "Content-Type": "multipart/form-data",
-    "X-CSRF-TOKEN": csrfToken,
   },
 });
 
 // Example of a GET request
-export const getData = async (endpoint: string) => {
+export const getData = async (endpoint: string, params?: any, headers?: any) => {
   try {
-    const response = await backendServer.get(endpoint);
+    const response = await backendServer.get(endpoint, { params, headers });
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -26,9 +24,9 @@ export const getData = async (endpoint: string) => {
 };
 
 // Example of a POST request
-export const postData = async (endpoint: string, data: any) => {
+export const postData = async (endpoint: string, data: any, headers?: any) => {
   try {
-    const response = await backendServer.post(endpoint, data);
+    const response = await backendServer.post(endpoint, data, headers);
     return response.data;
   } catch (error) {
     console.error("Error posting data:", error);

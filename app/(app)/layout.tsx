@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import LayoutWithNavbarAndFooter from "@/components/layouts/LayoutWithNavbarAndFooter";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import ReduxProvider from "@/libs/store/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,10 +17,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="relative">
-        <LayoutWithNavbarAndFooter>
-          {children}
+        <ReduxProvider>
+          <div className=" max-w-[1920px] mx-auto  flex">
+            <Navbar />
+            <main className="w-full mx-auto order-1 h-screen max-h-[1080px] overflow-auto hide-scrollbar">
+              {children}
+            </main>
+          </div>
           <ToastContainer />
-        </LayoutWithNavbarAndFooter>
+        </ReduxProvider>
+        <Footer />
       </body>
     </html>
   );

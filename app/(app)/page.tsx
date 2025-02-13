@@ -1,31 +1,36 @@
 "use client";
 
 import HomeSwiper from "@/components/home/HomeSwiper";
-import { getData } from "@/libs/axios/backendServer";
-import { useEffect, useState } from "react";
+import { useAppDispatch } from "@/libs/store/hooks";
+import { useEffect } from "react";
+import { getHomeData } from "@/libs/store/slices/homeSlice";
+import TeatcheContainer from "@/components/home/TeatcheContainer";
+import CoursesContainer from "@/components/home/CoursesContainer";
+import Subjects from "@/components/home/Subjects";
+import BooksContainer from "@/components/home/BooksContainer";
 
 export default function Home() {
-  const [homeData, setHomeData] = useState({});
+  const dispatch = useAppDispatch();
 
   // Fetch data from API
   useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        const response = await getData("home-api");
-        setHomeData(response);
-      } catch (error) {
-        console.error("Failed to fetch home data", error);
-      }
-    };
-    fetchHomeData();
+    dispatch(getHomeData());
   }, []);
 
-  console.log(homeData)
-
   return (
-    <div className="w-full min-h-[200vh]">
+    <div className="w-full">
       <div className="container mx-auto">
-        <HomeSwiper />
+        <div className="w-full flex flex-col items-start justify-start gap-[30px]">
+          <HomeSwiper />
+          <div className="w-full h-[1px] bg-[#f1f1f2] "></div>
+          <TeatcheContainer />
+          <div className="w-full h-[1px] bg-[#f1f1f2] "></div>
+          <CoursesContainer />
+          <div className="w-full h-[1px] bg-[#f1f1f2] "></div>
+          <Subjects />
+          <div className="w-full h-[1px] bg-[#f1f1f2] "></div>
+          <BooksContainer />
+        </div>
       </div>
     </div>
   );
