@@ -7,7 +7,6 @@ import PasswordInput from "../inputs/PasswordInput";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/libs/store/hooks";
-import { setuserData } from "@/libs/store/slices/userSlice";
 import { useRouter } from "next/navigation";
 
 interface LoginProps {
@@ -32,8 +31,10 @@ const Login = ({ className = "" }: LoginProps) => {
       const response = await postData("login-api", formData);
 
       if (response) {
-        // Handle successful login
-        dispatch(setuserData(response));
+        // تأكد أن الكود يعمل في المتصفح فقط
+        if (typeof window !== "undefined") {
+          localStorage.setItem("token", response.token);
+        }
         toast.success(response.message);
         router.push("/");
       }

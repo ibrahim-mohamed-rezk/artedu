@@ -3,11 +3,13 @@ import "swiper/css";
 import "swiper/css/navigation";
 import TeatcheCard from "../cards/TeatcheCard";
 import { useAppSelector } from "@/libs/store/hooks";
+import Link from "next/link";
 
 interface Teacher {
   full_name: string;
   subject: string;
   avatar: string;
+  id: number;
 }
 
 const TeatcheContainer = () => {
@@ -32,9 +34,12 @@ const TeatcheContainer = () => {
               fill="currentColor"
             />
           </svg>
-          <span className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]">
+          <Link
+            href={"/teachers"}
+            className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]"
+          >
             عرض الجميع
-          </span>
+          </Link>
         </div>
         <h2 className="text-xl sm:text-2xl font-bold font-sst-arabic">
           مدرسينا المتميزين
@@ -54,6 +59,7 @@ const TeatcheContainer = () => {
                 teacherName={teacher?.full_name}
                 teacherJob={teacher?.subject}
                 teacherImage={teacher?.avatar}
+                teacherId={teacher?.id}
               />
             </SwiperSlide>
           );

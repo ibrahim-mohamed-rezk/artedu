@@ -5,7 +5,7 @@ import PhoneInput from "@/components/inputs/PhoneInput";
 import PasswordInput from "../inputs/PasswordInput";
 import { postData, getData } from "@/libs/axios/backendServer"; // Assuming getData is a function to fetch data
 import { toast } from "react-toastify";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 interface LoginProps {
   className?: string;
@@ -36,6 +36,8 @@ const Signup = ({ className = "" }: LoginProps) => {
   const [levels, setLevels] = useState<Level[]>([]);
   const [governorates, setGovernorates] = useState<Governorate[]>([]);
   const [areas, setAreas] = useState<any[]>([]);
+
+  const router = useRouter();
 
   // get levels data from api
   useEffect(() => {
@@ -144,8 +146,10 @@ const Signup = ({ className = "" }: LoginProps) => {
       if (response) {
         // Handle successful registration
         toast.success("تم التسجيل بنجاح");
-        Router.push("/login");
-        console.log(response);
+        if (typeof window !== "undefined") {
+          localStorage.setItem("phone", phone);
+        }
+        router.push("/signup/verify-code");
       }
     } catch (error) {
       // Handle registration error

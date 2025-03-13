@@ -1,7 +1,10 @@
+import Cart from "@/components/cart/Cart"
 
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <Cart />
+    </div>
   )
 }
 

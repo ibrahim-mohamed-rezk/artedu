@@ -3,12 +3,14 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useAppSelector } from "@/libs/store/hooks";
 import BookCard from "../cards/BookCard";
+import Link from "next/link";
 
 interface Book {
   name: string;
   author: string;
   image: string;
   price: number;
+  id: number;
 }
 
 const BooksContainer = () => {
@@ -33,12 +35,15 @@ const BooksContainer = () => {
               fill="currentColor"
             />
           </svg>
-          <span className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]">
+          <Link
+            href={"/books"}
+            className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]"
+          >
             عرض الجميع
-          </span>
+          </Link>
         </div>
         <h2 className="text-xl sm:text-2xl font-bold font-sst-arabic">
-          كتبنا المتميزة
+          كتبنا المميزة
         </h2>
       </div>
       <Swiper
@@ -56,6 +61,7 @@ const BooksContainer = () => {
                 author={book?.author}
                 price={book?.price}
                 image={book?.image}
+                id={book?.id}
               />
             </SwiperSlide>
           );

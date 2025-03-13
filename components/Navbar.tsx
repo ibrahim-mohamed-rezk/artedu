@@ -3,11 +3,20 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/libs/store/hooks";
+import { userMenueItems } from "@/libs/helpers/userMenueItems";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showProfileMenue, setShowProfileMenue] = useState(false);
+  const { userData, token } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    token && setIsLoggedIn(true);
+  }, [token]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -48,43 +57,155 @@ const Navbar = () => {
                 isOpen ? "translate-x-0" : "translate-x-full"
               } transition-transform duration-300 ease-in-out z-40`
             : "w-[120px] order-10"
-        } pt-[40px] pb-[40px] bg-[#fff2eb] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-start items-center gap-[30px] overflow-hidden`}
+        } pt-[40px] pb-[40px] bg-[#fff2eb] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-start items-center gap-[30px]`}
       >
         {/* auth buttons or user profile */}
-        <div className="flex-col justify-end items-center gap-[20px] flex">
-          <Link
-            href="/login"
-            className="self-stretch px-2 py-3 bg-[#26577c] rounded-[15px] flex-col justify-center items-center inline-flex"
-          >
-            <div className="w-8 h-8 relative rounded-[5px] overflow-hidden">
+        {isLoggedIn ? (
+          // profile icon
+          <div className="flex-col justify-end items-center gap-[24px] flex">
+            <div className="w-[66px] h-[66px] relative flex items-center justify-center">
+              <img
+                className="w-full h-full cursor-pointer rounded-full object-cover"
+                src={userData?.image || "/images/icons/userAvatar.png"}
+                onClick={() => setShowProfileMenue((prev) => !prev)}
+                alt="user profile"
+              />
+
+              {/* profile menue */}
+              {showProfileMenue && (
+                <div className="absolute z-[9000] top-[-15px] right-[80px]">
+                  <div className="w-[430px] h-[748px] relative">
+                    <div data-svg-wrapper className="left-0 top-0 absolute">
+                      <svg
+                        width="431"
+                        height="748"
+                        viewBox="0 0 431 748"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M28 0C12.536 0 0 12.536 0 28V720C0 735.464 12.536 748 28 748H379C394.464 748 407 735.464 407 720V68.7681C407 66.2899 408.524 64.0667 410.835 63.1724L426.539 57.0957C431.652 55.1172 431.652 47.8828 426.539 45.9043L410.835 39.8276C408.524 38.9333 407 36.7101 407 34.2319V28C407 12.536 394.464 0 379 0H28Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </div>
+                    <div className="h-[695.95px] left-[25px] top-[27px] absolute flex-col justify-start items-start gap-[30px] inline-flex">
+                      <div className="self-stretch justify-start items-center gap-[65.04px] inline-flex">
+                        <div className="grow shrink basis-0 h-[65.04px] justify-start items-center gap-[16.26px] flex">
+                          <div className="grow shrink basis-0 flex-col justify-start items-end gap-[10.84px] inline-flex">
+                            <div className="self-stretch text-right text-[#191a2c] text-xl font-bold font-['SST Arabic'] leading-loose">
+                              نور محمد
+                            </div>
+                            <div className="w-[273.70px] text-right text-[#535662] text-[14.90px] font-medium font-['Inter'] leading-none">
+                              +20 010 182 60 856
+                            </div>
+                          </div>
+                          <div className="w-[65.04px] h-[65.04px] relative bg-[#ffd88d] rounded-full overflow-hidden">
+                            <img
+                              className="w-full h-full object-cover"
+                              src={
+                                userData?.image ||
+                                "/images/icons/userAvatar.png"
+                              }
+                              alt="User Avatar"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full mx-auto border-b border-[#f1f1f2] block "></div>
+                      <div className="self-stretch h-[600.91px] flex-col justify-start items-start gap-[15px] flex">
+                        {userMenueItems.map((item, index) => (
+                          <Link
+                            href={item.url || ""}
+                            onClick={() => setShowProfileMenue(false)}
+                            key={index}
+                            className={`self-stretch p-[16.40px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex hover:bg-[#26577C] cursor-pointer hover:text-white`}
+                          >
+                            <div className="grow shrink basis-0 h-[32.79px] justify-start items-center gap-[10.93px] flex">
+                              <div
+                                className={`grow shrink basis-0 text-right text-xl font-medium font-['SST Arabic'] leading-loose `}
+                              >
+                                {item.text}
+                              </div>
+                              <div className="relative">
+                                <div
+                                  className="w-[32px] h-[32px] bg-white rounded-full flex items-center justify-center p-[5px]"
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.icon,
+                                  }}
+                                />
+                                {item.badge && (
+                                  <div className="w-[6px] h-[6px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[6px] right-[8px]" />
+                                )}
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="relative">
               <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
+                width="33"
+                height="33"
+                viewBox="0 0 33 33"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M14.9453 1.25C13.5778 1.24998 12.4754 1.24996 11.6085 1.36652C10.7084 1.48754 9.95048 1.74643 9.34857 2.34835C8.82363 2.87328 8.55839 3.51836 8.41916 4.27635C8.28387 5.01291 8.25799 5.9143 8.25196 6.99583C8.24966 7.41003 8.58357 7.74768 8.99778 7.74999C9.41199 7.7523 9.74964 7.41838 9.75194 7.00418C9.75803 5.91068 9.78643 5.1356 9.89448 4.54735C9.99859 3.98054 10.1658 3.65246 10.4092 3.40901C10.686 3.13225 11.0746 2.9518 11.8083 2.85315C12.5637 2.75159 13.5648 2.75 15.0002 2.75H16.0002C17.4356 2.75 18.4367 2.75159 19.1921 2.85315C19.9259 2.9518 20.3144 3.13225 20.5912 3.40901C20.868 3.68577 21.0484 4.07435 21.1471 4.80812C21.2486 5.56347 21.2502 6.56459 21.2502 8V16C21.2502 17.4354 21.2486 18.4365 21.1471 19.1919C21.0484 19.9257 20.868 20.3142 20.5912 20.591C20.3144 20.8678 19.9259 21.0482 19.1921 21.1469C18.4367 21.2484 17.4356 21.25 16.0002 21.25H15.0002C13.5648 21.25 12.5637 21.2484 11.8083 21.1469C11.0746 21.0482 10.686 20.8678 10.4092 20.591C10.1658 20.3475 9.99859 20.0195 9.89448 19.4527C9.78643 18.8644 9.75803 18.0893 9.75194 16.9958C9.74964 16.5816 9.41199 16.2477 8.99778 16.25C8.58357 16.2523 8.24966 16.59 8.25196 17.0042C8.25799 18.0857 8.28387 18.9871 8.41916 19.7236C8.55839 20.4816 8.82363 21.1267 9.34857 21.6517C9.95048 22.2536 10.7084 22.5125 11.6085 22.6335C12.4754 22.75 13.5778 22.75 14.9453 22.75H16.0551C17.4227 22.75 18.525 22.75 19.392 22.6335C20.2921 22.5125 21.0499 22.2536 21.6519 21.6517C22.2538 21.0497 22.5127 20.2919 22.6337 19.3918C22.7503 18.5248 22.7502 17.4225 22.7502 16.0549V7.94513C22.7502 6.57754 22.7503 5.47522 22.6337 4.60825C22.5127 3.70814 22.2538 2.95027 21.6519 2.34835C21.0499 1.74643 20.2921 1.48754 19.392 1.36652C18.525 1.24996 17.4227 1.24998 16.0551 1.25H14.9453Z"
-                  fill="white"
+                  d="M11.7387 27.0121C12.8602 28.4377 14.6219 29.3563 16.603 29.3563C18.5841 29.3563 20.3459 28.4377 21.4673 27.0121C18.2383 27.4496 14.9678 27.4496 11.7387 27.0121Z"
+                  fill="#FFB001"
                 />
                 <path
-                  d="M2.00098 11.249C1.58676 11.249 1.25098 11.5848 1.25098 11.999C1.25098 12.4132 1.58676 12.749 2.00098 12.749L13.9735 12.749L12.0129 14.4296C11.6984 14.6991 11.662 15.1726 11.9315 15.4871C12.2011 15.8016 12.6746 15.838 12.9891 15.5685L16.4891 12.5685C16.6553 12.426 16.751 12.218 16.751 11.999C16.751 11.7801 16.6553 11.5721 16.4891 11.4296L12.9891 8.42958C12.6746 8.16002 12.2011 8.19644 11.9315 8.51093C11.662 8.82543 11.6984 9.2989 12.0129 9.56847L13.9735 11.249L2.00098 11.249Z"
-                  fill="white"
+                  d="M25.6019 12.023V12.9618C25.6019 14.0885 25.9234 15.1899 26.526 16.1273L28.0025 18.4245C29.3513 20.5228 28.3216 23.3749 25.9759 24.0384C19.8394 25.7742 13.3667 25.7742 7.23018 24.0384C4.88442 23.3749 3.85479 20.5228 5.20351 18.4245L6.68009 16.1273C7.28265 15.1899 7.60419 14.0885 7.60419 12.9618V12.023C7.60419 6.86834 11.6331 2.68967 16.603 2.68967C21.5729 2.68967 25.6019 6.86834 25.6019 12.023Z"
+                  fill="#FFB001"
                 />
               </svg>
+              <div className="w-[10px] h-[10px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[1px] right-[4px]"></div>
             </div>
-            <div className="w-[80px] text-center text-white text-lg font-medium font-sst-arabic leading-relaxed">
-              تسجيل الدخول
-            </div>
-          </Link>
-          <Link
-            href={`/signup`}
-            className="w-[80px] text-center text-[#26577c] text-lg font-medium font-sst-arabic leading-relaxed"
-          >
-            انضم الينا
-          </Link>
-        </div>
+          </div>
+        ) : (
+          <div className="flex-col justify-end items-center gap-[20px] flex">
+            <Link
+              href="/login"
+              className="self-stretch px-2 py-3 bg-[#26577c] rounded-[15px] flex-col justify-center items-center inline-flex"
+            >
+              <div className="w-8 h-8 relative rounded-[5px] overflow-hidden">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.9453 1.25C13.5778 1.24998 12.4754 1.24996 11.6085 1.36652C10.7084 1.48754 9.95048 1.74643 9.34857 2.34835C8.82363 2.87328 8.55839 3.51836 8.41916 4.27635C8.28387 5.01291 8.25799 5.9143 8.25196 6.99583C8.24966 7.41003 8.58357 7.74768 8.99778 7.74999C9.41199 7.7523 9.74964 7.41838 9.75194 7.00418C9.75803 5.91068 9.78643 5.1356 9.89448 4.54735C9.99859 3.98054 10.1658 3.65246 10.4092 3.40901C10.686 3.13225 11.0746 2.9518 11.8083 2.85315C12.5637 2.75159 13.5648 2.75 15.0002 2.75H16.0002C17.4356 2.75 18.4367 2.75159 19.1921 2.85315C19.9259 2.9518 20.3144 3.13225 20.5912 3.40901C20.868 3.68577 21.0484 4.07435 21.1471 4.80812C21.2486 5.56347 21.2502 6.56459 21.2502 8V16C21.2502 17.4354 21.2486 18.4365 21.1471 19.1919C21.0484 19.9257 20.868 20.3142 20.5912 20.591C20.3144 20.8678 19.9259 21.0482 19.1921 21.1469C18.4367 21.2484 17.4356 21.25 16.0002 21.25H15.0002C13.5648 21.25 12.5637 21.2484 11.8083 21.1469C11.0746 21.0482 10.686 20.8678 10.4092 20.591C10.1658 20.3475 9.99859 20.0195 9.89448 19.4527C9.78643 18.8644 9.75803 18.0893 9.75194 16.9958C9.74964 16.5816 9.41199 16.2477 8.99778 16.25C8.58357 16.2523 8.24966 16.59 8.25196 17.0042C8.25799 18.0857 8.28387 18.9871 8.41916 19.7236C8.55839 20.4816 8.82363 21.1267 9.34857 21.6517C9.95048 22.2536 10.7084 22.5125 11.6085 22.6335C12.4754 22.75 13.5778 22.75 14.9453 22.75H16.0551C17.4227 22.75 18.525 22.75 19.392 22.6335C20.2921 22.5125 21.0499 22.2536 21.6519 21.6517C22.2538 21.0497 22.5127 20.2919 22.6337 19.3918C22.7503 18.5248 22.7502 17.4225 22.7502 16.0549V7.94513C22.7502 6.57754 22.7503 5.47522 22.6337 4.60825C22.5127 3.70814 22.2538 2.95027 21.6519 2.34835C21.0499 1.74643 20.2921 1.48754 19.392 1.36652C18.525 1.24996 17.4227 1.24998 16.0551 1.25H14.9453Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M2.00098 11.249C1.58676 11.249 1.25098 11.5848 1.25098 11.999C1.25098 12.4132 1.58676 12.749 2.00098 12.749L13.9735 12.749L12.0129 14.4296C11.6984 14.6991 11.662 15.1726 11.9315 15.4871C12.2011 15.8016 12.6746 15.838 12.9891 15.5685L16.4891 12.5685C16.6553 12.426 16.751 12.218 16.751 11.999C16.751 11.7801 16.6553 11.5721 16.4891 11.4296L12.9891 8.42958C12.6746 8.16002 12.2011 8.19644 11.9315 8.51093C11.662 8.82543 11.6984 9.2989 12.0129 9.56847L13.9735 11.249L2.00098 11.249Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+              <div className="w-[80px] text-center text-white text-lg font-medium font-sst-arabic leading-relaxed">
+                تسجيل الدخول
+              </div>
+            </Link>
+            <Link
+              href={`/signup`}
+              className="w-[80px] text-center text-[#26577c] text-lg font-medium font-sst-arabic leading-relaxed"
+            >
+              انضم الينا
+            </Link>
+          </div>
+        )}
 
         {/* navigation links */}
         <div className="flex-col justify-center items-center gap-[30px] mt-[70px] flex overflow-hidden">

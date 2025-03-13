@@ -3,6 +3,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { useAppSelector } from "@/libs/store/hooks";
 import CourseCard from "../cards/CourseCard";
+import Link from "next/link";
 
 interface course {
   title: string;
@@ -10,6 +11,7 @@ interface course {
   cover: string;
   teacher: string;
   price: number;
+  id: number;
 }
 
 const CoursesContainer = () => {
@@ -35,12 +37,15 @@ const CoursesContainer = () => {
               fill="currentColor"
             />
           </svg>
-          <span className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]">
+          <Link
+            href={"/courses"}
+            className="text-lg sm:text-xl font-medium font-sst-arabic mt-[-15px]"
+          >
             عرض الجميع
-          </span>
+          </Link>
         </div>
         <h2 className="text-xl sm:text-2xl font-bold font-sst-arabic">
-          مدرسينا المتميزين
+          كورساتنا المميزة
         </h2>
       </div>
       <Swiper
@@ -60,6 +65,8 @@ const CoursesContainer = () => {
                 courseImage={course?.cover}
                 courseTeacher={course?.teacher}
                 price={course?.price}
+                courseId={course?.id}
+                type={"courses"}
               />
             </SwiperSlide>
           );

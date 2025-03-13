@@ -18,8 +18,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full">
-      <div className="container mx-auto">
+    <div className="w-full pt-[50px]">
+      <div className="w-full max-w-[1920px] mx-auto">
         <div className="w-full flex flex-col items-start justify-start gap-[30px]">
           <HomeSwiper />
           <div className="w-full h-[1px] bg-[#f1f1f2] "></div>

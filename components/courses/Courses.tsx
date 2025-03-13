@@ -1,15 +1,28 @@
 "use client";
 
 import { getData } from "@/libs/axios/backendServer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import CourseCard from "../cards/CourseCard";
+
+interface Course {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  duration: string;
+  teacher: string;
+  subject: string;
+  image: string;
+}
 
 const Courses = () => {
-      // get courses data from backend
+  const [courses, setCourses] = useState<Course[]>([]);
+
   useEffect(() => {
     const getCourses = async () => {
       try {
         const res = await getData("courses-api");
-        console.log(res.data);
+        setCourses(res.data.items);
       } catch (err) {
         console.log(err);
       }
@@ -17,11 +30,16 @@ const Courses = () => {
 
     getCourses();
   }, []);
+
   return (
-    <div className="w-full pt-[50px]">
-      <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+    <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
+      {/* filters */}
+      <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          <div className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2">
+          <div
+            
+            className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2"
+          >
             <div className="relative">
               <svg
                 width="22"
@@ -61,6 +79,22 @@ const Courses = () => {
         <div className="text-right text-black text-sm sm:text-base font-normal font-['SST Arabic'] leading-[23.19px] tracking-tight">
           البحث بناء علي
         </div>
+      </div>
+
+      {/* courses grid */}
+      <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
+        {courses?.map((course: Course) => (
+          <CourseCard
+            key={course.id}
+            courseName={course.name}
+            courseImage={course.image}
+            courseSubject={course.subject}
+            courseTeacher={course.teacher}
+            price={course.price}
+            courseId={course.id}
+            type={"courses"}
+          />
+        ))}
       </div>
     </div>
   );

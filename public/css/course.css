@@ -1,0 +1,8 @@
+.video-player .play-button {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.video-player:hover .play-button {
+  opacity: 1;
+}

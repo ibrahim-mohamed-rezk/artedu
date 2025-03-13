@@ -30,7 +30,7 @@ export const homeSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getHomeData.fulfilled, (state, action) => {
-      state.homeData = action.payload;
+      state.homeData = action.payload.data;
     });
   },
 });

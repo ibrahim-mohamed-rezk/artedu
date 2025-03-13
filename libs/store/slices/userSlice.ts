@@ -1,4 +1,4 @@
-import { getData } from "@/libs/axios/backendServer";
+import { postData } from "@/libs/axios/backendServer";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const initialState: any = {
@@ -10,8 +10,8 @@ const initialState: any = {
 export const autoLogin = createAsyncThunk(
   "user/autoLogin",
   async (token: string) => {
-    const response = await getData(
-      `autoLogin`,
+    const response = await postData(
+      `login-with-token`,
       {},
       { Authorization: `Bearer ${token}` }
     );
@@ -33,11 +33,11 @@ export const userSlice = createSlice({
     },
     updateUserData: (state, action) => {
       state.userData = action.payload.data;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(autoLogin.fulfilled, (state, action) => {
-      state.userData = action.payload;
+      state.userData = action.payload.data;
     });
   },
 });

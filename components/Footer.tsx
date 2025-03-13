@@ -1,6 +1,8 @@
+import Link from "next/link";
+
 const Footer = () => {
   return (
-    <div className="w-full max-w-[1870px] mt-[20px] mx-auto p-6 lg:px-[50px] lg:py-[32px] bg-[#fff2eb] rounded-[25px] flex flex-col items-start overflow-hidden">
+    <div className="w-full mt-[20px] mx-auto p-6 lg:px-[50px] lg:py-[32px] bg-[#fff2eb] rounded-[25px] flex flex-col items-start overflow-hidden">
       <div className="container mx-auto flex flex-col items-start">
         {/* footer top */}
         <div className="flex flex-col lg:flex-row w-full justify-between gap-[30px] items-start mt-4">
@@ -62,7 +64,9 @@ const Footer = () => {
               <ul className="opacity-80 text-right text-[#02073e] text-[15px] font-normal font-sst-arabic leading-[37.50px] flex gap-[20px] mt-[10px] flex-row lg:flex-col justify-end lg:justify-start lg:items-end">
                 <li>مدرسينا</li>
                 <li>انضم الينا</li>
-                <li>مقالات</li>
+                <li>
+                  <Link href={"/blogs"}>مقالات</Link>
+                </li>
                 <li>التوظيف</li>
               </ul>
             </div>
