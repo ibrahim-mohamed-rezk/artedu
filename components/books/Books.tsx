@@ -25,7 +25,7 @@ const Books = () => {
 
   return (
     <div>
-      <div className="container mx-auto">
+      <div className="w-full md:px-[50px] mx-auto">
         <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
           {/* filters */}
           <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
