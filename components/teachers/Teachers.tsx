@@ -78,6 +78,7 @@ const Teachers = () => {
       <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
         {teachers?.map((teacher: Teacher) => (
           <TeatcheCard
+            key={teacher.id}
             teacherName={teacher.full_name}
             teacherJob={teacher.subject}
             teacherImage={teacher.avatar}
