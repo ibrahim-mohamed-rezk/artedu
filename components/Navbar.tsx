@@ -118,8 +118,13 @@ const Navbar = () => {
                       <div className="self-stretch h-[600.91px] flex-col justify-start items-start gap-[15px] flex">
                         {userMenueItems.map((item, index) => (
                           <Link
-                            href={item.url || ""}
-                            onClick={() => setShowProfileMenue(false)}
+                            href={ item.fun ? "/login" : item.url || ""}
+                            onClick={() => {
+                              if (item.fun) {
+                                item.fun();
+                              }
+                              setShowProfileMenue(false);
+                            }}
                             key={index}
                             className={`self-stretch p-[16.40px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex hover:bg-[#26577C] cursor-pointer hover:text-white`}
                           >

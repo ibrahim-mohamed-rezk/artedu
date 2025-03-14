@@ -35,6 +35,7 @@ export const userMenueItems = [
 </svg>
 `,
     text: "المفضلة",
+    url: "/profile/favorites",
   },
   {
     icon: `<svg width="34" height="33" viewBox="0 0 34 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +49,7 @@ export const userMenueItems = [
 </svg>
 `,
     text: "فواتيري",
+    url: "/profile/invoices",
   },
   {
     icon: `<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,6 +59,7 @@ export const userMenueItems = [
 </svg>
 `,
     text: "الدعم",
+    url: "/support",
   },
   {
     icon: `<svg width="34" height="33" viewBox="0 0 34 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,6 +67,7 @@ export const userMenueItems = [
 </svg>
 `,
     text: "عنا",
+    url: "/about",
   },
   {
     icon: `<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,5 +77,6 @@ export const userMenueItems = [
 `,
     text: "تسجيل الخروج",
     color: "text-[#ff1212]",
+    fun: () => localStorage.removeItem("token"),
   },
 ];

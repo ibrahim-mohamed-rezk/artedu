@@ -1,14 +1,16 @@
+import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import Link from "next/link";
 
 interface Props {
-  title: string;
-  author: string;
-  price: number;
+  title?: string;
+  author?: string;
+  price?: number;
   image?: string;
-  id: number;
+  id?: number;
 }
 
 const BookCard = ({ title, author, price, image, id }: Props) => {
+  const { addToFavorites } = useAddToFavorites();
   return (
     <div className="w-[200px] h-[352px] p-[7px] bg-white rounded-[18px] shadow-md border border-[#f1f1f2] overflow-hidden flex flex-col">
       <Link href={`/books/${id}`}>
@@ -18,7 +20,13 @@ const BookCard = ({ title, author, price, image, id }: Props) => {
             src={image || "https://placehold.co/200x260"}
             alt={title}
           />
-          <div className="absolute top-2 left-2">
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              addToFavorites(id?.toString() || null, "books");
+            }}
+            className="absolute top-2 left-2 cursor-pointer z-50"
+          >
             <svg
               width="32"
               height="32"

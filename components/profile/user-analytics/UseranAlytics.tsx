@@ -1,9 +1,30 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ProfileHeader from "../ProfileHeader";
 import ProfileMenue from "../ProfileMenue";
+import { getData } from "@/libs/axios/backendServer";
+import { useAppSelector } from "@/libs/store/hooks";
 
 const UserAnalytics = () => {
+  const [userAnalytics, setUserAnalytics] = useState([]);
+  const token = useAppSelector((state) => state.user.token);
+
+  useEffect(() => {
+    const fetchUserAnalytics = async () => {
+      try {
+        const response = await getData(
+          "statistics-api",
+          {},
+          { Authorization: `Bearer ${token}` }
+        );
+        setUserAnalytics(response.data.items);
+      } catch (error) {}
+    };
+
+    fetchUserAnalytics();
+  }, [token]);
+
   return (
     <div className="w-full">
       <div className="w-full mx-auto">

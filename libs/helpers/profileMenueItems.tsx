@@ -61,7 +61,6 @@ export const menuItems = [
   },
   {
     name: "تسجيل الخروج",
-    path: "/logout",
     icon: (
       <div className="w-6 h-6 relative rounded-[5px] overflow-hidden">
         <div className="w-5 h-3 left-[9px] top-[22px] absolute origin-top-left -rotate-90 opacity-50 bg-red-600 rounded-[3px]" />
@@ -69,5 +68,6 @@ export const menuItems = [
       </div>
     ),
     isLogout: true,
+    fun: () => localStorage.removeItem("token"),
   },
 ];

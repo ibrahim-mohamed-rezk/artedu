@@ -1,3 +1,4 @@
+import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import Link from "next/link";
 
 interface Props {
@@ -19,6 +20,7 @@ const CourseCard = ({
   courseId,
   type,
 }: Props) => {
+  const { addToFavorites } = useAddToFavorites();
   return (
     <Link href={`/${type}/${courseId}`}>
       <div className="w-[235px] h-[330px] relative bg-white rounded-[30px] shadow-md border-2 border-[#f1f1f2] overflow-hidden">
@@ -64,7 +66,10 @@ const CourseCard = ({
             </div>
           </div>
         </div>
-        <div className="absolute top-4 left-4">
+        <div onClick={(e) => {
+          e.preventDefault();
+          addToFavorites(courseId?.toString() || null, "courses");
+        }} className="absolute top-4 left-4 cursor-pointer z-50">
           <svg
             width="37"
             height="37"
