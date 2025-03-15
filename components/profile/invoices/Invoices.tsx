@@ -5,12 +5,13 @@ import ProfileHeader from "../ProfileHeader";
 import ProfileMenue from "../ProfileMenue";
 import { getData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
-import BookCard from "@/components/cards/BookCard";
 import FavoriteCard from "@/components/cards/FavoriteCard";
 
 const Invoices = () => {
   const [invoices, setInvoices] = useState([]);
   const token = useAppSelector((state) => state.user.token);
+
+  console.log(invoices);
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -21,7 +22,9 @@ const Invoices = () => {
           { Authorization: `Bearer ${token}` }
         );
         setInvoices(response.data.items);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchInvoices();
@@ -50,9 +53,10 @@ const Invoices = () => {
               </div>
 
               <div className="w-full flex flex-wrap items-center justify-end gap-6">
-                {[1, 2, 3].map((_, idx) => (
-                  <FavoriteCard />
-                ))}
+                {[1, 2, 3].map((_, idx) => {
+                  console.log(_)
+                  return <FavoriteCard key={idx} />;
+                })}
               </div>
             </div>
           </div>

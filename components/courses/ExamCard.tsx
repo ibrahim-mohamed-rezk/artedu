@@ -11,7 +11,7 @@ interface Module {
   };
 }
 
-const ExamCard = ({ module }: { module: Module | undefined }) => {
+const ExamCard = () => {
   return (
     <div className="bg-white rounded-[22px] shadow-sm border border-[#f1f1f2] p-4">
       <div className="flex flex-col sm:flex-row items-center justify-between">

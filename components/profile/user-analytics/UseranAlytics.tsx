@@ -10,6 +10,8 @@ const UserAnalytics = () => {
   const [userAnalytics, setUserAnalytics] = useState([]);
   const token = useAppSelector((state) => state.user.token);
 
+  console.log(userAnalytics)
+
   useEffect(() => {
     const fetchUserAnalytics = async () => {
       try {
@@ -19,7 +21,9 @@ const UserAnalytics = () => {
           { Authorization: `Bearer ${token}` }
         );
         setUserAnalytics(response.data.items);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchUserAnalytics();

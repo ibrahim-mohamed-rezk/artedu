@@ -4,8 +4,15 @@ import React, { useEffect, useState } from "react";
 import BlogCard from "../cards/BlogCard";
 import { getData } from "@/libs/axios/backendServer";
 
+interface Blog {
+  image: string;
+  title: string;
+  id: number;
+  created_at: string;
+}
+
 const Blogs = () => {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -31,7 +38,7 @@ const Blogs = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogs?.map((blog: any, index: number) => (
+            {blogs?.map((blog: Blog, index: number) => (
               <BlogCard key={index} blog={blog} />
             ))}
           </div>

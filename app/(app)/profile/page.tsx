@@ -1,15 +1,8 @@
-"use client";
-
-import { useEffect } from "react";
-
-import { useRouter } from "next/navigation";
+import RedirectProfile from "@/components/profile/RedirectProfile";
+import React from "react";
 
 const page = () => {
-  const router = useRouter();
-  useEffect(() => {
-    router.push("/profile/account-information");
-  }, []);
-  return null;
+  return <RedirectProfile />;
 };
 
 export default page;

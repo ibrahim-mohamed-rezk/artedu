@@ -15,7 +15,7 @@ const Navbar = () => {
   const { userData, token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    token && setIsLoggedIn(true);
+    if (token) setIsLoggedIn(true);
   }, [token]);
 
   useEffect(() => {
@@ -118,7 +118,7 @@ const Navbar = () => {
                       <div className="self-stretch h-[600.91px] flex-col justify-start items-start gap-[15px] flex">
                         {userMenueItems.map((item, index) => (
                           <Link
-                            href={ item.fun ? "/login" : item.url || ""}
+                            href={item.fun ? "/login" : item.url || ""}
                             onClick={() => {
                               if (item.fun) {
                                 item.fun();

@@ -5,13 +5,13 @@ import ProfileHeader from "../ProfileHeader";
 import ProfileMenue from "../ProfileMenue";
 import { getData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
-import BookCard from "@/components/cards/BookCard";
 import FavoriteCard from "@/components/cards/FavoriteCard";
 
 const Favorites = () => {
   const [userFavorites, setUserFavorites] = useState([]);
   const token = useAppSelector((state) => state.user.token);
 
+  console.log(userFavorites);
   useEffect(() => {
     const fetchUserFavorites = async () => {
       try {
@@ -21,7 +21,9 @@ const Favorites = () => {
           { Authorization: `Bearer ${token}` }
         );
         setUserFavorites(response.data.items);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchUserFavorites();
@@ -50,9 +52,10 @@ const Favorites = () => {
               </div>
 
               <div className="w-full flex flex-wrap items-center justify-end gap-6">
-                {[1, 2, 3].map((_, idx) => (
-                  <FavoriteCard />
-                ))}
+                {[1, 2, 3].map((_, idx) => {
+                    console.log(_)
+                  return <FavoriteCard key={idx} />;
+                })}
               </div>
             </div>
           </div>

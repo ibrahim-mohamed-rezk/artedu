@@ -21,6 +21,11 @@ interface Governorate {
   name: string;
 }
 
+interface Area {
+  id: string;
+  name: string;
+}
+
 const Signup = ({ className = "" }: LoginProps) => {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,7 +40,7 @@ const Signup = ({ className = "" }: LoginProps) => {
   const [parentCountryCode, setParentCountryCode] = useState("+20");
   const [levels, setLevels] = useState<Level[]>([]);
   const [governorates, setGovernorates] = useState<Governorate[]>([]);
-  const [areas, setAreas] = useState<any[]>([]);
+  const [areas, setAreas] = useState<Area[]>([]);
 
   const router = useRouter();
 

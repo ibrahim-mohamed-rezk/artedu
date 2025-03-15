@@ -6,7 +6,6 @@ import PhoneInput from "@/components/inputs/PhoneInput";
 import PasswordInput from "../inputs/PasswordInput";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "@/libs/store/hooks";
 import { useRouter } from "next/navigation";
 
 interface LoginProps {
@@ -17,7 +16,6 @@ const Login = ({ className = "" }: LoginProps) => {
   const [countryCode, setCountryCode] = useState("+20");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handelLogin = async (e: React.FormEvent) => {

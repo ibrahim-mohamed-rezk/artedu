@@ -30,7 +30,7 @@ const FavoriteCard = () => {
           <button
             className={`w-full py-2 rounded-lg text-white text-sm font-medium bg-orange-600`}
           >
-            "شراء الان"
+            شراء الان
           </button>
         </div>
       </div>

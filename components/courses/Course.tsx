@@ -60,11 +60,11 @@ const Course = () => {
 
   //   get curren module data
   useEffect(() => {
-    const module = course?.modules?.find(
+    const myModule = course?.modules?.find(
       (module) => module.id === openedModuleId
     );
-    setOpenedModuleType(module?.type || null);
-    setOpenModuleData(module || null);
+    setOpenedModuleType(myModule?.type || null);
+    setOpenModuleData(myModule || null);
   }, [openedModuleId, course]);
 
   //   video controle
@@ -122,7 +122,7 @@ const Course = () => {
                       key={module.id}
                       className="cursor-pointer"
                     >
-                      <ExamCard module={module} />
+                      <ExamCard  />
                     </div>
                   );
                 }
