@@ -1,15 +1,15 @@
 import React from "react";
 
-interface Module {
-  name: string;
-  description: string;
-  duration: string;
-  teacher: string;
-  type: string | null;
-  details: {
-    thumbnail: string;
-  };
-}
+// interface Module {
+//   name: string;
+//   description: string;
+//   duration: string;
+//   teacher: string;
+//   type: string | null;
+//   details: {
+//     thumbnail: string;
+//   };
+// }
 
 const ExamCard = () => {
   return (
