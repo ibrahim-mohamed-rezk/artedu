@@ -24,7 +24,7 @@ const Books = () => {
   }, []);
 
   return (
-    <div>
+    <div className="mt-[180px] md:mt-0 ">
       <div className="w-full md:px-[50px] mx-auto">
         <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
           {/* filters */}

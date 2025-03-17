@@ -3,7 +3,7 @@ import BooksHeader from "@/components/books/BooksHeader";
 
 const page = () => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <BooksHeader />
 
       <Books />
