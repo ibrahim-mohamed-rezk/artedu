@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="w-full mt-[20px] mx-auto p-6 lg:px-[50px] lg:py-[32px] bg-[#fff2eb] rounded-[25px] flex flex-col items-start overflow-hidden">
+    <div className="w-full mb-[80px] md:mb-0 mt-[20px] mx-auto p-6 lg:px-[50px] lg:py-[32px] bg-[#fff2eb] rounded-[25px] flex flex-col items-start overflow-hidden">
       <div className="container mx-auto flex flex-col items-start">
         {/* footer top */}
         <div className="flex flex-col lg:flex-row w-full justify-between gap-[30px] items-start mt-4">

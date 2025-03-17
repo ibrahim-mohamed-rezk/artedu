@@ -1,0 +1,7 @@
+.navSvgContainer svg path {
+  fill: #cbcbd4;
+}
+
+.navSvgContainerActive svg path {
+  fill: #f15a22;
+}

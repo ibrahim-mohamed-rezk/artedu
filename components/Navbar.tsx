@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/libs/store/hooks";
 import { userMenueItems } from "@/libs/helpers/userMenueItems";
+import { navbarItems } from "@/libs/helpers/navbarItems";
+import "@/public/css/navbar.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,35 +32,65 @@ const Navbar = () => {
   return (
     <>
       {isMobile && (
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="fixed right-4 top-4 z-50 p-2 bg-[#fff2eb] rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            className="w-6 h-6"
+        <div className="absolute p-4 z-[8999] right-0 top-0 w-full h-[72px] flex items-center justify-between bg-[#E5560433]">
+          <div className="flex items-center gap-[10px]">
+            <Link href="/">
+              <img src="/images/logo.png" width={131} height={30} alt="logo" />
+            </Link>
+          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="z-50 p-2 bg-[#fff2eb] rounded-full"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-            />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              />
+            </svg>
+          </button>
+        </div>
       )}
       <div
         className={`${
           isMobile
-            ? `fixed right-0 top-0 h-full w-[250px] transform ${
+            ? `fixed right-0 top-0 h-full w-[300px] transform gap-[10px] ${
                 isOpen ? "translate-x-0" : "translate-x-full"
-              } transition-transform duration-300 ease-in-out z-40`
-            : "w-[120px] order-10"
-        } pt-[40px] pb-[40px] bg-[#fff2eb] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-start items-center gap-[30px]`}
+              } transition-transform duration-300 ease-in-out z-40 `
+            : "w-[120px] order-10 gap-[30px]"
+        } pt-[40px] pb-[40px] bg-[#fff2eb] z-[9000] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-start items-center `}
       >
+        {/* close mobile menu button  */}
+        {isOpen && (
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`absolute right-4 top-4 z-[9001] p-2 bg-[#fff2eb] rounded-full`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+              />
+            </svg>
+          </button>
+        )}
+
         {/* auth buttons or user profile */}
         {isLoggedIn ? (
           // profile icon
@@ -72,7 +104,7 @@ const Navbar = () => {
               />
 
               {/* profile menue */}
-              {showProfileMenue && (
+              {showProfileMenue && !isMobile && (
                 <div className="absolute z-[9000] top-[-15px] right-[80px]">
                   <div className="w-[430px] h-[748px] relative">
                     <div data-svg-wrapper className="left-0 top-0 absolute">
@@ -213,186 +245,85 @@ const Navbar = () => {
         )}
 
         {/* navigation links */}
-        <div className="flex-col justify-center items-center gap-[30px] mt-[70px] flex overflow-hidden">
-          <Link
-            href="/"
-            className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
+        {isMobile ? (
+          <div className="self-stretch px-[5px] h-[600.91px] flex-col justify-start items-start gap-[15px] flex">
+            {userMenueItems.map((item, index) => (
+              <Link
+                href={item.fun ? "/login" : item.url || ""}
+                onClick={() => {
+                  if (item.fun) {
+                    item.fun();
+                  }
+                  setIsOpen(false);
+                }}
+                key={index}
+                className={`self-stretch p-[16.40px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex ${
+                  pathname === item.url ? "bg-[#26577C] text-white" : ""
+                } hover:bg-[#26577C] cursor-pointer hover:text-white`}
+              >
+                <div className="grow shrink basis-0 h-[32.79px] justify-start items-center gap-[10.93px] flex">
+                  <div
+                    className={`grow shrink basis-0 text-right text-xl font-medium font-['SST Arabic'] leading-loose `}
+                  >
+                    {item.text}
+                  </div>
+                  <div className="relative">
+                    <div
+                      className="w-[32px] h-[32px] bg-white rounded-full flex items-center justify-center p-[5px]"
+                      dangerouslySetInnerHTML={{
+                        __html: item.icon,
+                      }}
+                    />
+                    {item.badge && (
+                      <div className="w-[6px] h-[6px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[6px] right-[8px]" />
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div
+            className={`flex-col justify-center items-center  mt-[70px] flex overflow-hidden ${
+              isMobile ? "gap-[15px]" : "gap-[30px]"
+            }`}
           >
-            <div className="flex-col justify-start items-center gap-2 inline-flex">
-              <div className="w-[40px] h-[40px] relative overflow-hidden">
-                <svg
-                  width="42"
-                  height="41"
-                  viewBox="0 0 42 41"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+            {navbarItems.map((item) => {
+              return (
+                <Link
+                  href={item.url}
+                  className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
                 >
-                  <path
-                    opacity="0.5"
-                    d="M22.7013 37.3636H18.9809C13.1844 37.3636 10.2862 37.3636 8.30995 35.6619C6.3337 33.9602 5.92383 31.1117 5.10409 25.4147L4.63525 22.1564C3.9971 17.7214 3.67802 15.5038 4.58697 13.6079C5.49593 11.7119 7.43063 10.5594 11.3 8.2544L13.6291 6.867C17.1429 4.77384 18.8998 3.72726 20.8411 3.72726C22.7825 3.72726 24.5394 4.77384 28.0532 6.867L30.3822 8.2544C34.2516 10.5594 36.1863 11.7119 37.0953 13.6079C38.0042 15.5038 37.6852 17.7214 37.047 22.1564L36.5782 25.4147C35.7584 31.1117 35.3486 33.9602 33.3723 35.6619C31.3961 37.3636 28.4978 37.3636 22.7013 37.3636Z"
-                    fill={pathname === "/" ? "#E55604" : "#CBCBD4"}
-                  />
-                  <path
-                    d="M14.5342 30.6364C14.5342 29.9397 15.0989 29.375 15.7955 29.375H25.8865C26.5831 29.375 27.1478 29.9397 27.1478 30.6364C27.1478 31.333 26.5831 31.8977 25.8865 31.8977H15.7955C15.0989 31.8977 14.5342 31.333 14.5342 30.6364Z"
-                    fill={pathname === "/" ? "#E55604" : "#CBCBD4"}
-                  />
-                </svg>
-              </div>
-              <div
-                className={`text-center ${
-                  pathname === "/" ? "text-[#e55604]" : "text-[#CBCBD4]"
-                } text-lg font-bold font-sst-arabic leading-tight`}
-              >
-                الرئيسية
-              </div>
-            </div>
-          </Link>
+                  <div className="flex-col justify-start items-center gap-2 inline-flex">
+                    <div className="w-[40px] h-[40px] flex items-center justify-center relative overflow-hidden">
+                      <div
+                        className={`flex items-center justify-center p-[5px] ${
+                          pathname === item.url
+                            ? "navSvgContainerActive"
+                            : "navSvgContainer"
+                        }`}
+                        dangerouslySetInnerHTML={{
+                          __html: item.icon,
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={`text-center ${
+                        pathname === item.url
+                          ? "text-[#e55604]"
+                          : "text-[#CBCBD4]"
+                      } text-lg font-bold font-sst-arabic leading-tight`}
+                    >
+                      {item.label}
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
-          <Link
-            href="/courses"
-            className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
-          >
-            <div className="flex-col justify-center items-center gap-2 inline-flex">
-              <div className="w-[40px] h-[40px] relative overflow-hidden">
-                <svg
-                  width="42"
-                  height="42"
-                  viewBox="0 0 42 42"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    opacity="0.5"
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M3.96191 21.1347C3.96191 19.0468 3.96191 17.2328 4.00656 15.6481H37.6811C37.7258 17.2328 37.7258 19.0468 37.7258 21.1347C37.7258 29.0929 37.7258 33.072 35.2535 35.5443C32.7812 38.0166 28.8021 38.0166 20.8438 38.0166C12.8856 38.0166 8.90652 38.0166 6.43422 35.5443C3.96191 33.072 3.96191 29.0929 3.96191 21.1347Z"
-                    fill={pathname === "/courses" ? "#e55604" : "#CBCBD4"}
-                  />
-                  <path
-                    d="M25.9082 25.3552C25.9082 24.286 24.7906 23.5649 22.5554 22.1227C20.2897 20.6608 19.1568 19.9298 18.3121 20.4665C17.4673 21.0032 17.4673 22.4539 17.4673 25.3552C17.4673 28.2565 17.4673 29.7072 18.3121 30.2439C19.1568 30.7806 20.2897 30.0496 22.5555 28.5877C24.7906 27.1455 25.9082 26.4244 25.9082 25.3552Z"
-                    fill={pathname === "/courses" ? "#e55604" : "#CBCBD4"}
-                  />
-                  <path
-                    d="M20.8433 4.25278C23.9583 4.25278 26.4638 4.25278 28.5078 4.40106L22.6979 13.1158H14.7681L20.6768 4.25278H20.8433Z"
-                    fill={pathname === "/courses" ? "#e55604" : "#CBCBD4"}
-                  />
-                  <path
-                    d="M6.43363 6.72509C8.54787 4.61085 11.7641 4.30464 17.6284 4.2603L11.7247 13.1158H4.13721C4.38579 10.1377 4.98573 8.17299 6.43363 6.72509Z"
-                    fill={pathname === "/courses" ? "#e55604" : "#CBCBD4"}
-                  />
-                  <path
-                    d="M37.5493 13.1158C37.3007 10.1377 36.7008 8.17299 35.2529 6.72509C34.2445 5.71669 32.9854 5.11959 31.3079 4.76604L25.7414 13.1158H37.5493Z"
-                    fill={pathname === "/courses" ? "#e55604" : "#CBCBD4"}
-                  />
-                </svg>
-              </div>
-              <div
-                className={`text-center ${
-                  pathname === "/courses" ? "text-[#e55604]" : "text-[#CBCBD4]"
-                } text-lg font-bold font-sst-arabic leading-tight`}
-              >
-                الكورسات
-              </div>
-            </div>
-          </Link>
-
-          <Link
-            href="/cart"
-            className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
-          >
-            <div className="w-[40px] h-[40px] relative overflow-hidden">
-              <svg
-                width="42"
-                height="42"
-                viewBox="0 0 42 42"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  opacity="0.5"
-                  d="M17.4705 3.95546C15.8407 3.95546 14.5195 5.27665 14.5195 6.90644C14.5195 8.53622 15.8407 9.85742 17.4705 9.85742H24.2156C25.8454 9.85742 27.1666 8.53622 27.1666 6.90644C27.1666 5.27665 25.8454 3.95546 24.2156 3.95546H17.4705Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  opacity="0.5"
-                  d="M7.12268 27.9093C5.67594 22.1224 4.95257 19.2289 6.47162 17.2834C7.99067 15.3378 10.9732 15.3378 16.9382 15.3378H24.7468C30.7119 15.3378 33.6944 15.3378 35.2135 17.2834C36.7325 19.2289 36.0091 22.1224 34.5624 27.9093C33.6423 31.5899 33.1822 33.4302 31.8099 34.5017C30.4376 35.5731 28.5407 35.5731 24.7468 35.5731H16.9382C13.1444 35.5731 11.2474 35.5731 9.87516 34.5017C8.5029 33.4302 8.04283 31.5899 7.12268 27.9093Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M26.8811 8.17498C27.0644 7.79068 27.167 7.36051 27.167 6.90638C27.167 6.45438 27.0653 6.0261 26.8837 5.64317C28.0363 5.65155 28.9346 5.70446 29.7365 6.01788C30.6947 6.39234 31.528 7.02891 32.1414 7.85478C32.7601 8.68793 33.0506 9.75584 33.4503 11.2257L33.5286 11.513L34.3932 16.5094C33.704 16.0339 32.8153 15.7514 31.666 15.5836L31.0567 12.0626C30.5781 10.3094 30.4045 9.75841 30.1107 9.36285C29.7804 8.91815 29.3317 8.57538 28.8158 8.37375C28.4451 8.22888 27.9973 8.18626 26.8811 8.17498Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M14.8032 5.64317C14.6215 6.02611 14.5199 6.45438 14.5199 6.90638C14.5199 7.36051 14.6225 7.79068 14.8057 8.17498C13.6897 8.18626 13.2418 8.22888 12.8712 8.37375C12.3553 8.57538 11.9065 8.91815 11.5763 9.36285C11.2825 9.75841 11.1088 10.3094 10.6303 12.0626L10.021 15.5834C8.87178 15.7512 7.9831 16.0335 7.29395 16.5086L8.1584 11.513L8.23662 11.2257C8.6364 9.75585 8.92686 8.68794 9.5456 7.85478C10.1589 7.02891 10.9923 6.39234 11.9504 6.01788C12.7523 5.70448 13.6506 5.65156 14.8032 5.64317Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M15.3629 22.0829C15.3629 21.3844 14.7967 20.8182 14.0982 20.8182C13.3997 20.8182 12.8335 21.3844 12.8335 22.0829V28.828C12.8335 29.5265 13.3997 30.0927 14.0982 30.0927C14.7967 30.0927 15.3629 29.5265 15.3629 28.828V22.0829Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M27.5884 20.8182C28.2869 20.8182 28.8531 21.3844 28.8531 22.0829V28.828C28.8531 29.5265 28.2869 30.0927 27.5884 30.0927C26.8899 30.0927 26.3237 29.5265 26.3237 28.828V22.0829C26.3237 21.3844 26.8899 20.8182 27.5884 20.8182Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M22.108 22.0829C22.108 21.3844 21.5418 20.8182 20.8433 20.8182C20.1448 20.8182 19.5786 21.3844 19.5786 22.0829V28.828C19.5786 29.5265 20.1448 30.0927 20.8433 30.0927C21.5418 30.0927 22.108 29.5265 22.108 28.828V22.0829Z"
-                  fill={pathname === "/cart" ? "#e55604" : "#CBCBD4"}
-                />
-              </svg>
-            </div>
-            <div
-              className={`text-center ${
-                pathname === "/cart" ? "text-[#e55604]" : "text-[#CBCBD4]"
-              } text-lg font-bold font-sst-arabic leading-tight`}
-            >
-              مشترياتي
-            </div>
-          </Link>
-          <Link
-            href="/books"
-            className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
-          >
-            <div className="w-[40px] h-[40px] relative overflow-hidden">
-              <svg
-                width="58"
-                height="69"
-                viewBox="0 0 58 69"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  opacity="0.5"
-                  d="M17.5793 8.83909C18.0942 8.31977 18.8173 7.98117 20.1826 7.79606C21.5881 7.6055 23.4509 7.60251 26.1218 7.60251H33.5647C36.2356 7.60251 38.0983 7.6055 39.5038 7.79606C40.8692 7.98117 41.5922 8.31977 42.1072 8.83909C42.6222 9.35842 42.9579 10.0875 43.1415 11.4644C43.3305 12.8818 43.3334 14.7603 43.3334 17.4538L43.3334 34.5829H22.1302C20.3029 34.5829 19.6641 34.5926 19.1745 34.6978C18.3088 34.884 17.5562 35.2829 17.0075 35.8218C16.8224 36.0035 16.7299 36.0944 16.5165 36.6734C16.3941 37.0056 16.353 37.2281 16.353 37.4501V17.4538C16.353 14.7603 16.356 12.8818 16.545 11.4644C16.7285 10.0875 17.0643 9.35842 17.5793 8.83909Z"
-                  fill={pathname === "/books" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M43.3334 34.5829H22.1302C20.3029 34.5829 19.6641 34.5926 19.1745 34.6978C18.3088 34.884 17.5562 35.2829 17.0075 35.8218C16.8224 36.0035 16.7299 36.0944 16.5165 36.6734C16.3031 37.2525 16.3369 37.4981 16.4045 37.9892C16.4164 38.0759 16.4293 38.1605 16.4431 38.2431C16.6274 39.3429 16.9645 39.9254 17.4814 40.3402C17.9984 40.755 18.7242 41.0255 20.0948 41.1734C21.5057 41.3256 23.3757 41.328 26.0569 41.328H33.5284C36.2096 41.328 38.0796 41.3256 39.4905 41.1734C40.8611 41.0255 41.5869 40.755 42.1039 40.3402C42.4405 40.0701 42.7008 39.7289 42.8924 39.2202H23.0981C22.3996 39.2202 21.8334 38.6539 21.8334 37.9555C21.8334 37.257 22.3996 36.6907 23.0981 36.6907H43.2919C43.3209 36.0783 43.3304 35.3824 43.3334 34.5829Z"
-                  fill={pathname === "/books" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M21.8335 16.0339C21.8335 15.3354 22.3997 14.7692 23.0982 14.7692H36.5884C37.2869 14.7692 37.8531 15.3354 37.8531 16.0339C37.8531 16.7324 37.2869 17.2986 36.5884 17.2986H23.0982C22.3997 17.2986 21.8335 16.7324 21.8335 16.0339Z"
-                  fill={pathname === "/books" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M23.0982 20.6711C22.3997 20.6711 21.8335 21.2374 21.8335 21.9358C21.8335 22.6343 22.3997 23.2006 23.0982 23.2006H31.5296C32.2281 23.2006 32.7943 22.6343 32.7943 21.9358C32.7943 21.2374 32.2281 20.6711 31.5296 20.6711H23.0982Z"
-                  fill={pathname === "/books" ? "#e55604" : "#CBCBD4"}
-                />
-                <path
-                  d="M14.2964 65.1319C13.7568 65.1319 13.2509 65.0757 12.7788 64.9633C12.3178 64.8396 11.9131 64.6541 11.5646 64.4068C11.2274 64.1483 10.9576 63.8223 10.7552 63.4288C10.5641 63.0241 10.4686 62.5407 10.4686 61.9786C10.4686 61.6076 10.5135 61.1804 10.6035 60.697C10.6934 60.2024 10.8395 59.7246 11.0419 59.2637L12.2391 59.6178C12.0818 60.0787 11.975 60.5059 11.9188 60.8994C11.8625 61.2816 11.8344 61.6076 11.8344 61.8774C11.8344 62.6306 12.0761 63.1758 12.5595 63.5131C13.0429 63.8391 13.6837 64.0021 14.4819 64.0021H20.4682C21.1652 64.0021 21.6429 63.8447 21.9015 63.53C22.1713 63.2152 22.3062 62.6981 22.3062 61.9786V57.9315H23.689V62.3833C23.689 62.9229 23.8463 63.3276 24.1611 63.5974C24.4871 63.8672 24.9424 64.0021 25.527 64.0021C25.7406 64.0021 25.8755 64.0527 25.9317 64.1539C25.9879 64.2438 26.016 64.39 26.016 64.5923C26.016 64.8059 25.9879 64.9521 25.9317 65.0308C25.8867 65.0982 25.8249 65.1319 25.7462 65.1319C25.2403 65.1319 24.7682 65.0532 24.3297 64.8958C23.8913 64.7272 23.5428 64.4518 23.2842 64.0696C22.8458 64.7778 21.9746 65.1319 20.6705 65.1319H14.2964ZM16.2019 67.2904C16.2019 67.0655 16.275 66.8744 16.4211 66.717C16.5785 66.5709 16.7696 66.4978 16.9944 66.4978C17.2193 66.4978 17.4048 66.5709 17.5509 66.717C17.6971 66.8744 17.7701 67.0655 17.7701 67.2904C17.7701 67.5152 17.6971 67.7007 17.5509 67.8468C17.4048 68.0042 17.2193 68.0829 16.9944 68.0829C16.7696 68.0829 16.5785 68.0042 16.4211 67.8468C16.275 67.7007 16.2019 67.5152 16.2019 67.2904ZM25.5205 64.0021C26.24 64.0021 26.7684 63.8447 27.1056 63.53C27.4429 63.2152 27.6115 62.6981 27.6115 61.9786V57.9315H28.9943V62.3833C28.9943 62.9341 29.1573 63.3445 29.4833 63.6143C29.8093 63.8728 30.2646 64.0021 30.8492 64.0021C31.0403 64.0021 31.1696 64.0471 31.237 64.137C31.3045 64.2157 31.3382 64.3675 31.3382 64.5923C31.3382 64.7834 31.3157 64.924 31.2707 65.0139C31.2258 65.0926 31.1583 65.1319 31.0684 65.1319C30.5288 65.1319 30.0398 65.0476 29.6013 64.879C29.1629 64.6991 28.82 64.4068 28.5727 64.0021C28.0668 64.7553 27.1225 65.1319 25.7398 65.1319C25.4587 65.1319 25.2676 65.0926 25.1664 65.0139C25.0652 64.924 25.0147 64.7609 25.0147 64.5249C25.0147 64.1764 25.1833 64.0021 25.5205 64.0021ZM28.5896 55.4864C28.5896 55.2616 28.6626 55.0761 28.8088 54.93C28.9662 54.7726 29.1573 54.6939 29.3821 54.6939C29.6069 54.6939 29.7924 54.7726 29.9386 54.93C30.0847 55.0761 30.1578 55.2616 30.1578 55.4864C30.1578 55.7113 30.0847 55.9024 29.9386 56.0598C29.7924 56.2059 29.6069 56.279 29.3821 56.279C29.1573 56.279 28.9662 56.2059 28.8088 56.0598C28.6626 55.9024 28.5896 55.7113 28.5896 55.4864ZM26.4817 55.4864C26.4817 55.2616 26.5548 55.0761 26.7009 54.93C26.8583 54.7726 27.0494 54.6939 27.2743 54.6939C27.4991 54.6939 27.6846 54.7726 27.8307 54.93C27.9769 55.0761 28.0499 55.2616 28.0499 55.4864C28.0499 55.7113 27.9769 55.9024 27.8307 56.0598C27.6846 56.2059 27.4991 56.279 27.2743 56.279C27.0494 56.279 26.8583 56.2059 26.7009 56.0598C26.5548 55.9024 26.4817 55.7113 26.4817 55.4864ZM31.0584 65.1319C30.8335 65.1319 30.6593 65.0982 30.5356 65.0308C30.412 64.9521 30.3501 64.8003 30.3501 64.5755C30.3501 64.3057 30.4063 64.1426 30.5188 64.0864C30.6199 64.0302 30.7324 64.0021 30.856 64.0021H35.8305C36.2127 64.0021 36.5275 63.9628 36.7748 63.8841C37.0222 63.8054 37.2189 63.6874 37.365 63.53C37.5112 63.3613 37.6124 63.1534 37.6686 62.906C37.736 62.6475 37.7697 62.3383 37.7697 61.9786V61.5908C37.7697 61.2085 37.7248 60.86 37.6348 60.5453C37.5561 60.2305 37.4044 59.9663 37.1795 59.7527C36.9659 59.5279 36.668 59.3592 36.2858 59.2468C35.9036 59.1232 35.4202 59.0613 34.8356 59.0613H31.6823V57.8978L36.4544 52.7884L37.365 53.6147L33.3517 57.9315H35.2909C35.9654 57.9315 36.5444 58.0102 37.0278 58.1676C37.5224 58.325 37.9271 58.5498 38.2419 58.8421C38.5567 59.1344 38.7871 59.4885 38.9333 59.9045C39.0794 60.3092 39.1525 60.7645 39.1525 61.2704C39.1525 61.5626 39.1525 61.7987 39.1525 61.9786C39.1525 62.1472 39.1469 62.2821 39.1356 62.3833C39.1356 62.4845 39.13 62.5632 39.1188 62.6194C39.1188 62.6643 39.1188 62.7037 39.1188 62.7374C39.1637 62.951 39.2424 63.1365 39.3548 63.2939C39.4673 63.4513 39.5965 63.5862 39.7427 63.6986C39.9001 63.7998 40.0631 63.8785 40.2317 63.9347C40.4003 63.9796 40.5633 64.0021 40.7207 64.0021C40.968 64.0021 41.1086 64.0696 41.1423 64.2045C41.1873 64.3281 41.2097 64.4574 41.2097 64.5923C41.2097 64.8059 41.1816 64.9521 41.1254 65.0308C41.0805 65.0982 41.0186 65.1319 40.9399 65.1319C40.5577 65.1319 40.1586 65.0532 39.7427 64.8958C39.338 64.7272 39.0007 64.4462 38.7309 64.0527C38.5061 64.4125 38.1857 64.6823 37.7697 64.8621C37.3538 65.042 36.8142 65.1319 36.1509 65.1319H31.0584ZM40.7201 64.0021C41.4283 64.0021 41.9567 63.8447 42.3052 63.53C42.6537 63.2152 42.8279 62.6981 42.8279 61.9786V52.7378H44.2106V62.2315C44.2106 64.1651 43.1202 65.1319 40.9393 65.1319C40.6695 65.1319 40.4784 65.0926 40.3659 65.0139C40.2535 64.9352 40.1973 64.7891 40.1973 64.5755C40.1973 64.4068 40.2367 64.2719 40.3154 64.1708C40.3828 64.0583 40.5177 64.0021 40.7201 64.0021ZM48.4599 52.7378V65.1319H47.0772V52.7378H48.4599Z"
-                  fill={pathname === "/books" ? "#e55604" : "#CBCBD4"}
-                />
-              </svg>
-            </div>
-            <div
-              className={`text-center ${
-                pathname === "/books" ? "text-[#e55604]" : "text-[#CBCBD4]"
-              } text-lg font-bold font-sst-arabic leading-tight`}
-            >
-              الكتب
-            </div>
-          </Link>
-        </div>
-
+        {/* logo */}
         <Link
           href={"/"}
           className="flex-col justify-center mt-[100px] items-center gap-2 flex"
@@ -491,6 +422,52 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
+
+      {/* mobile menue overlay  */}
+      {isOpen && (
+        <div
+          onClick={() => setIsOpen(false)}
+          className="fixed z-[8000] w-[100vw] h-[100vh] top-0 left-0 bottom-0 right-0 bg-[#0000003b]"
+        ></div>
+      )}
+
+      {/* mobile navbar */}
+      {/* appears fixed in bottom in mobile screen */}
+      {isMobile && (
+        <div className="fixed w-full z-50 bottom-0">
+          <div className="w-full h-20 rounded-t-[10px] bg-white relative shadow-[0px_-3px_4px_0px_rgba(0,0,0,0.03)] overflow-hidden">
+            <div className="flex justify-around items-center h-full px-4">
+              {navbarItems.map((item) => {
+                return (
+                  <Link href={item.url} className="flex flex-col items-center">
+                    <div className="w-[42px] h-[42px] relative overflow-hidden">
+                      <div
+                        className={`flex items-center justify-center p-[5px] ${
+                          pathname === item.url
+                            ? "navSvgContainerActive"
+                            : "navSvgContainer"
+                        }`}
+                        dangerouslySetInnerHTML={{
+                          __html: item.icon,
+                        }}
+                      />
+                    </div>
+                    <div
+                      className={`text-center text-neutral-300 text-[10px] font-normal font-['SST_Arabic'] leading-3 mt-1 ${
+                        pathname === item.url
+                          ? "text-[#F15A22]"
+                          : "text-neutral-300"
+                      }`}
+                    >
+                      {item.label}
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
