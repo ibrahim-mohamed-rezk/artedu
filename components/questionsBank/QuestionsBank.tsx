@@ -34,7 +34,7 @@ const QuestionsBank = () => {
   return (
     <div className="w-full pt-4 md:px-[50px] sm:pt-8 md:pt-12 lg:pt-16">
       {/* filters */}
-      <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1518px] mx-auto flex flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <div
             

@@ -11,10 +11,11 @@ const QuestionsBankHeader = () => {
       {openFilters && <QuestionsBankFilters setOpenFilters={setOpenFilters} />}
 
       <svg
-        className="w-full h-auto"
+        className="w-full h-auto md:min-h-[120px]"
         viewBox="0 0 1810 175"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
       >
         <path
           d="M0 0H1810V158.628C1810 158.628 1259.67 174.973 906.885 175C552.628 175.027 0 158.628 0 158.628V0Z"
@@ -24,9 +25,9 @@ const QuestionsBankHeader = () => {
       </svg>
 
       {/* buttons */}
-      <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-2 sm:p-[2.76px] bg-white rounded-2xl sm:rounded-[20.69px] border border-[#f1f1f2] flex flex-col sm:flex-row items-center gap-2 sm:gap-[2.76px]">
-        <div className="w-full sm:w-auto px-4 sm:px-[24.82px] py-3 sm:py-[16.55px] bg-[#e55604] rounded-xl sm:rounded-[17.93px] flex justify-center items-center gap-2 sm:gap-[6.90px]">
-          <div className="text-center text-white text-lg sm:text-xl font-medium font-['SST Arabic'] leading-6 sm:leading-7 tracking-tight">
+      <div className="absolute top-[95px] sm:top-[110px] md:top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] bg-white rounded-[10px] md:rounded-[20.69px] border border-[#f1f1f2] w-[95%] md:w-auto flex flex-row items-center gap-2 sm:gap-[2.76px]">
+        <div className="w-full md:w-auto px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[10px] md:rounded-[17.93px] flex justify-center items-center gap-[6.90px]">
+          <div className="text-center text-white text-lg sm:text-xl font-medium font-sst-arabic leading-7 tracking-tight">
             <Link href="/questionsBanck">بنك الاسئلة</Link>
           </div>
           <div data-svg-wrapper className="relative w-6 h-6 sm:w-8 sm:h-8">
@@ -34,7 +35,7 @@ const QuestionsBankHeader = () => {
               viewBox="0 0 34 34"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
+              className="w-8 h-8 sm:w-[34px] sm:h-[34px]"
             >
               <path
                 opacity="0.5"
@@ -61,19 +62,18 @@ const QuestionsBankHeader = () => {
             </svg>
           </div>
         </div>
-        <div className="w-full sm:w-auto px-4 sm:px-[24.82px] py-3 sm:py-[16.55px] bg-[#fffefe] rounded-xl sm:rounded-[17.93px] flex justify-center items-center">
-          <div className="text-center text-[#8d8d8d] text-lg sm:text-xl font-medium font-['SST Arabic'] leading-6 sm:leading-7 tracking-tight">
+        <div className="w-full md:w-auto px-4 sm:px-[24.82px] py-3 sm:py-[16.55px] bg-[#fffefe] rounded-xl sm:rounded-[17.93px] flex justify-center items-center">
+          <div className="text-center text-[#8d8d8d] text-lg sm:text-xl font-medium font-sst-arabic leading-6 sm:leading-7 tracking-tight">
             <Link href="/courses">الكورسات</Link>
           </div>
         </div>
       </div>
 
       {/* search */}
-      <div className="h-[72px] absolute top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[15.90px] inline-flex">
-        <div className="cursor-pointer" onClick={() => setOpenFilters(true)}>
+      <div className="w-[95%] mx-auto md:w-auto absolute top-[170px] sm:top-[190px] md:top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[8px] md:gap-[15px] inline-flex">
+        <div onClick={() => setOpenFilters(true)} className="cursor-pointer">
           <svg
-            width="86"
-            height="86"
+            className="w-[55px] h-[55px] md:w-[86px] md:h-[86px]"
             viewBox="0 0 86 86"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -99,8 +99,8 @@ const QuestionsBankHeader = () => {
                 shape-rendering="crispEdges"
               />
               <path
-                fillRule="evenodd"
-                clipRule="evenodd"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
                 d="M34.6526 23.6904H51.3471L39.2026 39.8831C39.0122 39.2225 38.7069 38.6554 38.2747 38.1551C38.003 37.8406 37.6236 37.5558 36.8647 36.9862L33.391 34.379C32.2599 33.53 31.6943 33.1055 31.3848 32.4215C31.0752 31.7376 31.0752 30.9125 31.0752 29.2624V28.1656C31.0752 26.056 31.0752 25.0012 31.5991 24.3458C32.123 23.6904 32.9662 23.6904 34.6526 23.6904Z"
                 fill="#E55604"
               />
@@ -149,11 +149,10 @@ const QuestionsBankHeader = () => {
             </defs>
           </svg>
         </div>
-        <div className="pl-6 pr-[28.17px] pt-[16.26px] pb-[17.58px] bg-white rounded-[31.80px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-start items-center gap-[379.66px] flex overflow-hidden">
+        <div className="pl-6 pr-[28.17px] py-[5px] md:py-[16px] bg-white rounded-[15px] md:rounded-[31px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-between items-center flex overflow-hidden w-full max-w-[500px] sm:max-w-full">
           <div className="relative">
             <svg
-              width="40"
-              height="39"
+              className="w-[20px] h-[20px] sm:w-8 sm:h-8 md:w-10 md:h-10"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -171,9 +170,11 @@ const QuestionsBankHeader = () => {
               />
             </svg>
           </div>
-          <div className="text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight">
-            محتاج تذاكر ايه انهاردة ....
-          </div>
+          <input
+            type="text"
+            placeholder="...ابحث عن الاسئلة"
+            className="text-right w-full md:w-[400px] text-[#8d8d8d] text-base font-normal font-sst-arabic leading-loose tracking-tight flex-grow px-4 sm:text-sm md:text-xs lg:text-sm outline-none border-none"
+          />
         </div>
       </div>
     </div>

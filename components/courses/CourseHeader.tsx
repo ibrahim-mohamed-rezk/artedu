@@ -12,10 +12,11 @@ const CourseHeader = () => {
       {openFilters && <CourseFilters setOpenFilters={setOpenFilters} />}
 
       <svg
-        className="w-full h-auto"
+        className="w-full h-auto md:min-h-[120px]"
         viewBox="0 0 1810 175"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
       >
         <path
           d="M0 0H1810V158.628C1810 158.628 1259.67 174.973 906.885 175C552.628 175.027 0 158.628 0 158.628V0Z"
@@ -25,13 +26,13 @@ const CourseHeader = () => {
       </svg>
 
       {/* buttons */}
-      <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] bg-white rounded-[20.69px] border border-[#f1f1f2] flex flex-col sm:flex-row items-center gap-[2.76px]">
-        <div className="w-full sm:w-auto px-[22.07px] py-[16.55px] bg-white rounded-[17.93px] flex justify-center items-center">
+      <div className="absolute top-[95px] sm:top-[110px] md:top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] bg-white rounded-[10px] md:rounded-[20.69px] border border-[#f1f1f2] w-[95%] md:w-auto flex flex-row items-center gap-[2px]">
+        <div className="w-full md:w-auto px-[22.07px] py-[16.55px] bg-white rounded-[10px] md:rounded-[17.93px] flex justify-center items-center">
           <div className="text-center text-[#8d8d8d] text-lg sm:text-xl font-medium font-['SST Arabic'] leading-7 tracking-tight">
             <Link href="/questionsBanck">بنك الاسئلة</Link>
           </div>
         </div>
-        <div className="w-full sm:w-auto px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[17.93px] flex justify-center items-center gap-[6.90px]">
+        <div className="w-full md:w-auto px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[10px] md:rounded-[17.93px] flex justify-center items-center gap-[6.90px]">
           <div className="text-center text-white text-lg sm:text-xl font-medium font-['SST Arabic'] leading-7 tracking-tight">
             <Link href="/courses">الكورسات</Link>
           </div>
@@ -71,11 +72,10 @@ const CourseHeader = () => {
       </div>
 
       {/* search */}
-      <div className="h-[72px] absolute top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[15.90px] inline-flex">
+      <div className="w-[95%] mx-auto md:w-auto absolute top-[170px] sm:top-[190px] md:top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[8px] md:gap-[15px] inline-flex">
         <div onClick={() => setOpenFilters(true)} className="cursor-pointer">
           <svg
-            width="86"
-            height="86"
+            className="w-[55px] h-[55px] md:w-[86px] md:h-[86px]"
             viewBox="0 0 86 86"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -151,11 +151,10 @@ const CourseHeader = () => {
             </defs>
           </svg>
         </div>
-        <div className="pl-6 pr-[28.17px] pt-[16.26px] pb-[17.58px] bg-white rounded-[31.80px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-start items-center gap-[379.66px] flex overflow-hidden">
+        <div className="pl-6 pr-[28.17px] py-[5px] md:py-[16px] bg-white rounded-[15px] md:rounded-[31px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-between items-center flex overflow-hidden w-full max-w-[500px] sm:max-w-full">
           <div className="relative">
             <svg
-              width="40"
-              height="39"
+              className="w-[20px] h-[20px] sm:w-8 sm:h-8 md:w-10 md:h-10"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -166,16 +165,18 @@ const CourseHeader = () => {
                 fill="#E55604"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M30.8689 30.212C31.3177 29.7632 32.0455 29.7632 32.4943 30.212L35.5593 33.277C36.0081 33.7259 36.0081 34.4536 35.5593 34.9025C35.1104 35.3513 34.3827 35.3513 33.9338 34.9025L30.8689 31.8375C30.42 31.3886 30.42 30.6609 30.8689 30.212Z"
                 fill="#E55604"
               />
             </svg>
           </div>
-          <div className="text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight">
-            محتاج تذاكر ايه انهاردة ....
-          </div>
+          <input
+            type="text"
+            placeholder="...ابحث عن الكورسات"
+            className="text-right w-full md:w-[400px] text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight flex-grow px-4 sm:text-sm md:text-xs lg:text-sm outline-none border-none"
+          />
         </div>
       </div>
     </div>

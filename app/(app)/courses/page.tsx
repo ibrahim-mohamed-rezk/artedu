@@ -5,7 +5,7 @@ const page = () => {
   return (
     <div className="w-full">
       <CourseHeader />
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-[180px] md:mt-0 ">
         <Courses />
       </div>
     </div>
