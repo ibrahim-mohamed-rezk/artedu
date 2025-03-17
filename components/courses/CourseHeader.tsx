@@ -29,7 +29,7 @@ const CourseHeader = () => {
       <div className="absolute top-[95px] sm:top-[110px] md:top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] bg-white rounded-[10px] md:rounded-[20.69px] border border-[#f1f1f2] w-[95%] md:w-auto flex flex-row items-center gap-[2px]">
         <div className="w-full md:w-auto px-[22.07px] py-[16.55px] bg-white rounded-[10px] md:rounded-[17.93px] flex justify-center items-center">
           <div className="text-center text-[#8d8d8d] text-lg sm:text-xl font-medium font-['SST Arabic'] leading-7 tracking-tight">
-            <Link href="/questionsBanck">بنك الاسئلة</Link>
+            <Link href="/QuestionsBanck">بنك الاسئلة</Link>
           </div>
         </div>
         <div className="w-full md:w-auto px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[10px] md:rounded-[17.93px] flex justify-center items-center gap-[6.90px]">
