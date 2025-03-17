@@ -291,6 +291,7 @@ const Navbar = () => {
             {navbarItems.map((item) => {
               return (
                 <Link
+                  key={item.label}
                   href={item.url}
                   className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
                 >
@@ -439,7 +440,11 @@ const Navbar = () => {
             <div className="flex justify-around items-center h-full px-4">
               {navbarItems.map((item) => {
                 return (
-                  <Link href={item.url} className="flex flex-col items-center">
+                  <Link
+                    key={item.label}
+                    href={item.url}
+                    className="flex flex-col items-center"
+                  >
                     <div className="w-[42px] h-[42px] relative overflow-hidden">
                       <div
                         className={`flex items-center justify-center p-[5px] ${
