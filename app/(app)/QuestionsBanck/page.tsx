@@ -1,14 +1,13 @@
-// import QuestionsBank from "@/components/questionsBank/QuestionsBank";
-// import QuestionsBankHeader from "@/components/questionsBank/QuestionsBankHeader";
+import QuestionsBank from "@/components/questionsBank/QuestionsBank";
+import QuestionsBankHeader from "@/components/questionsBank/QuestionsBankHeader";
 
 const page = () => {
   return (
     <div className="w-full">
-      {/* <QuestionsBankHeader />
+      <QuestionsBankHeader />
       <div className="container mx-auto mt-[180px] md:mt-0 ">
         <QuestionsBank />
-      </div> */}
-      hi
+      </div>
     </div>
   );
 };
