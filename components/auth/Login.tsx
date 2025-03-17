@@ -63,7 +63,7 @@ const Login = ({ className = "" }: LoginProps) => {
         <PasswordInput changePassword={setPassword} value={password} />
       </div>
 
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-2">
+      <div className="flex flex-row justify-between items-center w-full mt-2">
         <Link
           href="/forgot-password"
           className="text-right text-[#26577c] text-xs font-bold font-['SST Arabic'] leading-none"

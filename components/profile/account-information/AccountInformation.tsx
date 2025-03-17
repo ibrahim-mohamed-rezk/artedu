@@ -10,15 +10,15 @@ const AccountInformation = () => {
   const [notifications, setNotifications] = useState(false);
   return (
     <div className="w-full">
-      <div className=" w-full mx-auto">
+      <div className="w-full mx-auto">
         {/* header */}
         <ProfileHeader title="معلومات الحساب" />
         {/* body */}
-        <div className="md:px-[50px] mx-auto flex items-start gap-[20px] pt-[50px] justify-end w-full">
+        <div className="px-4 md:px-[50px] mx-auto flex flex-col-reverse md:flex-row items-start gap-[20px] pt-[50px] justify-end w-full">
           {page === "Personal-settings" && <PersonalSettings />}
           {page === "Password" && <Password />}
           {/* menue */}
-          <div className="w-80 h-40 flex-col justify-start items-start gap-[5px] inline-flex">
+          <div className="w-full md:w-80 mb-6 md:mb-0 flex-col justify-start items-start gap-[5px] inline-flex">
             <div
               onClick={() => setpage("Personal-settings")}
               className="self-stretch cursor-pointer h-[50px] px-[15px] py-3 bg-white rounded-[15px] shadow-[0px_6px_12px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] justify-between items-center inline-flex"

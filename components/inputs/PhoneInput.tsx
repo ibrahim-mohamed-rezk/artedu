@@ -14,22 +14,22 @@ const PhoneInput = ({
   value,
   onChangeFun,
   className = "",
-  countryCode,
-  onCountryCodeChange,
-}: PhoneInputProps) => {
-  const countries = [
-    { code: "EG", dialCode: "+20", flag: "/images/login/egyptFlag.png" },
-  ];
+}: // countryCode,
+// onCountryCodeChange,
+PhoneInputProps) => {
+  // const countries = [
+  //   { code: "EG", dialCode: "+20", flag: "/images/login/egyptFlag.png" },
+  // ];
 
-  const currentCountry =
-    countries.find((country) => country.dialCode === countryCode) ||
-    countries[0];
+  // const currentCountry =
+  //   countries.find((country) => country.dialCode === countryCode) ||
+  //   countries[0];
 
   return (
     <div
       className={`${styles.PhoneInput} flex items-center border border-[#F1F1F2] rounded-[15px] overflow-hidden ${className}`}
     >
-      <div className="relative">
+      {/* <div className="relative">
         <div
           className={`${styles.phoneSelect} flex items-center bg-transparent border-r px-2 py-2 focus:outline-none`}
         >
@@ -46,7 +46,7 @@ const PhoneInput = ({
             ))}
           </select>
         </div>
-      </div>
+      </div> */}
       <input
         type="tel"
         value={value}
