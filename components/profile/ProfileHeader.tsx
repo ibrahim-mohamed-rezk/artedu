@@ -17,7 +17,7 @@ const ProfileHeader = ({ title }: { title: string }) => {
       </svg>
 
       {/* buttons */}
-      <div className="absolute top-[10%] md:top-[48%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] rounded-[20.69px] border  flex flex-col sm:flex-row items-center gap-[2.76px]">
+      <div className="absolute top-[10%] md:top-[48%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] rounded-[20.69px] flex flex-col sm:flex-row items-center gap-[2.76px]">
         <div className="w-full sm:w-auto px-[22.07px] py-[16.55px]rounded-[17.93px] flex justify-center items-center">
           <div className="text-center text-nowrap text-[#26577C] text-lg sm:text-xl font-medium font-sst-arabic tracking-tight">
             {title}

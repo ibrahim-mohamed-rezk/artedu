@@ -8,7 +8,7 @@ const Password = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <div className="w-full max-w-[1163px] border border-[#F1F1F2] rounded-3xl p-4">
+    <div className="w-full border border-[#F1F1F2] rounded-3xl p-4">
       <div className="flex flex-col md:flex-row justify-end items-start gap-6">
         <div className="flex flex-col justify-start items-end gap-[5px] w-full md:w-auto">
           <div className="h-5 rounded-[100px] flex justify-center items-center gap-2.5">
@@ -19,7 +19,7 @@ const Password = () => {
           <PasswordInput
             value={confirmPassword}
             changePassword={setConfirmPassword}
-            className="w-full md:w-80"
+            className="w-full md:w-[clamp(100px,16.6666664vw,1000px)]"
           />
         </div>
         <div className="flex flex-col justify-start items-end gap-[5px] w-full md:w-auto">
@@ -31,7 +31,7 @@ const Password = () => {
           <PasswordInput
             value={password}
             changePassword={setPassword}
-            className="w-full md:w-80"
+            className="w-full md:w-[clamp(100px,16.6666664vw,1000px)]"
           />
         </div>
       </div>

@@ -6,7 +6,9 @@ const page = () => {
     <div className="w-full ">
       <BooksHeader />
 
-      <Books />
+      <div className="w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto mt-[180px] md:mt-0 ">
+        <Books />
+      </div>
     </div>
   );
 };

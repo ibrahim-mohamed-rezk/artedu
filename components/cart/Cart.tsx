@@ -6,7 +6,7 @@ const Cart = () => {
     <div className="w-full">
       <div className="w-full mx-auto ">
         <ProfileHeader title="العربة " />
-        <div className="flex flex-col lg:flex-row gap-8 md:px-[50px] mt-4">
+        <div className="flex flex-col w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto lg:flex-row gap-8 md:px-[50px] mt-4">
           <div className="w-full lg:w-2/3">
             <div className="bg-white rounded-[20px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] p-6 mb-8">
               <div className="flex flex-col md:flex-row gap-6">

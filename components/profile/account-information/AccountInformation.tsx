@@ -14,14 +14,14 @@ const AccountInformation = () => {
         {/* header */}
         <ProfileHeader title="معلومات الحساب" />
         {/* body */}
-        <div className="px-4 md:px-[50px] mx-auto flex flex-col-reverse md:flex-row items-start gap-[20px] pt-[50px] justify-end w-full">
+        <div className="px-4 md:px-[50px] w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto flex flex-col-reverse md:flex-row items-start gap-[20px] pt-[50px] justify-center">
           {page === "Personal-settings" && <PersonalSettings />}
           {page === "Password" && <Password />}
           {/* menue */}
-          <div className="w-full md:w-80 mb-6 md:mb-0 flex-col justify-start items-start gap-[5px] inline-flex">
+          <div className=" w-full md:w-[clamp(100px,16.6666664vw,1000px)] mb-6 md:mb-0 flex-col justify-start items-start gap-[5px] inline-flex">
             <div
               onClick={() => setpage("Personal-settings")}
-              className="self-stretch cursor-pointer h-[50px] px-[15px] py-3 bg-white rounded-[15px] shadow-[0px_6px_12px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] justify-between items-center inline-flex"
+              className="w-full cursor-pointer h-[50px] px-[15px] py-3 bg-white rounded-[15px] shadow-[0px_6px_12px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] justify-between items-center inline-flex"
             >
               <div data-svg-wrapper className="relative">
                 <svg

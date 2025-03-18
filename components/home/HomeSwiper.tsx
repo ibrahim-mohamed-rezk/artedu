@@ -14,10 +14,10 @@ const HomeSwiper = () => {
   const { homeData } = useAppSelector((state) => state.home);
 
   return (
-    <div className="w-full h-[500px] lg:h-[578px] relative bg-white rounded-[25px] border-2 border-white overflow-hidden">
+    <div className="w-full relative bg-white border-2 border-white">
       <Swiper
         modules={[Pagination, Autoplay]}
-        className="h-full horizontal-swiper"
+        className="w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] rounded-[clamp(10px,1.04166665vw,20px)] aspect-[2.62629/1] horizontal-swiper"
         pagination={{
           clickable: true,
           el: ".horizontal-swiper .swiper-pagination1",
@@ -37,7 +37,7 @@ const HomeSwiper = () => {
             <img
               src={item.image}
               alt={`News thumbnail ${index}`}
-              className="w-full h-full object-cover"
+              className="w-full h-full"
             />
           </SwiperSlide>
         ))}

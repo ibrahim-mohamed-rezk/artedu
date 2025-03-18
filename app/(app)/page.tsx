@@ -18,9 +18,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="w-full pt-[50px] md:px-[50px]">
-      <div className="w-full max-w-[1920px] mx-auto">
-        <div className="w-full flex flex-col items-start justify-start gap-[30px]">
+    <div className="w-full pt-[clamp(10px,2.6041667vw,100px)]">
+      <div className="w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto">
+        <div className="w-full flex flex-col items-center justify-start gap-[30px]">
           <HomeSwiper />
           <div className="w-full h-[1px] bg-[#f1f1f2] "></div>
           <TeatcheContainer />

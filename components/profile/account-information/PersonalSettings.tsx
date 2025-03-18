@@ -41,7 +41,7 @@ const PersonalSettings = () => {
   }, [selectedGovernorate]);
 
   return (
-    <div className="w-full max-w-[1163px]">
+    <div className="w-full">
       <div className="bg-white rounded-3xl shadow-lg p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <InputField

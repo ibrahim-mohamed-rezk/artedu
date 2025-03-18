@@ -24,11 +24,11 @@ const Books = () => {
   }, []);
 
   return (
-    <div className="mt-[180px] md:mt-0 ">
+    <div className="w-full ">
       <div className="w-full md:px-[50px] mx-auto">
         <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
           {/* filters */}
-          <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+          <div className="w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3">
               <div className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2">
                 <div className="relative">

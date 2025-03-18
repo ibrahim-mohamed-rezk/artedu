@@ -2,7 +2,7 @@ import Cart from "@/components/cart/Cart"
 
 const page = () => {
   return (
-    <div>
+    <div className="w-full">
       <Cart />
     </div>
   )

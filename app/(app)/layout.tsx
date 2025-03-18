@@ -22,7 +22,7 @@ export default function RootLayout({
           <AutoLogin />
           <div className=" mx-auto items-stretch flex">
             <Navbar />
-            <main className="w-full mt-[72px] md:mt-0 mx-auto order-1 max-h-[1200px] overflow-auto hide-scrollbar">
+            <main className="w-full mt-[72px] md:mt-0 mx-auto order-1 h-[100vh] overflow-auto hide-scrollbar">
               {children}
             </main>
           </div>
