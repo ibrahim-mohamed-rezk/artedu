@@ -93,8 +93,8 @@ const Course = () => {
   }, [videoRef, videoRun, openedModuleId, course]);
 
   return (
-    <div className="w-full min-h-screen bg-white rounded-xl overflow-hidden">
-      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+    <div className=" w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto bg-white rounded-xl overflow-hidden">
+      <div className=" w-full mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
         <div className="w-full order-2 lg:order-1 lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
           <div className="bg-[#26577c]/10 p-4">
             <h2 className="text-right text-[#26577c] text-xl font-medium">
@@ -103,7 +103,7 @@ const Course = () => {
           </div>
           <div className="p-4 space-y-4">
             <p className="text-right text-[#26577c] text-sm">{course?.title}</p>
-            <div>
+            <div className="space-y-4">
               {course?.modules?.map((module) => {
                 if (module?.type === "video") {
                   return (

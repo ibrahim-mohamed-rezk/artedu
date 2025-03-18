@@ -9,11 +9,11 @@ interface Module {
 
 const VedioCard = ({ module }: { module: Module }) => {
   return (
-    <div className="bg-white rounded-[22px] shadow-sm border border-[#f1f1f2] p-4">
-      <div className="flex flex-col sm:flex-row items-center justify-between">
+    <div className="bg-white rounded-[22px] shadow-sm border border-[#f1f1f2] p-4 w-full">
+      <div className="flex flex-row items-center md:items-start gap-4">
         <div
           style={{ backgroundImage: `url(${module?.details?.thumbnail})` }}
-          className="w-[161px] h-[92px] bg-cover bg-center rounded-[20px] overflow-hidden flex items-center justify-center mb-4 sm:mb-0"
+          className="w-full md:w-[161px] border border-[#f1f1f2] h-[120px] md:h-[92px] bg-cover bg-center rounded-[20px] overflow-hidden flex items-center justify-center"
         >
           <svg
             width="49"
@@ -21,6 +21,7 @@ const VedioCard = ({ module }: { module: Module }) => {
             viewBox="0 0 49 52"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            className="w-10 h-10 md:w-12 md:h-12"
           >
             <rect
               x="0.764648"
@@ -37,12 +38,12 @@ const VedioCard = ({ module }: { module: Module }) => {
             />
           </svg>
         </div>
-        <div className="w-full sm:w-2/3 sm:pl-4 flex flex-col items-center sm:items-end">
+        <div className="w-full flex flex-col items-end">
           <p className="text-[#8a8686] text-xs">الدرس الاول</p>
-          <h3 className="text-black text-sm font-bold mt-1">
+          <h3 className="text-black text-sm font-bold mt-1 text-center md:text-right">
             {module?.details?.title}
           </h3>
-          <button className="mt-4 bg-[#E55604] text-white text-sm rounded-full px-9 py-2">
+          <button className="mt-4 bg-[#E55604] text-white text-sm rounded-full px-6 md:px-9 py-2 w-full md:w-auto">
             مشاهدة
           </button>
         </div>
