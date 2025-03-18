@@ -95,7 +95,7 @@ const Course = () => {
   return (
     <div className="w-full min-h-screen bg-white rounded-xl overflow-hidden">
       <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
-        <div className="w-full lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
+        <div className="w-full order-2 lg:order-1 lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
           <div className="bg-[#26577c]/10 p-4">
             <h2 className="text-right text-[#26577c] text-xl font-medium">
               المحتوي
@@ -122,7 +122,7 @@ const Course = () => {
                       key={module.id}
                       className="cursor-pointer"
                     >
-                      <ExamCard  />
+                      <ExamCard />
                     </div>
                   );
                 }
@@ -132,12 +132,12 @@ const Course = () => {
         </div>
 
         {/* Right side - Course details */}
-        <div className="w-full lg:w-2/3 space-y-6">
+        <div className="w-full lg:w-2/3 space-y-6 order-1 lg:order-2">
           {/* open video screen */}
           {openModuleData && openedModuleType === "video" && (
             <div className="relative flex items-center justify-center bg-black/20 rounded-[58px] aspect-video cursor-pointer video-player">
               <video
-                className=" w-full h-full rounded-[58px] object-cover"
+                className=" w-full rounded-[10px] lg:rounded-[30px] object-cover"
                 controls
                 src={openModuleData?.details?.url}
                 ref={videoRef}
@@ -222,12 +222,12 @@ const Course = () => {
           )}
 
           {/* Course title and price */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
             {/* Purchase button and price */}
-            <div className="space-y-2 w-full sm:w-auto">
-              <div className="flex flex-col sm:flex-row items-center justify-start gap-5 sm:gap-[35px]">
+            <div className="space-y-2 order-2 lg:order-1 w-full lg:w-auto">
+              <div className="flex flex-row items-center justify-between lg:justify-start gap-5 lg:gap-[35px]">
                 <div className="flex items-center justify-center gap-3">
-                  <button className="flex items-center justify-center border-[3px] border-[#E55604] w-[76px] h-[66px] rounded-[14px]  ">
+                  <button className="flex items-center justify-center border-[3px] border-[#E55604] w-[50px] h-[50px] lg:w-[76px] lg:h-[66px] rounded-[8px] lg:rounded-[14px]  ">
                     <svg
                       width="38"
                       height="38"
@@ -241,11 +241,11 @@ const Course = () => {
                       />
                     </svg>
                   </button>
-                  <button className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full sm:w-[178px] px-4 sm:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center">
+                  <button className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center">
                     اشتري الان
                   </button>
                 </div>
-                <div className=" flex mt-4 sm:mt-0">
+                <div className=" flex mt-4 lg:mt-0">
                   <div className=" flex justify-end items-end gap-1">
                     <div className="text-right text-[#8c9ec5] text-xs font-medium font-sst-arabic capitalize">
                       جنيه
@@ -262,7 +262,7 @@ const Course = () => {
             </div>
 
             {/* Course name */}
-            <div className="w-full sm:w-[216.65px] flex-col justify-start items-end  inline-flex mt-4 sm:mt-0">
+            <div className="w-full order-1 lg:order-2 lg:w-[216.65px] flex-col justify-start items-end  inline-flex mt-4 lg:mt-0">
               <div className="text-[#8a8686] text-[21.27px] font-normal font-sst-arabic leading-9 tracking-tight">
                 الدرس الاول
               </div>
