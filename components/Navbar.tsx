@@ -246,7 +246,7 @@ const Navbar = () => {
 
         {/* navigation links */}
         {isMobile ? (
-          <div className="self-stretch px-[5px] h-[600.91px] flex-col justify-start items-start gap-[15px] flex">
+          <div className="self-stretch px-[5px] flex-col justify-start items-start flex">
             {userMenueItems.map((item, index) => (
               <Link
                 href={item.fun ? "/login" : item.url || ""}
@@ -257,7 +257,7 @@ const Navbar = () => {
                   setIsOpen(false);
                 }}
                 key={index}
-                className={`self-stretch p-[16.40px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex ${
+                className={`self-stretch py-[12px] px-[16px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex ${
                   pathname === item.url ? "bg-[#26577C] text-white" : ""
                 } hover:bg-[#26577C] cursor-pointer hover:text-white`}
               >
@@ -327,7 +327,9 @@ const Navbar = () => {
         {/* logo */}
         <Link
           href={"/"}
-          className="flex-col justify-center mt-[100px] items-center gap-2 flex"
+          className={`flex-col justify-center  items-center gap-2 flex ${
+            isMobile ? "" : "mt-[100px]"
+          }`}
         >
           <div className="w-[50px] h-[50px] ">
             <div className="w-[40px] h-[20px]">
