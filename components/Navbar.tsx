@@ -62,7 +62,7 @@ const Navbar = () => {
       <div
         className={`${
           isMobile
-            ? `fixed right-0 top-0 h-full w-[300px] transform gap-[10px] ${
+            ? `fixed right-0 top-0 h-[100vh] w-[300px] transform gap-[10px] ${
                 isOpen ? "translate-x-0" : "translate-x-full"
               } transition-transform duration-300 ease-in-out z-40 `
             : "w-[120px] order-10 gap-[30px]"
@@ -72,7 +72,7 @@ const Navbar = () => {
         {isOpen && (
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`absolute right-4 top-4 z-[9001] p-2 bg-[#fff2eb] rounded-full`}
+            className={`absolute right-4 top-2 z-[9001] p-2 bg-[#fff2eb] rounded-full`}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -208,10 +208,10 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className="flex-col justify-end items-center gap-[20px] flex">
+          <div className="flex-col mt-[10px] md:mt-0 w-[90%] md:w-auto justify-end items-center gap-[20px] flex">
             <Link
               href="/login"
-              className="self-stretch px-2 py-3 bg-[#26577c] rounded-[15px] flex-col justify-center items-center inline-flex"
+              className="self-stretch px-2 py-3 bg-[#26577c] rounded-[15px] flex-row md:flex-col justify-center items-center inline-flex"
             >
               <div className="w-8 h-8 relative rounded-[5px] overflow-hidden">
                 <svg
@@ -231,7 +231,7 @@ const Navbar = () => {
                   />
                 </svg>
               </div>
-              <div className="w-[80px] text-center text-white text-lg font-medium font-sst-arabic leading-relaxed">
+              <div className=" w-fit md:w-[80px] text-center text-white text-lg font-medium font-sst-arabic leading-relaxed">
                 تسجيل الدخول
               </div>
             </Link>
@@ -241,6 +241,7 @@ const Navbar = () => {
             >
               انضم الينا
             </Link>
+            <div className="w-full h-[1px] bg-[#b2b2b3]"></div>
           </div>
         )}
 
@@ -328,7 +329,7 @@ const Navbar = () => {
         <Link
           href={"/"}
           className={`flex-col justify-center  items-center gap-2 flex ${
-            isMobile ? "" : "mt-[100px]"
+            isMobile ? "mt-[20px]" : "mt-[100px]"
           }`}
         >
           <div className="w-[50px] h-[50px] ">
