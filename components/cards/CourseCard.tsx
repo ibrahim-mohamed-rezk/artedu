@@ -1,7 +1,6 @@
 "use client";
 
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
-import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 

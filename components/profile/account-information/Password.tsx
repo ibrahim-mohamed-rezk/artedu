@@ -5,7 +5,7 @@ import PasswordInput from "@/components/inputs/PasswordInput";
 import { postData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
 import { toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const Password = () => {
   const { token } = useAppSelector((state) => state.user);
