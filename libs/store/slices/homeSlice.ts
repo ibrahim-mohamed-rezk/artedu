@@ -8,10 +8,12 @@ const initialState: any = {
 // Create an async thunk for auto login
 export const getHomeData = createAsyncThunk(
   "home/getHomeData",
-  async () => {
+  async (token: string) => {
     try {
       const response = await getData(
         `home-api`,
+        {},
+        { Authorization: `Bearer ${token}` }
       );
 
       return response;

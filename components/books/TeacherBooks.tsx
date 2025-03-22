@@ -32,7 +32,7 @@ const TeacherBooks = () => {
         </div>
       </div>
 
-      <div className="w-full flex flex-wrap justify-end items-start gap-[18.56px]">
+      <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 justify-items-center">
         {Array.from({ length: 4 }).map((_, i) => (
           <BookCard title="" author="" price={0} image="" id={0} key={i} />
         ))}

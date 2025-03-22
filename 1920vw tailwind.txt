@@ -423,7 +423,7 @@
 423 ==> clamp(px,22.03125vw,423px)
 424 ==> clamp(px,22.08332vw,424px)
 425 ==> clamp(px,22.1354164vw,425px)
-426 ==> clamp(px,22.1875vw,426px)
+426 ==> clamp(px,22.1875vw,426px) 
 427 ==> clamp(px,22.239582vw,427px)
 428 ==> clamp(px,22.2916668vw,428px)
 429 ==> clamp(px,22.34375vw,429px)

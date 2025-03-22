@@ -13,6 +13,7 @@ interface Course {
   teacher: string;
   subject: string;
   image: string;
+  is_favorite: boolean;
 }
 
 const QuestionsBank = () => {
@@ -93,6 +94,7 @@ const QuestionsBank = () => {
             price={question.price}
             courseId={question.id}
             type={"questionsBanck"}
+            is_favorite={question.is_favorite}
           />
         ))}
       </div>

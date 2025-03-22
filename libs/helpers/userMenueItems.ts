@@ -1,4 +1,13 @@
-export const userMenueItems = [
+interface MenuItem {
+  text: string;
+  url?: string;
+  badge?: boolean;
+  fun?: () => void;
+  icon: string;
+  color?: string;
+}
+
+export const userMenueItems: MenuItem[] = [
   {
     icon: `<svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M30.8702 16.8321C30.8702 24.3786 24.7526 30.4962 17.2061 30.4962C9.65963 30.4962 3.54199 24.3786 3.54199 16.8321C3.54199 9.28563 9.65963 3.168 17.2061 3.168C24.7526 3.168 30.8702 9.28563 30.8702 16.8321Z" fill="white"/>
@@ -78,5 +87,6 @@ export const userMenueItems = [
     text: "تسجيل الخروج",
     color: "text-[#ff1212]",
     fun: () => localStorage.removeItem("token"),
+    url: "/login",
   },
 ];

@@ -3,6 +3,7 @@
 import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import CourseCard from "../cards/CourseCard";
+import { useAppSelector } from "@/libs/store/hooks";
 
 interface Course {
   id: number;
@@ -13,15 +14,24 @@ interface Course {
   teacher: string;
   subject: string;
   image: string;
+  is_favorite: boolean;
+  cover: string;
 }
 
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
+  const { token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const res = await getData("courses-api");
+        const res = await getData(
+          "courses-api",
+          {},
+          {
+            authorization: "Bearer " + token,
+          }
+        );
         setCourses(res.data.items);
       } catch (err) {
         console.log(err);
@@ -29,7 +39,7 @@ const Courses = () => {
     };
 
     getCourses();
-  }, []);
+  }, [token]);
 
   return (
     <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
@@ -84,12 +94,13 @@ const Courses = () => {
           <CourseCard
             key={course.id}
             courseName={course.name}
-            courseImage={course.image}
+            courseImage={course.cover}
             courseSubject={course.subject}
             courseTeacher={course.teacher}
             price={course.price}
             courseId={course.id}
             type={"courses"}
+            is_favorite={course.is_favorite}
           />
         ))}
       </div>

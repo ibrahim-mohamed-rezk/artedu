@@ -94,7 +94,7 @@ const Course = () => {
 
   return (
     <div className=" w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto bg-white rounded-xl overflow-hidden">
-      <div className=" w-full mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+      <div className=" w-full mx-auto py-8 flex flex-col lg:flex-row gap-8">
         <div className="w-full order-2 lg:order-1 lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
           <div className="bg-[#26577c]/10 p-4">
             <h2 className="text-right text-[#26577c] text-xl font-medium">

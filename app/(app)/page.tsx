@@ -1,7 +1,7 @@
 "use client";
 
 import HomeSwiper from "@/components/home/HomeSwiper";
-import { useAppDispatch } from "@/libs/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/libs/store/hooks";
 import { useEffect } from "react";
 import { getHomeData } from "@/libs/store/slices/homeSlice";
 import TeatcheContainer from "@/components/home/TeatcheContainer";
@@ -11,11 +11,12 @@ import BooksContainer from "@/components/home/BooksContainer";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.user);
 
   // Fetch data from API
   useEffect(() => {
-    dispatch(getHomeData());
-  }, []);
+    dispatch(getHomeData(token));
+  }, [token, dispatch]);
 
   return (
     <div className="w-full pt-[clamp(10px,2.6041667vw,100px)]">

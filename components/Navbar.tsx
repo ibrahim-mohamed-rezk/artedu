@@ -128,10 +128,10 @@ const Navbar = () => {
                         <div className="grow shrink basis-0 h-[65.04px] justify-start items-center gap-[16.26px] flex">
                           <div className="grow shrink basis-0 flex-col justify-start items-end gap-[10.84px] inline-flex">
                             <div className="self-stretch text-right text-[#191a2c] text-xl font-bold font-['SST Arabic'] leading-loose">
-                              نور محمد
+                              {userData?.full_name}
                             </div>
                             <div className="w-[273.70px] text-right text-[#535662] text-[14.90px] font-medium font-['Inter'] leading-none">
-                              +20 010 182 60 856
+                              {userData?.phone}
                             </div>
                           </div>
                           <div className="w-[65.04px] h-[65.04px] relative bg-[#ffd88d] rounded-full overflow-hidden">

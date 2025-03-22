@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { menuItems } from "@/libs/helpers/profileMenueItems";
 import { useRouter } from "next/navigation";
+import { userMenueItems } from "@/libs/helpers/userMenueItems";
 
 const ProfileMenue = () => {
   const pathname = usePathname();
@@ -11,14 +10,16 @@ const ProfileMenue = () => {
 
   return (
     <div className="w-full md:w-80 flex flex-col justify-start items-start gap-2">
-      {menuItems.map((item, index) => {
-        const isActive = pathname === item.path;
-        if (item.isLogout) {
+      {userMenueItems.map((item, index) => {
+        const isActive = pathname === item.url;
+        if (item.badge) {
           return (
             <div
               onClick={() => {
-                item.fun();
-                router.push("/login");
+                if (item.fun) {
+                  item.fun();
+                }
+                router.push(item.url || "");
               }}
               key={index}
               className={`self-stretch h-12 p-3 bg-white rounded-lg shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] outline outline-1 outline-offset-[-1px] outline-zinc-100 flex justify-start items-center gap-3 w-full transition-colors hover:bg-red-50`}
@@ -27,22 +28,29 @@ const ProfileMenue = () => {
                 <div
                   className={`text-right text-base font-medium font-['SST_Arabic'] leading-normal text-red-600`}
                 >
-                  {item.name}
+                  {item.text}
                 </div>
-                <div>{item.icon}</div>
+                <div>
+                  <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                </div>
               </div>
             </div>
           );
         }
 
         return (
-          <Link
+          <button
             key={index}
-            href={item.path || ""}
-            className={`self-stretch h-12 p-3 bg-white rounded-lg shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] outline outline-1 outline-offset-[-1px] outline-zinc-100 flex justify-start items-center gap-3 w-full transition-colors ${
+            onClick={() => {
+              if (item.fun) {
+                item.fun();
+              }
+              router.push(item.url || "");
+            }}
+            className={`self-stretch h-12 p-3 rounded-lg shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] outline outline-1 outline-offset-[-1px] outline-zinc-100 flex justify-start items-center gap-3 w-full transition-colors ${
               isActive
                 ? "bg-cyan-800"
-                : item.isLogout
+                : item.badge
                 ? "hover:bg-red-50"
                 : "hover:bg-gray-50"
             }`}
@@ -52,18 +60,18 @@ const ProfileMenue = () => {
                 className={`text-right text-base font-medium font-['SST_Arabic'] leading-normal ${
                   isActive
                     ? "text-white"
-                    : item.isLogout
+                    : item.badge
                     ? "text-red-600"
                     : "text-gray-600"
                 }`}
               >
-                {item.name}
+                {item.text}
               </div>
-              <div className={`origin-center ${isActive ? "rotate-180" : ""}`}>
-                {item.icon}
+              <div className={`origin-center`}>
+                <div dangerouslySetInnerHTML={{ __html: item.icon }} />
               </div>
             </div>
-          </Link>
+          </button>
         );
       })}
     </div>

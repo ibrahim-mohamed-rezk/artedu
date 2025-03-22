@@ -8,6 +8,8 @@ import Password from "./Password";
 const AccountInformation = () => {
   const [page, setpage] = useState("Personal-settings");
   const [notifications, setNotifications] = useState(false);
+
+
   return (
     <div className="w-full">
       <div className="w-full mx-auto">

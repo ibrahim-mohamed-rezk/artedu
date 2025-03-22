@@ -5,19 +5,20 @@ import "swiper/css";
 
 const BookImageSwiper = ({ image }: { image: string | undefined }) => {
   return (
-    <div className="w-full md:w-[434px] h-[400px] md:h-[600px] relative">
-      <div>
-        <div className="w-full h-full bg-[#8c9ec5]/30 rounded-[25px] md:rounded-[50.44px] shadow-[0px_7.565625190734863px_10.08750057220459px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] relative flex justify-center items-center">
-          <div className="absolute top-4 left-4 w-8 md:w-10 h-[35px] md:h-[45px]">
+    <div className="w-full h-full relative" dir="rtl">
+      <div className="w-full h-full">
+        <div className="w-full h-full bg-gradient-to-br from-[#8c9ec5]/20 to-[#8c9ec5]/40 rounded-[25px] md:rounded-[50px] shadow-lg border border-[#f1f1f2] relative flex justify-center items-center overflow-hidden">
+          <div className="absolute top-4 right-4 w-8 md:w-10 h-[35px] md:h-[45px] z-10">
             <svg
               width="100%"
               height="100%"
               viewBox="0 0 30 31"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="drop-shadow-md"
             >
               <path
-                opacity="0.5"
+                opacity="0.6"
                 d="M5.90898 4.16665C6.29072 3.78169 6.82668 3.5307 7.83879 3.39347C8.88065 3.25222 10.2615 3.25 12.2414 3.25H17.7586C19.7385 3.25 21.1193 3.25222 22.1612 3.39347C23.1733 3.5307 23.7093 3.78169 24.091 4.16665C24.4728 4.55162 24.7217 5.09211 24.8577 6.11276C24.9978 7.16341 25 8.55592 25 10.5525L25 23.25H9.28247C7.92795 23.25 7.4544 23.2572 7.09151 23.3352C6.44977 23.4732 5.89188 23.7689 5.48513 24.1684C5.34797 24.3031 5.27938 24.3704 5.12119 24.7997C5.03044 25.0459 5 25.2108 5 25.3754V10.5525C5 8.55592 5.0022 7.16341 5.14227 6.11276C5.27835 5.09211 5.52724 4.55162 5.90898 4.16665Z"
                 fill="white"
               />
@@ -35,11 +36,15 @@ const BookImageSwiper = ({ image }: { image: string | undefined }) => {
               />
             </svg>
           </div>
-          <img
-            className="w-[80%] md:w-[360.63px] h-[80%] md:h-[504.38px] rounded-[15px] md:rounded-[30.26px] object-cover"
-            src={image || "https://placehold.co/361x504"}
-            alt="Book cover"
-          />
+          <div className="relative w-[85%] md:w-[80%] h-[85%] md:h-[80%] transition-all duration-300 hover:scale-105">
+            <img
+              className="w-full h-full rounded-[15px] md:rounded-[25px] object-cover shadow-md transition-all duration-300"
+              src={image || "https://placehold.co/361x504"}
+              alt="Book cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 rounded-[15px] md:rounded-[25px] shadow-inner pointer-events-none"></div>
+          </div>
         </div>
       </div>
     </div>

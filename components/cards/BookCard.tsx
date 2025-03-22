@@ -1,5 +1,8 @@
+"use client";
+
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Props {
   title?: string;
@@ -7,10 +10,17 @@ interface Props {
   price?: number;
   image?: string;
   id?: number;
+  is_favorite?: boolean;
 }
 
-const BookCard = ({ title, author, price, image, id }: Props) => {
+const BookCard = ({ title, author, price, image, id, is_favorite }: Props) => {
   const { addToFavorites } = useAddToFavorites();
+  const [isFav, setIsFav] = useState(is_favorite);
+
+  useEffect(() => {
+    setIsFav(is_favorite);
+  }, [is_favorite]);
+
   return (
     <div className="w-[200px] h-[352px] p-[7px] bg-white rounded-[18px] shadow-md border border-[#f1f1f2] overflow-hidden flex flex-col">
       <Link href={`/books/${id}`}>
@@ -24,6 +34,7 @@ const BookCard = ({ title, author, price, image, id }: Props) => {
             onClick={(e) => {
               e.preventDefault();
               addToFavorites(id?.toString() || null, "books");
+              setIsFav((prev) => !prev);
             }}
             className="absolute top-2 left-2 cursor-pointer z-50"
           >
@@ -36,7 +47,7 @@ const BookCard = ({ title, author, price, image, id }: Props) => {
             >
               <path
                 d="M3.12158 12.0092C3.12158 18.3077 8.32757 21.6641 12.1385 24.6683C13.4832 25.7284 14.7784 26.7266 16.0737 26.7266C17.3689 26.7266 18.6641 25.7284 20.0088 24.6683C23.8197 21.6641 29.0257 18.3077 29.0257 12.0092C29.0257 5.71073 21.9019 1.24395 16.0737 7.29926C10.2454 1.24395 3.12158 5.71073 3.12158 12.0092Z"
-                fill="#F1F1F2"
+                fill={isFav ? "red" : "#F1F1F2"}
               />
             </svg>
           </div>

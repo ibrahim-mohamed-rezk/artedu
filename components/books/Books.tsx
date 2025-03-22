@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import BookCard from "../cards/BookCard";
 import { getData } from "@/libs/axios/backendServer";
+import { useAppSelector } from "@/libs/store/hooks";
 
 interface Book {
   name: string;
@@ -10,18 +11,26 @@ interface Book {
   image: string;
   price: number;
   id: number;
+  is_favorite: boolean;
 }
 
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
+  const { token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const response = await getData("books-api");
+      const response = await getData(
+        "books-api",
+        {},
+        {
+          authorization: `Bearer ${token}`,
+        }
+      );
       setBooks(response.data.items);
     };
     fetchBooks();
-  }, []);
+  }, [token]);
 
   return (
     <div className="w-full ">
@@ -82,6 +91,7 @@ const Books = () => {
                 price={book?.price}
                 image={book?.image}
                 id={book?.id}
+                is_favorite={book?.is_favorite}
               />
             ))}
           </div>

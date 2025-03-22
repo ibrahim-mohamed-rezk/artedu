@@ -12,6 +12,7 @@ interface course {
   teacher: string;
   price: number;
   id: number;
+  is_favorite: boolean;
 }
 
 const CoursesContainer = () => {
@@ -67,6 +68,7 @@ const CoursesContainer = () => {
                 price={course?.price}
                 courseId={course?.id}
                 type={"courses"}
+                is_favorite={course?.is_favorite}
               />
             </SwiperSlide>
           );

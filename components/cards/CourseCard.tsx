@@ -1,5 +1,9 @@
+"use client";
+
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
+import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface Props {
   courseName: string;
@@ -9,6 +13,7 @@ interface Props {
   price: number;
   courseId: number;
   type: string;
+  is_favorite: boolean;
 }
 
 const CourseCard = ({
@@ -19,8 +24,14 @@ const CourseCard = ({
   price,
   courseId,
   type,
+  is_favorite,
 }: Props) => {
   const { addToFavorites } = useAddToFavorites();
+  const [isFav, setIsFav] = useState(is_favorite);
+
+  useEffect(() => {
+    setIsFav(is_favorite);
+  }, [is_favorite]);
   return (
     <Link href={`/${type}/${courseId}`}>
       <div className="w-[235px] h-[330px] relative bg-white rounded-[30px] shadow-md border-2 border-[#f1f1f2] overflow-hidden">
@@ -66,10 +77,14 @@ const CourseCard = ({
             </div>
           </div>
         </div>
-        <div onClick={(e) => {
-          e.preventDefault();
-          addToFavorites(courseId?.toString() || null, "courses");
-        }} className="absolute top-4 left-4 cursor-pointer z-50">
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            addToFavorites(courseId?.toString() || null, "courses");
+            setIsFav((prev) => !prev);
+          }}
+          className="absolute top-4 left-4 cursor-pointer z-50"
+        >
           <svg
             width="37"
             height="37"
@@ -79,7 +94,7 @@ const CourseCard = ({
           >
             <path
               d="M3.28369 14.412C3.28369 21.8017 9.39159 25.7395 13.8627 29.2642C15.4405 30.508 16.96 31.679 18.4796 31.679C19.9992 31.679 21.5188 30.508 23.0966 29.2642C27.5677 25.7395 33.6756 21.8017 33.6756 14.412C33.6756 7.0223 25.3176 1.78168 18.4796 8.88604C11.6417 1.78168 3.28369 7.0223 3.28369 14.412Z"
-              fill="#F1F1F2"
+              fill={isFav ? "red" : "#F1F1F2"}
             />
           </svg>
         </div>

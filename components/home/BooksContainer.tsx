@@ -11,6 +11,7 @@ interface Book {
   image: string;
   price: number;
   id: number;
+  is_favorite: boolean;
 }
 
 const BooksContainer = () => {
@@ -62,6 +63,7 @@ const BooksContainer = () => {
                 price={book?.price}
                 image={book?.image}
                 id={book?.id}
+                is_favorite={book?.is_favorite}
               />
             </SwiperSlide>
           );
