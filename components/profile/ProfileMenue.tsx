@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { userMenueItems } from "@/libs/helpers/userMenueItems";
+import "@/public/css/navbar.css";
 
 const ProfileMenue = () => {
   const pathname = usePathname();
@@ -68,7 +69,7 @@ const ProfileMenue = () => {
                 {item.text}
               </div>
               <div className={`origin-center`}>
-                <div dangerouslySetInnerHTML={{ __html: item.icon }} />
+                <div className="rounded-full bg-white flex items-center justify-center w-[32px] p-1 h-[32px] " dangerouslySetInnerHTML={{ __html: item.icon }} />
               </div>
             </div>
           </button>

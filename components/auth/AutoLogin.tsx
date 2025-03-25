@@ -4,18 +4,15 @@ import { useAppDispatch } from "@/libs/store/hooks";
 import { autoLogin, setToken } from "@/libs/store/slices/userSlice";
 import { useEffect } from "react";
 
-const AutoLogin = () => {
+const AutoLogin = ({ token }: { token: string | null }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token: string | null = localStorage.getItem("token");
-      if (token) {
-        dispatch(autoLogin(token));
-        dispatch(setToken(token));
-      }
+    if (token) {
+      dispatch(autoLogin(token));
+      dispatch(setToken(token));
     }
-  }, []);
+  }, [token]);
 
   return null;
 };

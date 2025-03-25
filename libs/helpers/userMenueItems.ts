@@ -86,7 +86,13 @@ export const userMenueItems: MenuItem[] = [
 `,
     text: "تسجيل الخروج",
     color: "text-[#ff1212]",
-    fun: () => localStorage.removeItem("token"),
+    fun: async () => {
+      await fetch("/api/auth/removeToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      localStorage.removeItem("token");
+    },
     url: "/login",
   },
 ];

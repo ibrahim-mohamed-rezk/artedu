@@ -34,6 +34,13 @@ const VerifyCode = () => {
       formData.append("code", code);
       const response = await postData("verify-code-register", formData);
       toast.success("تم التحقق من الهاتف بنجاح");
+
+      await fetch("/api/auth/setToken", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token: response.token }),
+      });
+
       if (typeof window !== "undefined") {
         localStorage.removeItem("phone");
         localStorage.setItem("token", response.token);
@@ -50,12 +57,12 @@ const VerifyCode = () => {
   const handleInputChange = (index: number, value: string) => {
     if (value.length <= 1) {
       // Create array from current code
-      const codeArray = code.split('');
+      const codeArray = code.split("");
       // Update the value at specific index
       codeArray[index] = value;
       // Join back to string and trim to max 4 chars
-      setCode(codeArray.join('').slice(0, 4));
-      
+      setCode(codeArray.join("").slice(0, 4));
+
       // Move focus to next input
       if (value && index < 3) {
         const inputs = document.querySelectorAll('input[type="text"]');
@@ -77,7 +84,11 @@ const VerifyCode = () => {
         <div className="bg-white rounded-3xl w-full max-w-[534px] flex items-center justify-center flex-col p-4 md:p-8">
           <div className="flex w-full items-center justify-center flex-col gap-4 md:gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <img src="/images/logo.png" alt="logo" className="h-10 md:h-auto" />
+              <img
+                src="/images/logo.png"
+                alt="logo"
+                className="h-10 md:h-auto"
+              />
             </Link>
           </div>
 
@@ -105,12 +116,19 @@ const VerifyCode = () => {
                           key={index}
                           type="text"
                           maxLength={1}
-                          value={code[index] || ''}
+                          value={code[index] || ""}
                           className="w-full h-[40px] md:h-[60px] bg-[#f2f2f2] border border-gray-200 rounded-xl text-center text-lg md:text-2xl font-sst-arabic focus:outline-none focus:border-[#239d60] focus:bg-white"
-                          onChange={(e) => handleInputChange(index, e.target.value)}
+                          onChange={(e) =>
+                            handleInputChange(index, e.target.value)
+                          }
                           onKeyDown={(e) => {
-                            if (e.key === 'Backspace' && !code[index] && index > 0) {
-                              const inputs = document.querySelectorAll('input[type="text"]');
+                            if (
+                              e.key === "Backspace" &&
+                              !code[index] &&
+                              index > 0
+                            ) {
+                              const inputs =
+                                document.querySelectorAll('input[type="text"]');
                               (inputs[index - 1] as HTMLInputElement)?.focus();
                             }
                           }}

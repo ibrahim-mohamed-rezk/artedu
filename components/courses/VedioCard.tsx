@@ -7,9 +7,13 @@ interface Module {
   };
 }
 
-const VedioCard = ({ module }: { module: Module }) => {
+const VedioCard = ({ module, index }: { module: Module; index: number }) => {
   return (
-    <div className="bg-white rounded-[22px] shadow-sm border border-[#f1f1f2] p-4 w-full">
+    <div
+      className={` rounded-[22px] shadow-sm border border-[#f1f1f2] p-4 w-full ${
+        index !== 0 ? "opacity-70 cursor-not-allowed bg-gray-100" : "bg-white"
+      }`}
+    >
       <div className="flex flex-row items-center md:items-start gap-4">
         <div
           style={{ backgroundImage: `url(${module?.details?.thumbnail})` }}
@@ -43,7 +47,7 @@ const VedioCard = ({ module }: { module: Module }) => {
           <h3 className="text-black text-sm font-bold mt-1 text-center md:text-right">
             {module?.details?.title}
           </h3>
-          <button className="mt-4 bg-[#E55604] text-white text-sm rounded-full px-6 md:px-9 py-2 w-full md:w-auto">
+          <button className={`mt-4 bg-[#E55604] text-white text-sm rounded-full px-6 md:px-9 py-2 w-full md:w-auto ${index !== 0 ? "opacity-70 cursor-not-allowed" : ""}`}>
             مشاهدة
           </button>
         </div>

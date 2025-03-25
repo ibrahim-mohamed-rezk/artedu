@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { getData } from "@/libs/axios/backendServer";
 import VedioCard from "./VedioCard";
 import ExamCard from "./ExamCard";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import "@/public/css/course.css";
+import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
+import { useAppSelector } from "@/libs/store/hooks";
 
 interface Course {
   id: number;
@@ -16,6 +18,7 @@ interface Course {
   teacher: string;
   subject: string;
   image: string;
+  is_favorite: boolean;
   modules: Module[];
 }
 
@@ -42,12 +45,23 @@ const Course = () => {
   const [openModuleData, setOpenModuleData] = useState<Module | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [videoRun, setVideoRun] = useState<boolean>(false);
+  const router = useRouter();
+
+  const { addToFavorites } = useAddToFavorites();
+  const { token } = useAppSelector((state) => state.user);
+  const [isFav, setIsFav] = useState<boolean>(course.is_favorite);
 
   //   get course data from backend
   useEffect(() => {
     const fetchCourseData = async () => {
       try {
-        const response = await getData(`course/show/${courseId}`);
+        const response = await getData(
+          `course/show/${courseId}`,
+          {},
+          {
+            authorization: `Bearer ${token}`,
+          }
+        );
         setCourse(response.data);
         setOpenedModuleId(response.data.modules[0].id);
       } catch (error) {
@@ -56,7 +70,12 @@ const Course = () => {
     };
 
     fetchCourseData();
-  }, [courseId]);
+  }, [courseId, token]);
+
+  useEffect(() => {
+    setIsFav(course.is_favorite);
+  }, [course, courseId]);
+
 
   //   get curren module data
   useEffect(() => {
@@ -92,10 +111,20 @@ const Course = () => {
     };
   }, [videoRef, videoRun, openedModuleId, course]);
 
+  // handle course purchase 
+  const handlePurchase = () => {
+    if (!token) {
+      router.push("/login");
+    }
+    else {
+     router.push(`/payments/course/${courseId}`); 
+    }
+  };
+
   return (
     <div className=" w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto bg-white rounded-xl overflow-hidden">
       <div className=" w-full mx-auto py-8 flex flex-col lg:flex-row gap-8">
-        <div className="w-full order-2 lg:order-1 lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
+        <div className="w-full h-fit order-2 lg:order-1 lg:w-1/3 bg-white rounded-[25px] shadow-md border border-[#f1f1f2] overflow-hidden">
           <div className="bg-[#26577c]/10 p-4">
             <h2 className="text-right text-[#26577c] text-xl font-medium">
               المحتوي
@@ -104,7 +133,7 @@ const Course = () => {
           <div className="p-4 space-y-4">
             <p className="text-right text-[#26577c] text-sm">{course?.title}</p>
             <div className="space-y-4">
-              {course?.modules?.map((module) => {
+              {course?.modules?.map((module, index) => {
                 if (module?.type === "video") {
                   return (
                     <div
@@ -112,17 +141,13 @@ const Course = () => {
                       key={module.id}
                       className="cursor-pointer"
                     >
-                      <VedioCard module={module} />
+                      <VedioCard index={index} module={module} />
                     </div>
                   );
                 } else if (module?.type === "exam") {
                   return (
-                    <div
-                      onClick={() => setOpenedModuleId(module.id)}
-                      key={module.id}
-                      className="cursor-pointer"
-                    >
-                      <ExamCard />
+                    <div key={module.id} className="cursor-pointer">
+                      <ExamCard module={module} />
                     </div>
                   );
                 }
@@ -211,7 +236,7 @@ const Course = () => {
           )}
 
           {/* open exam screen */}
-          {openModuleData && openedModuleType === "exam" && (
+          {/* {openModuleData && openedModuleType === "exam" && (
             <div className=" flex items-center justify-center overflow-hidden rounded-[58px]">
               <img
                 className="w-full h-full"
@@ -219,7 +244,7 @@ const Course = () => {
                 alt=""
               />
             </div>
-          )}
+          )} */}
 
           {/* Course title and price */}
           <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
@@ -227,7 +252,13 @@ const Course = () => {
             <div className="space-y-2 order-2 lg:order-1 w-full lg:w-auto">
               <div className="flex flex-row items-center justify-between lg:justify-start gap-5 lg:gap-[35px]">
                 <div className="flex items-center justify-center gap-3">
-                  <button className="flex items-center justify-center border-[3px] border-[#E55604] w-[50px] h-[50px] lg:w-[76px] lg:h-[66px] rounded-[8px] lg:rounded-[14px]  ">
+                  <button
+                    onClick={() => {
+                      addToFavorites(course.id.toString(), "courses");
+                      setIsFav((prev) => !prev);
+                    }}
+                    className="flex items-center justify-center border-[3px] border-[#E55604] w-[50px] h-[50px] lg:w-[76px] lg:h-[66px] rounded-[8px] lg:rounded-[14px]  "
+                  >
                     <svg
                       width="38"
                       height="38"
@@ -237,11 +268,13 @@ const Course = () => {
                     >
                       <path
                         d="M3.09766 14.5654C3.09766 22.098 9.32367 26.112 13.8812 29.7048C15.4895 30.9726 17.0385 32.1663 18.5875 32.1663C20.1364 32.1663 21.6854 30.9726 23.2937 29.7048C27.8512 26.112 34.0772 22.098 34.0772 14.5654C34.0772 7.03283 25.5576 1.69087 18.5875 8.93261C11.6173 1.69087 3.09766 7.03283 3.09766 14.5654Z"
-                        fill="#E55604"
+                        fill={isFav ? "#E55604" : "none"}
+                        stroke={"#E55604"}
+                        strokeWidth="3"
                       />
                     </svg>
                   </button>
-                  <button className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center">
+                  <button onClick={handlePurchase} className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center">
                     اشتري الان
                   </button>
                 </div>
@@ -251,7 +284,7 @@ const Course = () => {
                       جنيه
                     </div>
                     <div className=" mb-[-5px] text-right text-[#26577c] text-[25px] font-bold font-sst-arabic capitalize">
-                      350
+                      {course?.price || 0}
                     </div>
                   </div>
                   <div className=" text-right text-black text-xs font-medium font-sst-arabic">
@@ -267,7 +300,7 @@ const Course = () => {
                 الدرس الاول
               </div>
               <div className="self-stretch text-right text-black text-[24.81px] font-bold font-sst-arabic leading-9 tracking-tight">
-                المعالجه علي التوازي
+                {course?.title || ""}
               </div>
             </div>
           </div>
@@ -293,14 +326,7 @@ const Course = () => {
               </svg>
             </h2>
             <p className="text-right  px-4 text-black leading-relaxed font-sst-arabic">
-              المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا المراجعة
-              الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا المراجعة الشهرية
-              التانية لطلاب تالتة ثانوي تابعوها مجانا المراجعة الشهرية التانية
-              لطلاب تالتة ثانوي تابعوها مجانا المراجعة الشهرية التانية لطلاب
-              تالتة ثانوي تابعوها مجانا المراجعة الشهرية التانية لطلاب تالتة
-              ثانوي تابعوها مجانا المراجعة الشهرية التانية لطلاب تالتة ثانوي
-              تابعوها مجانا المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها
-              مجانا
+              {course?.description || ""}
             </p>
           </div>
         </div>

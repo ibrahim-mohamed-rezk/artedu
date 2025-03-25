@@ -65,8 +65,8 @@ const Navbar = () => {
             ? `fixed right-0 top-0 h-[100vh] overflow-auto w-[300px] transform gap-[10px] ${
                 isOpen ? "translate-x-0" : "translate-x-full"
               } transition-transform duration-300 ease-in-out z-40 `
-            : "w-[120px] order-10 gap-[30px]"
-        } pt-[40px] pb-[40px] bg-[#fff2eb] z-[9000] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-start items-center `}
+            : "w-[120px] h-[100vh] min-h-[750px] order-10 gap-[30px]"
+        } pt-[40px] pb-[40px] bg-[#fff2eb] z-[9000] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-between items-center `}
       >
         {/* close mobile menu button  */}
         {isOpen && (
@@ -106,12 +106,12 @@ const Navbar = () => {
               {/* profile menue */}
               {showProfileMenue && !isMobile && (
                 <div className="absolute z-[9000] top-[-15px] right-[80px]">
-                  <div className="w-[430px] h-[748px] relative">
+                  <div className="w-[430px] h-[770px] relative">
                     <div data-svg-wrapper className="left-0 top-0 absolute">
                       <svg
                         width="431"
-                        height="748"
-                        viewBox="0 0 431 748"
+                        height="770"
+                        viewBox="0 0 431 770"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -123,7 +123,7 @@ const Navbar = () => {
                         />
                       </svg>
                     </div>
-                    <div className="h-[695.95px] left-[25px] top-[27px] absolute flex-col justify-start items-start gap-[30px] inline-flex">
+                    <div className="left-[25px] top-[27px] absolute flex-col justify-start items-start gap-[10px] inline-flex">
                       <div className="self-stretch justify-start items-center gap-[65.04px] inline-flex">
                         <div className="grow shrink basis-0 h-[65.04px] justify-start items-center gap-[16.26px] flex">
                           <div className="grow shrink basis-0 flex-col justify-start items-end gap-[10.84px] inline-flex">
@@ -186,6 +186,14 @@ const Navbar = () => {
                 </div>
               )}
             </div>
+
+            {/* profile menue overlay  */}
+            {showProfileMenue && !isMobile && (
+              <div
+                onClick={() => setShowProfileMenue(false)}
+                className="fixed z-[8000] w-[100vw] h-[100vh] top-0 left-0 bottom-0 right-0 bg-[#0000003b]"
+              ></div>
+            )}
 
             <div className="relative">
               <svg
@@ -285,7 +293,7 @@ const Navbar = () => {
           </div>
         ) : (
           <div
-            className={`flex-col justify-center items-center  mt-[70px] flex overflow-hidden ${
+            className={`flex-col justify-center items-center flex overflow-hidden ${
               isMobile ? "gap-[15px]" : "gap-[30px]"
             }`}
           >
@@ -294,7 +302,7 @@ const Navbar = () => {
                 <Link
                   key={item.label}
                   href={item.url}
-                  className="pl-2 pr-2 py-2 rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
+                  className="rounded-[10px] flex-col justify-center items-center gap-2 inline-flex"
                 >
                   <div className="flex-col justify-start items-center gap-2 inline-flex">
                     <div className="w-[40px] h-[40px] flex items-center justify-center relative overflow-hidden">
@@ -329,7 +337,7 @@ const Navbar = () => {
         <Link
           href={"/"}
           className={`flex-col justify-center  items-center gap-2 flex ${
-            isMobile ? "mt-[20px]" : "mt-[100px]"
+            isMobile ? "mt-[20px]" : ""
           }`}
         >
           <div className="w-[50px] h-[50px] ">

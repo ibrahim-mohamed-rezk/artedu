@@ -114,17 +114,6 @@ const Signup = ({ className = "" }: LoginProps) => {
       !parentPhone
     ) {
       toast.error("يرجى ملء جميع الحقول المطلوبة");
-      console.log(
-        fullName,
-        phone,
-        password,
-        rePassword,
-        educationalStage,
-        governorate,
-        area,
-        schoolName,
-        parentPhone
-      );
       return;
     }
 

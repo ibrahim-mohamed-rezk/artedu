@@ -29,6 +29,13 @@ const Login = ({ className = "" }: LoginProps) => {
       const response = await postData("login-api", formData);
 
       if (response) {
+        // set token in cookies
+        await fetch("/api/auth/setToken", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: response.token }),
+        });
+
         // تأكد أن الكود يعمل في المتصفح فقط
         if (typeof window !== "undefined") {
           localStorage.setItem("token", response.token);
