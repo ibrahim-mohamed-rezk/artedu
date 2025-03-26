@@ -1,6 +1,9 @@
 import { redirect } from "next/navigation";
 import ProfileHeader from "../profile/ProfileHeader";
 import { cookies } from "next/headers";
+import { getData } from "@/libs/axios/backendServer";
+import PaymentCourse from "./PaymentCourse";
+import PaymentBook from "./PaymentBook";
 
 const Payments = async ({
   params,
@@ -18,7 +21,22 @@ const Payments = async ({
     redirect("/login");
   }
 
+  const fetchCartData = async () => {
+    try {
+      const response = await getData(
+        `${params.type}/show/${params.itemId}`,
+        {},
+        { Authorization: `Bearer ${token}` }
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const cartData = await fetchCartData();
+
+  console.log(cartData);
 
   return (
     <div className="w-full">
@@ -26,61 +44,30 @@ const Payments = async ({
         <ProfileHeader title="العربة " />
         <div className="flex flex-col w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto lg:flex-row gap-8 md:px-[50px] mt-4">
           <div className="w-full lg:w-2/3">
-            <div className="bg-white rounded-[20px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] p-6 mb-8">
-              <div className="flex flex-col md:flex-row gap-6">
-                <img
-                  className="w-full md:w-1/3 rounded-3xl"
-                  src="https://placehold.co/183x106"
-                  alt="Product"
-                />
-                <div className="flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 text-[#26577c] text-sm mb-2">
-                      <span>لغة عربية</span>
-                      <svg
-                        width="11"
-                        height="10"
-                        viewBox="0 0 11 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M6.87943 1.84144C7.01014 1.95348 7.02528 2.15026 6.91324 2.28098L4.59337 4.98749L6.91324 7.694C7.02528 7.82471 7.01014 8.0215 6.87943 8.13354C6.74871 8.24557 6.55193 8.23044 6.43989 8.09973L3.94614 5.19035C3.84608 5.07362 3.84608 4.90136 3.94614 4.78462L6.43989 1.87525C6.55193 1.74454 6.74871 1.7294 6.87943 1.84144Z"
-                          fill="#26577C"
-                        />
-                      </svg>
-                      <span>ا.وائل عيسي</span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-4">
-                      بنك اسئلة الباب الاول
-                    </h3>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[#26577c] text-lg font-bold">
-                      350 جنيه
-                    </span>
-                    <span className="text-black text-lg">السعر :</span>
-                  </div>
-                </div>
-              </div>
+            <div className="bg-white rounded-[20px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2]">
+              {params.type === "course" ? (
+                <PaymentCourse cartData={cartData} />
+              ) : params.type === "book" ? (
+                <PaymentBook cartData={cartData} />
+              ) : (
+                redirect("/")
+              )} 
             </div>
 
-            <div className="bg-white rounded-[20px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] p-6">
-              <form className="space-y-6">
+            <div className="bg-white rounded-[20px] mt-[10px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] p-6">
+              <form  className="space-y-6">
                 <div>
-                  <label className="block text-[#e55604] text-sm mb-2">
+                  <label className="block text-[#e55604] text-sm mb-2 w-full text-end">
                     الاسم كامل
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-[#e55604] rounded-[15px]"
+                    className="w-full text-end px-4 py-2 border border-[#e55604] rounded-[15px]"
                     placeholder="نور محمد"
                   />
                 </div>
                 <div>
-                  <label className="block text-[#6c7278] text-sm mb-2">
+                  <label className="block text-[#6c7278] text-sm mb-2 w-full text-end">
                     رقم الهاتف
                   </label>
                   <div className="flex items-center border border-[#f1f1f2] rounded-[15px] overflow-hidden">
@@ -109,13 +96,13 @@ const Payments = async ({
                     </div>
                     <input
                       type="tel"
-                      className="flex-1 px-4 py-2"
+                      className="flex-1 px-4 py-2 text-end"
                       placeholder="10 182 608 56"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[#6c7278] text-sm mb-2">
+                  <label className="block text-[#6c7278] text-sm mb-2 w-full text-end">
                     رقم هاتف احطياطي
                   </label>
                   <div className="flex items-center border border-[#f1f1f2] rounded-[15px] overflow-hidden">
@@ -144,34 +131,34 @@ const Payments = async ({
                     </div>
                     <input
                       type="tel"
-                      className="flex-1 px-4 py-2"
+                      className="flex-1 px-4 py-2 text-end"
                       placeholder="10 182 608 56"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-[#6c7278] text-sm mb-2">
+                  <label className="block text-[#6c7278] text-sm mb-2 w-full text-end">
                     المحافظة
                   </label>
-                  <select className="w-full px-4 py-2 border border-[#f1f1f2] rounded-[15px] appearance-none bg-white">
+                  <select className="w-full text-end px-4 py-2 border border-[#f1f1f2] rounded-[15px] appearance-none bg-white">
                     <option>ادخل محافظتك</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[#6c7278] text-sm mb-2">
+                  <label className="block text-[#6c7278] text-sm mb-2 w-full text-end">
                     المنطقة
                   </label>
-                  <select className="w-full px-4 py-2 border border-[#f1f1f2] rounded-[15px] appearance-none bg-white">
+                  <select className="w-full text-end px-4 py-2 border border-[#f1f1f2] rounded-[15px] appearance-none bg-white">
                     <option>ادخل منطقتك</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[#6c7278] text-sm mb-2">
+                  <label className="block text-[#6c7278] text-sm mb-2 w-full text-end">
                     تفاصيل العنوان
                   </label>
                   <input
                     type="text"
-                    className="w-full px-4 py-2 border border-[#f1f1f2] rounded-[15px]"
+                    className="w-full text-end px-4 py-2 border border-[#f1f1f2] rounded-[15px]"
                     placeholder="ادخل اسم المدرسه"
                   />
                 </div>
@@ -212,7 +199,7 @@ const Payments = async ({
               <div className="mt-8">
                 <input
                   type="text"
-                  className="w-full px-4 py-3 border border-[#f1f1f2] rounded-[15px] mb-4"
+                  className="w-full text-end px-4 py-3 border border-[#f1f1f2] rounded-[15px] mb-4"
                   placeholder="كوبون الخصم"
                 />
                 <button className="w-full bg-[#e55604] text-white py-3 rounded-[15px] font-bold">

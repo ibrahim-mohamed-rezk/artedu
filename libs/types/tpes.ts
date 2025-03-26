@@ -16,10 +16,44 @@ export interface Books {
 
 export interface Courses {
   id: number;
-  name: string;
+  cour_no: string;
+  title: string;
   description: string;
+  meta_description: string;
+  meta_keywords: string;
   image: string;
-  price: number;
-  count: number;
+  cover: string;
+  price: number | null;
+  level: string;
+  subject: string;
+  teacher: string | null;
+  teacher_id: number;
   is_favorite: boolean;
+  is_purchased: boolean;
+  modules: Array<{
+    details: {
+      course_id: number;
+      course_name: string;
+      created_at: string;
+      description: string;
+      has_quiz: boolean;
+      id: number;
+      quiz: Array<{
+        created_at: string;
+        id: number;
+        questions: Array<{
+          correct_answer: number;
+          exam: string;
+          id: number;
+          options: Array<any>;
+          question: string;
+        }>;
+        questions_count: number;
+        thumbnail: string;
+        title: string;
+        type: string;
+      }>;
+    };
+  }>;
+  created_at: string;
 }

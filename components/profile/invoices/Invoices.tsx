@@ -53,9 +53,8 @@ const Invoices = () => {
               </div>
 
               <div className="w-full flex flex-wrap items-center justify-end gap-6">
-                {[1, 2, 3].map((_, idx) => {
-                  console.log(_)
-                  return <FavoriteCard key={idx} />;
+                {invoices.map((item, idx) => {
+                  return <FavoriteCard item={item} type="courses" key={idx} />;
                 })}
               </div>
             </div>
