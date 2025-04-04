@@ -34,6 +34,7 @@ interface Module {
     thumbnail: string;
     title: string;
     url: string;
+    from: string;
   };
 }
 
@@ -63,6 +64,7 @@ const Course = () => {
           }
         );
         setCourse(response.data);
+        console.log(response.data);
         setOpenedModuleId(response.data.modules[0].id);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -75,7 +77,6 @@ const Course = () => {
   useEffect(() => {
     setIsFav(course.is_favorite);
   }, [course, courseId]);
-
 
   //   get curren module data
   useEffect(() => {
@@ -111,13 +112,12 @@ const Course = () => {
     };
   }, [videoRef, videoRun, openedModuleId, course]);
 
-  // handle course purchase 
+  // handle course purchase
   const handlePurchase = () => {
     if (!token) {
       router.push("/login");
-    }
-    else {
-     router.push(`/payments/course/${courseId}`); 
+    } else {
+      router.push(`/payments/course/${courseId}`);
     }
   };
 
@@ -161,77 +161,91 @@ const Course = () => {
           {/* open video screen */}
           {openModuleData && openedModuleType === "video" && (
             <div className="relative flex items-center justify-center bg-black/20 rounded-[58px] aspect-video cursor-pointer video-player">
-              <video
-                className=" w-full rounded-[10px] lg:rounded-[30px] object-cover"
-                controls
-                src={openModuleData?.details?.url}
-                ref={videoRef}
-              >
-                Your browser does not support the video tag.
-              </video>
-
-              <div className="absolute w-[180px] h-[180px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                <button
-                  onClick={() => {
-                    if (videoRef.current) {
-                      if (videoRef.current.paused) {
-                        videoRef.current.play();
-                        setVideoRun(true);
-                      } else {
-                        videoRef.current.pause();
-                        setVideoRun(false);
-                      }
-                    }
-                  }}
-                  className="focus:outline-none play-button"
-                >
-                  {videoRun ? (
-                    <svg
-                      width="182"
-                      height="182"
-                      viewBox="0 0 512 512"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
+              {openModuleData?.details?.from === "youtube" ? (
+                <iframe
+                  width="100%"
+                  height="100%"
+                  className="rounded-[10px] lg:rounded-[30px] object-cover"
+                  src={openModuleData?.details?.url}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <>
+                  <video
+                    className=" w-full rounded-[10px] lg:rounded-[30px] object-cover"
+                    controls
+                    src={openModuleData?.details?.url}
+                    ref={videoRef}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                  <div className="absolute w-[180px] h-[180px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                    <button
+                      onClick={() => {
+                        if (videoRef.current) {
+                          if (videoRef.current.paused) {
+                            videoRef.current.play();
+                            setVideoRun(true);
+                          } else {
+                            videoRef.current.pause();
+                            setVideoRun(false);
+                          }
+                        }
+                      }}
+                      className="focus:outline-none play-button"
                     >
-                      <rect
-                        width="512"
-                        height="512"
-                        rx="256"
-                        fill="#D9D9D9"
-                        fillOpacity="0.2"
-                      />
-                      <path
-                        d="M144 128C117.5 128 96 149.5 96 176V336C96 362.5 117.5 384 144 384H176C202.5 384 224 362.5 224 336V176C224 149.5 202.5 128 176 128H144ZM336 128C309.5 128 288 149.5 288 176V336C288 362.5 309.5 384 336 384H368C394.5 384 416 362.5 416 336V176C416 149.5 394.5 128 368 128H336Z"
-                        fill="#D9D9D9"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      width="182"
-                      height="182"
-                      viewBox="0 0 182 182"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
-                    >
-                      <rect
-                        x="0.447266"
-                        y="0.368622"
-                        width="181.241"
-                        height="181.241"
-                        rx="90.6203"
-                        fill="#D9D9D9"
-                        fillOpacity="0.2"
-                      />
-                      <path
-                        d="M66.6808 49.7506L138.975 90.4882L67.548 132.728L66.6808 49.7506Z"
-                        fill="#D9D9D9"
-                      />
-                    </svg>
-                  )}
-                </button>
-              </div>
+                      {videoRun ? (
+                        <svg
+                          width="182"
+                          height="182"
+                          viewBox="0 0 512 512"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
+                        >
+                          <rect
+                            width="512"
+                            height="512"
+                            rx="256"
+                            fill="#D9D9D9"
+                            fillOpacity="0.2"
+                          />
+                          <path
+                            d="M144 128C117.5 128 96 149.5 96 176V336C96 362.5 117.5 384 144 384H176C202.5 384 224 362.5 224 336V176C224 149.5 202.5 128 176 128H144ZM336 128C309.5 128 288 149.5 288 176V336C288 362.5 309.5 384 336 384H368C394.5 384 416 362.5 416 336V176C416 149.5 394.5 128 368 128H336Z"
+                            fill="#D9D9D9"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          width="182"
+                          height="182"
+                          viewBox="0 0 182 182"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
+                        >
+                          <rect
+                            x="0.447266"
+                            y="0.368622"
+                            width="181.241"
+                            height="181.241"
+                            rx="90.6203"
+                            fill="#D9D9D9"
+                            fillOpacity="0.2"
+                          />
+                          <path
+                            d="M66.6808 49.7506L138.975 90.4882L67.548 132.728L66.6808 49.7506Z"
+                            fill="#D9D9D9"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -274,7 +288,10 @@ const Course = () => {
                       />
                     </svg>
                   </button>
-                  <button onClick={handlePurchase} className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center">
+                  <button
+                    onClick={handlePurchase}
+                    className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center"
+                  >
                     اشتري الان
                   </button>
                 </div>
