@@ -134,7 +134,7 @@ const Course = () => {
             <p className="text-right text-[#26577c] text-sm">{course?.title}</p>
             <div className="space-y-4">
               {course?.modules?.map((module, index) => {
-                if (module?.type === "video") {
+                if (index === 0) {
                   return (
                     <div
                       onClick={() => setOpenedModuleId(module.id)}
@@ -144,14 +144,11 @@ const Course = () => {
                       <VedioCard index={index} module={module} />
                     </div>
                   );
-                } else if (module?.type === "exam") {
-                  return (
-                    <div key={module.id} className="cursor-pointer">
-                      <ExamCard module={module} />
-                    </div>
-                  );
                 }
               })}
+              {Array.from({ length: 3 }).map((_, index) => (
+                <ExamCard key={index} />
+              ))}
             </div>
           </div>
         </div>
