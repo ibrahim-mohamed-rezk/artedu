@@ -23,42 +23,46 @@ export default async function RootLayout({
     <html lang="en">
       <head>
         <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "ArtEdu",
+              description: "{{ settings('meta_description_en') }}",
+              telephone: "+2{{ settings('phone') }}",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Downtown, Cairo, Egypt",
+                addressLocality: "Cairo",
+                addressRegion: "Cairo",
+                postalCode: "11511",
+                addressCountry: "Egypt",
+              },
+              url: "https://artedu-plum.vercel.app/",
+              logo: "https://artedu-plum.vercel.app/logo.png",
+              sameAs: [
+                "https://www.facebook.com/artedu",
+                "https://www.instagram.com/artedu",
+                "https://www.linkedin.com/company/artedu",
+              ],
+            }),
+          }}
+        />
+        <Script
           id="website-schema"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "EduHub Academy",
-              url: "https://example.com",
+              name: "ArtEdu",
+              url: "https://artedu-plum.vercel.app/",
               potentialAction: {
                 "@type": "SearchAction",
-                target: "https://example.com/search?q={search_term_string}",
-                "query-input": "required name=search_term_string",
-              },
-            }),
-          }}
-        />
-        <Script
-          id="product-schema"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Product",
-              name: "Corporate Training for Teams",
-              description:
-                "Customized training programs for company employees in tech and soft skills.",
-              brand: {
-                "@type": "Organization",
-                name: "EduHub for Business",
-              },
-              offers: {
-                "@type": "Offer",
-                priceCurrency: "USD",
-                price: "499",
-                availability: "https://schema.org/InStock",
-                url: "https://example.com/business-solutions",
+                target: "https://artedu-plum.vercel.app/search?q={query}",
+                "query-input": "required name=query",
               },
             }),
           }}
