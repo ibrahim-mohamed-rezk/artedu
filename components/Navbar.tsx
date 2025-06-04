@@ -256,7 +256,7 @@ const Navbar = () => {
         {/* navigation links */}
         {isMobile ? (
           <div className="self-stretch px-[5px] flex-col justify-start items-start flex">
-            {userMenueItems.map((item, index) => (
+            {isLoggedIn && userMenueItems.map((item, index) => (
               <Link
                 href={item.fun ? "/login" : item.url || ""}
                 onClick={() => {

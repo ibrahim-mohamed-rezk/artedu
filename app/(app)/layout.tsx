@@ -7,6 +7,7 @@ import Navbar from "@/components/Navbar";
 import ReduxProvider from "@/libs/store/ReduxProvider";
 import AutoLogin from "@/components/auth/AutoLogin";
 import { cookies } from "next/headers";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "ArtEdu",
@@ -20,6 +21,49 @@ export default async function RootLayout({
   const token = cookiesData.get("token");
   return (
     <html lang="en">
+      <head>
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "EduHub Academy",
+              url: "https://example.com",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://example.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
+        <Script
+          id="product-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Product",
+              name: "Corporate Training for Teams",
+              description:
+                "Customized training programs for company employees in tech and soft skills.",
+              brand: {
+                "@type": "Organization",
+                name: "EduHub for Business",
+              },
+              offers: {
+                "@type": "Offer",
+                priceCurrency: "USD",
+                price: "499",
+                availability: "https://schema.org/InStock",
+                url: "https://example.com/business-solutions",
+              },
+            }),
+          }}
+        />
+      </head>
       <body className="relative">
         <ReduxProvider>
           <AutoLogin token={token?.value || null} />

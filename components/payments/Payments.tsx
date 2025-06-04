@@ -13,10 +13,6 @@ const Payments = async ({
   const cookiesData = await cookies();
   const token = cookiesData.get("token")?.value;
 
-  console.log(params);
-
-  console.log(token);
-
   if (!token) {
     redirect("/login");
   }

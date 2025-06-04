@@ -1,8 +1,10 @@
 "use client";
 
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
+import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   title?: string;
@@ -16,6 +18,7 @@ interface Props {
 const BookCard = ({ title, author, price, image, id, is_favorite }: Props) => {
   const { addToFavorites } = useAddToFavorites();
   const [isFav, setIsFav] = useState(is_favorite);
+  const { token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     setIsFav(is_favorite);
@@ -32,9 +35,13 @@ const BookCard = ({ title, author, price, image, id, is_favorite }: Props) => {
           />
           <div
             onClick={(e) => {
-              e.preventDefault();
-              addToFavorites(id?.toString() || null, "books");
-              setIsFav((prev) => !prev);
+              if (token) {
+                e.preventDefault();
+                addToFavorites(id?.toString() || null, "books");
+                setIsFav((prev) => !prev);
+              } else {
+                toast.error("يرجى تسجيل الدخول");
+              }
             }}
             className="absolute top-2 left-2 cursor-pointer z-50"
           >

@@ -8,6 +8,7 @@ import BooksContainer from "../home/BooksContainer";
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import { useAppDispatch, useAppSelector } from "@/libs/store/hooks";
 import { getHomeData } from "@/libs/store/slices/homeSlice";
+import { toast } from "react-toastify";
 
 interface Book {
   id: number;
@@ -149,9 +150,14 @@ const Book = () => {
               <div className="w-full order-2 lg:order-last flex justify-between lg:justify-center gap-6 lg:gap-[70px] items-center mt-10 lg:mt-[100px]">
                 <div className="flex flex-row justify-end items-center gap-3 lg:gap-5 w-full lg:w-auto">
                   <button
-                    onClick={() => {
-                      addToFavorites(book?.id.toString() || "", "books");
-                      setIsFav((prev) => !prev);
+                    onClick={(e) => {
+                      if (token) {
+                        e.preventDefault();
+                        addToFavorites(book?.id.toString() || "", "books");
+                        setIsFav((prev) => !prev);
+                      } else {
+                        toast.error("يرجى تسجيل الدخول");
+                      }
                     }}
                     className="flex items-center justify-center border-[3px] border-[#E55604] w-[40px] h-[40px] lg:w-[66px] lg:h-[58px] rounded-[8px] lg:rounded-[14px]  "
                   >

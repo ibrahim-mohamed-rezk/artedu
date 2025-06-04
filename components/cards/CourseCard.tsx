@@ -1,8 +1,10 @@
 "use client";
 
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
+import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   courseName: string;
@@ -27,6 +29,7 @@ const CourseCard = ({
 }: Props) => {
   const { addToFavorites } = useAddToFavorites();
   const [isFav, setIsFav] = useState(is_favorite);
+  const { token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     setIsFav(is_favorite);
@@ -78,9 +81,13 @@ const CourseCard = ({
         </div>
         <div
           onClick={(e) => {
-            e.preventDefault();
-            addToFavorites(courseId?.toString() || null, "courses");
-            setIsFav((prev) => !prev);
+           if (token) {
+             e.preventDefault();
+             addToFavorites(courseId?.toString() || null, "courses");
+             setIsFav((prev) => !prev);
+           } else {
+             toast.error("يرجى تسجيل الدخول");
+           }
           }}
           className="absolute top-4 left-4 cursor-pointer z-50"
         >
