@@ -57,3 +57,16 @@ export interface Courses {
   }>;
   created_at: string;
 }
+
+export interface BlogTypes {
+  id: number;
+  user_id: number;
+  title: string;
+  slug: string;
+  description: string;
+  content: string;
+  image: string;
+  meta_description: string | null;
+  meta_keywords: string | null;
+  created_at: string;
+}
