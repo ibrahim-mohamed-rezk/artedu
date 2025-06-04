@@ -18,6 +18,7 @@ const BlogShow = () => {
         setblogs(response.data);
         setError(null);
       } catch (err) {
+        console.log(err);
         setError("فشل تحميل المقال. يرجى المحاولة مرة أخرى لاحقًا.");
       } finally {
         setIsLoading(false);
