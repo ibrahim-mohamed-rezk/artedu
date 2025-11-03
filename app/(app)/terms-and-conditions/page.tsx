@@ -21,7 +21,7 @@ const TermsAndConditionsPage = () => {
             <section className="flex flex-col gap-2">
               <h2 className="text-[#0F2137] text-xl font-semibold">التعريفات</h2>
               <p className="text-[#4E4F5D] leading-8">
-                تشير كلمات مثل "المنصة" و"نحن" و"لنا" إلى ArtEdu. وتشير كلمة
+                تشير كلمات مثل &quot;المنصة&quot; و &quot;نحن&quot; و &quot;لنا&quot; إلى ArtEdu. وتشير كلمة
                 "المستخدم" إلى أي شخص يقوم بزيارة أو استخدام خدمات المنصة.
               </p>
             </section>
