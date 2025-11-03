@@ -76,10 +76,14 @@ const Footer = () => {
                 معلومات عنا
               </div>
               <ul className="opacity-80 text-right text-[#02073e] text-[15px] font-normal font-sst-arabic leading-[37.50px] flex gap-[20px] mt-[10px] flex-row lg:flex-col justify-end lg:justify-start lg:items-end">
-                <li>مركز الدعم</li>
-                <li>دعم العملاء</li>
+                <li>
+                  <Link href={"/contact-us"}>مركز الدعم</Link>
+                </li>
+                {/* <li>دعم العملاء</li> */}
                 <li>نبذة عنا</li>
-                <li>حقوق النشر</li>
+                <li>
+                  <Link href={"/terms-and-conditions"}>حقوق النشر</Link>
+                </li>
               </ul>
             </div>
           </div>
