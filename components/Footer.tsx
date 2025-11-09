@@ -84,6 +84,9 @@ const Footer = () => {
                 <li>
                   <Link href={"/terms-and-conditions"}>حقوق النشر</Link>
                 </li>
+                <li>
+                  <Link href={"/privacy"}>الخصوصية</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -129,7 +132,13 @@ const Footer = () => {
             </span>
           </div>
           <div className="text-[#0F2137] text-sm font-normal font-sst-arabic text-center lg:text-right order-1 lg:order-2">
-            شروط الاستخدام | الخصوصية
+            <Link href={"/terms-and-conditions"} className="hover:underline">
+              شروط الاستخدام
+            </Link>
+            {" | "}
+            <Link href={"/privacy"} className="hover:underline">
+              الخصوصية
+            </Link>
           </div>
         </div>
       </div>
