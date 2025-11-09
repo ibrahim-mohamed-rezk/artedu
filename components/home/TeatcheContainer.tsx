@@ -4,16 +4,13 @@ import "swiper/css/navigation";
 import TeatcheCard from "../cards/TeatcheCard";
 import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
+import { Teachers as TeachersType } from "@/libs/types/tpes";
 
-interface Teacher {
-  full_name: string;
-  subject: string;
-  avatar: string;
-  id: number;
-}
+
 
 const TeatcheContainer = () => {
   const { homeData } = useAppSelector((state) => state.home);
+
 
   return (
     <div className="flex flex-col w-full items-end gap-4 sm:gap-7 py-4 sm:py-6">
@@ -52,13 +49,14 @@ const TeatcheContainer = () => {
         dir="rtl"
         loop={true}
       >
-        {homeData?.teachers?.map((teacher: Teacher, index: number) => {
+        {homeData?.teachers?.map((teacher: TeachersType, index: number) => {
+          console.log(teacher);
           return (
             <SwiperSlide key={index} className="!w-auto">
               <TeatcheCard
-                teacherName={teacher?.full_name}
-                teacherJob={teacher?.subject}
-                teacherImage={teacher?.avatar}
+                teacherName={teacher?.user.full_name}
+                teacherJob={teacher?.subject || ""}
+                teacherImage={teacher?.user.avatar}
                 teacherId={teacher?.id}
               />
             </SwiperSlide>

@@ -1,3 +1,13 @@
+export interface User {
+  avatar: string;
+  email: string;
+  full_name: string;
+  gender: string | null;
+  id: number;
+  phone: string;
+  role: string;
+}
+
 export interface Books {
   id: number;
   name: string;
@@ -69,4 +79,18 @@ export interface BlogTypes {
   meta_description: string | null;
   meta_keywords: string | null;
   created_at: string;
+}
+
+export interface Teachers {
+  id: number;
+  about: string | null;
+  courses: Courses[];
+  cover: string;
+  created_at: string;
+  description: string | null;
+  levels: string;
+  subject: string;
+  tech_no: string;
+  type: string;
+  user: User;
 }

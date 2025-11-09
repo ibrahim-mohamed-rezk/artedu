@@ -3,16 +3,10 @@
 import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import TeatcheCard from "../cards/TeatcheCard";
-
-interface Teacher {
-  id: number;
-  full_name: string;
-  subject: string;
-  avatar: string;
-}
+import { Teachers as TeachersType } from "@/libs/types/tpes";
 
 const Teachers = () => {
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [teachers, setTeachers] = useState<TeachersType[]>([]);
 
   useEffect(() => {
     const getteachers = async () => {
@@ -76,12 +70,12 @@ const Teachers = () => {
 
       {/* teachers grid */}
       <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
-        {teachers?.map((teacher: Teacher) => (
+        {teachers?.map((teacher: TeachersType) => (
           <TeatcheCard
             key={teacher.id}
-            teacherName={teacher.full_name}
+            teacherName={teacher.user.full_name}
             teacherJob={teacher.subject}
-            teacherImage={teacher.avatar}
+            teacherImage={teacher.user.avatar}
             teacherId={teacher.id}
           />
         ))}

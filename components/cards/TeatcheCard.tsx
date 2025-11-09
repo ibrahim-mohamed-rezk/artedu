@@ -13,6 +13,8 @@ const TeatcheCard = ({
   teacherImage,
   teacherId,
 }: Props) => {
+
+  console.log(teacherImage);
   return (
     <div className="flex flex-col items-center gap-[15px] sm:gap-4 min-w-[120px] sm:min-w-[165px]">
       <Link href={`/teachers/${teacherId}`}>
