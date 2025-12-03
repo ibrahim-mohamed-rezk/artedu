@@ -19,6 +19,26 @@ interface FormErrors {
   [key: string]: string | undefined;
 }
 
+interface ProfileFormData {
+  full_name?: string;
+  father_phone?: string;
+  phone?: string;
+  school_name?: string;
+  governorate_id?: number | string;
+  area_id?: number | string;
+  level_id?: number | string;
+  image?: string;
+}
+
+interface SubscriptionCode {
+  code?: string;
+  subscription_code?: string;
+  status?: string | boolean | number;
+  is_active?: boolean | number;
+  valid_to?: string;
+  price?: number | string;
+}
+
 const PersonalSettings = () => {
   const { userData, token } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -33,9 +53,11 @@ const PersonalSettings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isDirty, setIsDirty] = useState(false);
-  const [originalData, setOriginalData] = useState<any>(null);
+  const [originalData, setOriginalData] = useState<ProfileFormData | null>(
+    null
+  );
 
-  const [updatedData, setUpdatedData] = useState({
+  const [updatedData, setUpdatedData] = useState<ProfileFormData>({
     full_name: userData?.full_name,
     father_phone: userData?.father_phone,
     phone: userData?.phone,
@@ -173,11 +195,13 @@ const PersonalSettings = () => {
   const handleReset = () => {
     if (!isDirty) return;
 
-    setUpdatedData(originalData);
-    setProfileImage(null);
-    setImagePreview(userData?.image || null);
-    setErrors({});
-    setIsDirty(false);
+    if (originalData) {
+      setUpdatedData(originalData);
+      setProfileImage(null);
+      setImagePreview(userData?.image || null);
+      setErrors({});
+      setIsDirty(false);
+    }
   };
 
   const updateProfile = async () => {
@@ -264,7 +288,7 @@ const PersonalSettings = () => {
     }
   };
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setUpdatedData({ ...updatedData, [field]: value });
 
     // Clear error for this field when user starts typing
@@ -272,7 +296,6 @@ const PersonalSettings = () => {
       setErrors({ ...errors, [field]: undefined });
     }
   };
-
 
   return (
     <div className="w-full">
@@ -473,9 +496,11 @@ const PersonalSettings = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4">
-              {userData.subscription_codes.map((code: any, index: number) => (
-                <SubscriptionCodeCard key={index} code={code} />
-              ))}
+              {userData.subscription_codes.map(
+                (code: SubscriptionCode | string, index: number) => (
+                  <SubscriptionCodeCard key={index} code={code} />
+                )
+              )}
             </div>
           </div>
         )}
@@ -483,11 +508,19 @@ const PersonalSettings = () => {
   );
 };
 
-const SubscriptionCodeCard = ({ code }: { code: any }) => {
+const SubscriptionCodeCard = ({
+  code,
+}: {
+  code: SubscriptionCode | string;
+}) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(code.code || code.subscription_code || code);
+    const textToCopy =
+      typeof code === "string"
+        ? code
+        : code.code || code.subscription_code || "";
+    navigator.clipboard.writeText(textToCopy);
     setCopied(true);
     toast.success("تم نسخ الكود بنجاح");
     setTimeout(() => setCopied(false), 2000);
@@ -496,9 +529,10 @@ const SubscriptionCodeCard = ({ code }: { code: any }) => {
   // Handle if code is just a string
   const codeValue =
     typeof code === "string" ? code : code.code || code.subscription_code;
-  const status = code.status || code.is_active;
-  const expiryDate = code.valid_to;
-  const price = code.price;
+  const status =
+    typeof code === "string" ? undefined : code.status || code.is_active;
+  const expiryDate = typeof code === "string" ? undefined : code.valid_to;
+  const price = typeof code === "string" ? undefined : code.price;
 
   return (
     <div className="bg-gradient-to-br from-orange-50 to-white border border-orange-200 rounded-2xl p-4 hover:shadow-md transition-shadow">
@@ -593,7 +627,7 @@ const InputField = ({
   placeholder: string;
   isRequired?: boolean;
   type?: string;
-  value: string;
+  value?: string | number;
   disabled?: boolean;
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -606,7 +640,7 @@ const InputField = ({
     <input
       type={type}
       placeholder={placeholder}
-      value={value}
+      value={value || ""}
       onChange={onChange}
       disabled={disabled}
       className={`w-full px-4 py-3 bg-white rounded-xl border text-right transition-colors ${
@@ -634,7 +668,7 @@ const SelectField = ({
   label: string;
   placeholder: string;
   options: Governorate[];
-  value: string;
+  value?: string | number;
   disabled?: boolean;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) => (
@@ -642,7 +676,7 @@ const SelectField = ({
     <label className="text-sm font-medium text-gray-600">{label}</label>
     <select
       onChange={onChange}
-      value={value}
+      value={value || ""}
       disabled={disabled}
       className={`w-full px-4 py-3 bg-white rounded-xl border border-gray-200 text-right appearance-none transition-colors focus:border-orange-500 ${
         disabled ? "opacity-50 cursor-not-allowed bg-gray-50" : ""
