@@ -68,7 +68,7 @@ export const userMenueItems: MenuItem[] = [
 </svg>
 `,
     text: "الدعم",
-    url: "/support",
+    url: "/contact-us",
   },
   {
     icon: `<svg width="34" height="33" viewBox="0 0 34 33" fill="none" xmlns="http://www.w3.org/2000/svg">

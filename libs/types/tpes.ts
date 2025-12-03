@@ -94,3 +94,14 @@ export interface Teachers {
   type: string;
   user: User;
 }
+
+export interface Analytics {
+  date: string;
+  exam: string;
+  final_result: number;
+  id: number;
+  is_succeeded: boolean;
+  student: string;
+  teacher: string;
+  total_result: number;
+}

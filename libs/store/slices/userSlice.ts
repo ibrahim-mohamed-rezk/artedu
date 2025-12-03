@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
     updateUserData: (state, action) => {
-      state.userData = action.payload.data;
+      state.userData = { ...state.userData, ...action.payload };
     },
   },
   extraReducers: (builder) => {

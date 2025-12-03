@@ -5,12 +5,11 @@ import ProfileHeader from "../ProfileHeader";
 import ProfileMenue from "../ProfileMenue";
 import { getData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
+import { Analytics } from "@/libs/types/tpes";
 
 const UserAnalytics = () => {
-  const [userAnalytics, setUserAnalytics] = useState([]);
+  const [userAnalytics, setUserAnalytics] = useState<Analytics[]>([]);
   const token = useAppSelector((state) => state.user.token);
-
-  console.log(userAnalytics);
 
   useEffect(() => {
     const fetchUserAnalytics = async () => {
@@ -45,24 +44,28 @@ const UserAnalytics = () => {
                   </div>
                 </div>
               ) : (
-                userAnalytics?.map((_, index) => {
+                userAnalytics?.map((item, index) => {
                   return (
                     <div
                       key={index}
                       className="w-full sm:w-[calc(50%-10px)] md:w-[calc(33.333%-14px)] lg:w-[350px] p-4 relative bg-white rounded-[20px] outline outline-1 outline-offset-[-1px] outline-zinc-100 overflow-hidden mb-3 md:mb-0"
                     >
-                      <div className="text-white w-16 h-7 flex items-center justify-center bg-indigo-400 top-0 left-0 absolute text-xs font-normal font-sst-arabic">
-                        ناجح
+                      <div
+                        className={`text-white w-16 h-7 flex items-center justify-center top-0 left-0 absolute text-xs font-normal font-sst-arabic ${
+                          item.is_succeeded ? "bg-green-400" : "bg-red-400"
+                        }`}
+                      >
+                        {item.is_succeeded ? "ناجح" : "راسب"}
                       </div>
                       <div className="flex flex-col gap-[15px] h-full">
                         <div className="flex justify-end items-center">
                           <div className="flex items-center gap-2.5">
                             <div className="flex flex-col items-end gap-2">
                               <div className="text-right text-black text-xs font-bold font-sst-arabic leading-tight">
-                                إمتحان شهر ديسمبر
+                                {item.exam}
                               </div>
                               <div className="text-right text-neutral-500 text-[10px] font-normal font-sst-arabic leading-tight">
-                                23 - 12 - 2025
+                                {new Date(item.date).toLocaleDateString()}
                               </div>
                             </div>
                             <div className="w-6 h-6 relative overflow-hidden">
@@ -73,12 +76,13 @@ const UserAnalytics = () => {
                           </div>
                         </div>
                         <div className="flex justify-between items-center w-full">
-                          <div className="w-11 h-11 text-cyan-800 text-xs font-bold font-sst-arabic rounded-full border border-cyan-800 flex items-center justify-center">
-                            17
+                          <div className="w-11 h-11 text-cyan-800 text-xs font-bold font-sst-arabic rounded-full border border-cyan-800 flex flex-col gap-[1px] items-center justify-center">
+                            <span>{item.final_result}</span>
+                            <span className="border-t border-cyan-800 w-full"></span>
+                            <span>{item.total_result}</span>
                           </div>
                           <div className="text-right text-black text-xs font-normal font-sst-arabic leading-tight max-w-[240px]">
-                            المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها
-                            مجانا دلوقتى على قناة الينبوع
+                            {item.teacher} :المعلم
                           </div>
                         </div>
                       </div>
