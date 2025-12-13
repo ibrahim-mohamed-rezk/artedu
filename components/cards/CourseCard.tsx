@@ -62,7 +62,7 @@ const CourseCard = ({
             </svg>
             <span className="font-light ml-1">{courseTeacher}</span>
           </div>
-          <h3 className="text-lg font-bold text-black font-sst-arabic">
+          <h3 title={courseName} className="text-lg line-clamp-1 font-bold text-black font-sst-arabic">
             {courseName}
           </h3>
           <div className="flex justify-start items-center gap-2">

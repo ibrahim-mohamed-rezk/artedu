@@ -40,6 +40,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base { 
+  .direction-rtl {
+    direction: rtl;
+  }
+}
+
 /* toot */
 :root {
   /* fonts */

@@ -69,7 +69,7 @@ const Teachers = () => {
       </div>
 
       {/* teachers grid */}
-      <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
+      <div className="grid direction-rtl grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
         {teachers?.map((teacher: TeachersType) => (
           <TeatcheCard
             key={teacher.id}

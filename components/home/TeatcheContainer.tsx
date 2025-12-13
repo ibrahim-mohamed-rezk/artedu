@@ -6,11 +6,8 @@ import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
 import { Teachers as TeachersType } from "@/libs/types/tpes";
 
-
-
 const TeatcheContainer = () => {
   const { homeData } = useAppSelector((state) => state.home);
-
 
   return (
     <div className="flex flex-col w-full items-end gap-4 sm:gap-7 py-4 sm:py-6">
@@ -43,16 +40,35 @@ const TeatcheContainer = () => {
         </h2>
       </div>
       <Swiper
-        spaceBetween={16}
-        slidesPerView="auto"
+        slidesPerView={10}
+        spaceBetween={0}
         className="w-full"
         dir="rtl"
         loop={true}
+        breakpoints={{
+          0: {
+            slidesPerView: 2,
+          },
+          428: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 4,
+          },
+          1280: {
+            slidesPerView: 6,
+          },
+          1536: {
+            slidesPerView:7,
+          },
+          2000: {
+            slidesPerView:8,
+          },
+        }}
       >
         {homeData?.teachers?.map((teacher: TeachersType, index: number) => {
-          console.log(teacher);
           return (
-            <SwiperSlide key={index} className="!w-auto">
+            <SwiperSlide className="w-full" key={index}>
               <TeatcheCard
                 teacherName={teacher?.user.full_name}
                 teacherJob={teacher?.subject || ""}

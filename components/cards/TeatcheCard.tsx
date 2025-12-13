@@ -13,18 +13,19 @@ const TeatcheCard = ({
   teacherImage,
   teacherId,
 }: Props) => {
-
-  console.log(teacherImage);
   return (
-    <div className="flex flex-col items-center gap-[15px] sm:gap-4 min-w-[120px] sm:min-w-[165px]">
-      <Link href={`/teachers/${teacherId}`}>
+    <div className="w-full flex items-center justify-center">
+      <Link
+        className="flex flex-col items-center justify-center gap-[15px] sm:gap-4 min-w-[120px] sm:min-w-[165px]"
+        href={`/teachers/${teacherId}`}
+      >
         <img
-          className="w-[120px] h-[120px] sm:w-[165px] sm:h-[165px] rounded-full shadow-md border-2 border-[#f1f1f2] object-cover"
+          className="w-[80%] aspect-square rounded-full shadow-md border-2 border-[#f1f1f2] object-cover"
           src={teacherImage}
           alt="Teacher"
         />
         <div className="text-center">
-          <h3 className="text-lg sm:text-xl font-bold font-sst-arabic">
+          <h3 className="text-lg sm:text-xl line-clamp-1 font-bold font-sst-arabic">
             {teacherName}
           </h3>
           <p className="text-base mt-[10px] sm:text-lg font-normal font-sst-arabic">

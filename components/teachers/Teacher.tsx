@@ -4,16 +4,10 @@ import { getData } from "@/libs/axios/backendServer";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Script from "next/script";
-
-interface Teacher {
-  id: number;
-  full_name: string;
-  avatar: string;
-  subject: string;
-}
+import { Teachers } from "@/libs/types/tpes";
 
 const Teacher = () => {
-  const [teacher, setTeacher] = useState<Teacher | null>(null);
+  const [teacher, setTeacher] = useState<Teachers | null>(null);
   const { teacherId } = useParams();
 
   // get teatcher data from api
@@ -29,9 +23,9 @@ const Teacher = () => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: teacher?.full_name,
+    name: teacher?.user.full_name,
     jobTitle: teacher?.subject,
-    image: teacher?.avatar,
+    image: teacher?.user.avatar,
     url: typeof window !== "undefined" ? window.location.href : "",
     sameAs: ["https://linkedin.com/in/amina-youssef"],
     affiliation: {
@@ -39,6 +33,8 @@ const Teacher = () => {
       name: "EduHub Academy",
     },
   };
+
+  console.log(teacher);
 
   return (
     <>
@@ -51,24 +47,26 @@ const Teacher = () => {
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="border-t border-[#f1f1f2] w-full my-8"></div>
 
-          <div className="relative w-full z-10">
-            <img
-              className="w-full h-[200px] sm:h-[300px] md:h-[380px] object-cover rounded-[20px]"
-              alt="Teacher background"
-              src={teacher?.avatar}
-            />
-          </div>
+          {teacher?.cover && (
+            <div className="relative w-full z-10">
+              <img
+                className="w-full h-[200px] sm:h-[300px] md:h-[380px] object-cover rounded-[20px]"
+                alt="Teacher background"
+                src={teacher?.cover}
+              />
+            </div>
+          )}
 
           <div className="flex flex-col z-50 relative items-center -mt-16 sm:-mt-20 md:-mt-24">
             <img
               className="w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] md:w-[180px] md:h-[180px] object-cover rounded-full border-4 border-white"
               alt="Teacher profile"
-              src={teacher?.avatar}
+              src={teacher?.user.avatar}
             />
 
             <div className="mt-4 flex flex-col items-center">
               <h1 className="text-xl sm:text-2xl font-bold text-black tracking-tight">
-                {teacher?.full_name}
+                {teacher?.user.full_name}
               </h1>
               <p className="mt-2 text-base sm:text-lg text-black">
                 {teacher?.subject}
@@ -100,14 +98,7 @@ const Teacher = () => {
                 </div>
 
                 <div className="mt-6 text-black leading-relaxed">
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
-                  المراجعة الشهرية التانية لطلاب تالتة ثانوي تابعوها مجانا
+                  {teacher?.about || "لا يوجد نبذة عن المدرس"}
                 </div>
               </div>
             </div>

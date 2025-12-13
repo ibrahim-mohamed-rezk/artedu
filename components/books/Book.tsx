@@ -61,6 +61,7 @@ const Book = () => {
     }
   };
 
+
   return (
     <div className="w-[95%] mx-auto lg:w-[clamp(100px,79.0625vw,30000px)] mt-[30px] lg:mt-[60px] px-4 lg:px-0">
       <div className="w-full mx-auto">
@@ -111,7 +112,13 @@ const Book = () => {
                   </div>
                   <img
                     className="w-12 h-12 lg:w-14 lg:h-14 rounded-[70px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] order-1 lg:order-2"
-                    src={book?.teacherImage || "subject"}
+                    src={
+                      book?.teacherImage ||
+                      `https://placehold.co/48x48/e55604/fff?text=${book?.teacher.slice(
+                        0,
+                        1
+                      )}`
+                    }
                     alt="Teacher"
                   />
                 </div>
