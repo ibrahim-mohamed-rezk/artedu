@@ -83,7 +83,7 @@ const BooksFilters = ({
                     {level.name}
                   </span>
                   <input
-                    onChange={(e) =>
+                    onChange={() =>
                       setFilters({
                         ...filters,
                         level_id: level.id as number,
@@ -107,7 +107,7 @@ const BooksFilters = ({
                     {subject.name}
                   </span>
                   <input
-                    onChange={(e) =>
+                    onChange={() =>
                       setFilters({
                         ...filters,
                         subject_id: subject.id as number,

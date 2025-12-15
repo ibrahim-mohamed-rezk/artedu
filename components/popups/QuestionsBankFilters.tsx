@@ -83,7 +83,7 @@ const QuestionsBankFilters = ({
                     {level.name}
                   </span>
                   <input
-                    onChange={(e) =>
+                    onChange={() =>
                       setFilters({
                         ...filters,
                         level_id: level.id as number,
@@ -129,7 +129,7 @@ const QuestionsBankFilters = ({
                     {subject.name}
                   </span>
                   <input
-                    onChange={(e) =>
+                    onChange={() =>
                       setFilters({
                         ...filters,
                         subject_id: subject.id as number,
