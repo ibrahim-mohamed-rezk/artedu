@@ -14,10 +14,10 @@ const QuestionsBankHeader = () => {
   const [filters, setFilters] = useState<QuestionsBankFiltersType>({
     search: searchParams.get("search") || null,
     level_id: searchParams.get("level_id")
-      ? Number(searchParams.get("level_id"))
+      ? searchParams.get("level_id")!.split(",").map(Number)
       : null,
     subject_id: searchParams.get("subject_id")
-      ? Number(searchParams.get("subject_id"))
+      ? searchParams.get("subject_id")!.split(",").map(Number)
       : null,
     type: searchParams.get("type") || null,
   });
@@ -31,14 +31,14 @@ const QuestionsBankHeader = () => {
       params.delete("search");
     }
 
-    if (filters.level_id) {
-      params.set("level_id", filters.level_id.toString());
+    if (filters.level_id && filters.level_id.length > 0) {
+      params.set("level_id", filters.level_id.join(","));
     } else {
       params.delete("level_id");
     }
 
-    if (filters.subject_id) {
-      params.set("subject_id", filters.subject_id.toString());
+    if (filters.subject_id && filters.subject_id.length > 0) {
+      params.set("subject_id", filters.subject_id.join(","));
     } else {
       params.delete("subject_id");
     }

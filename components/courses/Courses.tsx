@@ -17,6 +17,7 @@ interface Course {
   image: string;
   is_favorite: boolean;
   cover: string;
+  title: string;
 }
 
 const Courses = () => {
@@ -94,7 +95,7 @@ const Courses = () => {
         {courses?.map((course: Course) => (
           <CourseCard
             key={course.id}
-            courseName={course.name}
+            courseName={course.title}
             courseImage={course.cover}
             courseSubject={course.subject}
             courseTeacher={course.teacher}

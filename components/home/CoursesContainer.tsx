@@ -18,6 +18,8 @@ interface course {
 const CoursesContainer = () => {
   const { homeData } = useAppSelector((state) => state.home);
 
+  console.log(homeData)
+
   return (
     <div className="flex flex-col w-full items-end gap-4 sm:gap-7 py-4 sm:py-6">
       <div className="w-full flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">

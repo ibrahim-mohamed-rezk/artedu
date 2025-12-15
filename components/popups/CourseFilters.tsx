@@ -20,6 +20,10 @@ const CourseFilters = ({
   const filterRef = useRef<HTMLDivElement>(null);
   const [levels, setLevels] = useState<Level[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  // Local state for pending changes
+  const [localFilters, setLocalFilters] = useState<CourseFiltersType>(filters);
+
   const feachLevels = async () => {
     try {
       const response = await getData("levels-api");
@@ -44,6 +48,10 @@ const CourseFilters = ({
   }, []);
 
   useEffect(() => {
+    setLocalFilters(filters);
+  }, [filters]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         filterRef.current &&
@@ -58,6 +66,44 @@ const CourseFilters = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setOpenFilters]);
+
+  const toggleLevelSelection = (levelId: number) => {
+    const currentLevels = localFilters.level_id || [];
+    const isSelected = currentLevels.includes(levelId);
+
+    setLocalFilters({
+      ...localFilters,
+      level_id: isSelected
+        ? currentLevels.filter((id) => id !== levelId)
+        : [...currentLevels, levelId],
+    });
+  };
+
+  const toggleSubjectSelection = (subjectId: number) => {
+    const currentSubjects = localFilters.subject_id || [];
+    const isSelected = currentSubjects.includes(subjectId);
+
+    setLocalFilters({
+      ...localFilters,
+      subject_id: isSelected
+        ? currentSubjects.filter((id) => id !== subjectId)
+        : [...currentSubjects, subjectId],
+    });
+  };
+
+  const handleReset = () => {
+    setLocalFilters({
+      search: null,
+      level_id: null,
+      subject_id: null,
+      type: null,
+    });
+  };
+
+  const handleSubmit = () => {
+    setFilters(localFilters);
+    setOpenFilters(false);
+  };
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
@@ -83,13 +129,10 @@ const CourseFilters = ({
                     {level.name}
                   </span>
                   <input
-                    onChange={() =>
-                      setFilters({
-                        ...filters,
-                        level_id: level.id as number,
-                      })
-                    }
-                    checked={filters.level_id === level.id}
+                    onChange={() => toggleLevelSelection(level.id as number)}
+                    checked={(localFilters.level_id || []).includes(
+                      level.id as number
+                    )}
                     type="checkbox"
                   />
                 </div>
@@ -99,17 +142,22 @@ const CourseFilters = ({
           <div className="mb-6">
             <div className="flex justify-center gap-4 mb-4">
               {[
-                { name: "مجاني", key: "unpaid" },
+                { name: "مجاني", key: "free" },
                 { name: "مدفوع", key: "paid" },
               ].map((type) => (
                 <div
                   key={type.key}
                   className={`px-5 py-3 cursor-pointer rounded-[71px] border ${
-                    type.key === filters.type
+                    type.key === localFilters.type
                       ? "bg-[#e55604]/20 border-[#e55604]"
                       : "bg-[#f1f1f2] border-[#f1f1f2]"
                   }`}
-                  onClick={() => setFilters({ ...filters, type: type.key })}
+                  onClick={() =>
+                    setLocalFilters({
+                      ...localFilters,
+                      type: type.key === localFilters.type ? null : type.key,
+                    })
+                  }
                 >
                   <span className="text-black text-base font-normal font-['SST Arabic']">
                     {type.name}
@@ -130,38 +178,34 @@ const CourseFilters = ({
                   </span>
                   <input
                     onChange={() =>
-                      setFilters({
-                        ...filters,
-                        subject_id: subject.id as number,
-                      })
+                      toggleSubjectSelection(subject.id as number)
                     }
-                    checked={filters.subject_id === subject.id}
+                    checked={(localFilters.subject_id || []).includes(
+                      subject.id as number
+                    )}
                     type="checkbox"
                   />
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative mt-4">
+          <div className="relative mt-4 mb-6">
             <input
               type="text"
-              value={filters.search || ""}
+              value={localFilters.search || ""}
               onChange={(e) =>
-                setFilters({ ...filters, search: e.target.value })
+                setLocalFilters({ ...localFilters, search: e.target.value })
               }
               placeholder="محتاج تبحث عن ايه انهاردة ...."
               className="w-full pl-10 pr-4 py-3 bg-white rounded-[30px] shadow-sm border-2 border-[#f1f1f2] text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic']"
             />
             <svg
-              className="absolute cursor-pointer left-3 top-1/2 transform -translate-y-1/2"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
               width="24"
               height="24"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => {
-                setOpenFilters(false);
-              }}
             >
               <path
                 opacity="0.5"
@@ -175,6 +219,22 @@ const CourseFilters = ({
                 fill="#E55604"
               />
             </svg>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={handleReset}
+              className="px-8 py-3 bg-white rounded-[30px] border-2 border-[#f1f1f2] text-[#8d8d8d] text-base font-medium font-['SST Arabic'] hover:bg-[#f1f1f2] transition-colors"
+            >
+              إعادة تعيين
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="px-8 py-3 bg-[#e55604] rounded-[30px] text-white text-base font-medium font-['SST Arabic'] hover:bg-[#d14e03] transition-colors"
+            >
+              تطبيق الفلاتر
+            </button>
           </div>
         </div>
       </div>

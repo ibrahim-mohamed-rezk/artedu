@@ -16,6 +16,10 @@ const TeachersFilters = ({
   const filterRef = useRef<HTMLDivElement>(null);
   const [levels, setLevels] = useState<Level[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  // Local state for pending changes
+  const [localFilters, setLocalFilters] = useState<TeacherFilters>(filters);
+
   const feachLevels = async () => {
     try {
       const response = await getData("levels-api");
@@ -39,7 +43,9 @@ const TeachersFilters = ({
     feachSubjects();
   }, []);
 
-  console.log(subjects);
+  useEffect(() => {
+    setLocalFilters(filters);
+  }, [filters]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,6 +62,43 @@ const TeachersFilters = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [setOpenFilters]);
+
+  const toggleLevelSelection = (levelId: number) => {
+    const currentLevels = localFilters.level_id || [];
+    const isSelected = currentLevels.includes(levelId);
+
+    setLocalFilters({
+      ...localFilters,
+      level_id: isSelected
+        ? currentLevels.filter((id) => id !== levelId)
+        : [...currentLevels, levelId],
+    });
+  };
+
+  const toggleSubjectSelection = (subjectId: number) => {
+    const currentSubjects = localFilters.subject_id || [];
+    const isSelected = currentSubjects.includes(subjectId);
+
+    setLocalFilters({
+      ...localFilters,
+      subject_id: isSelected
+        ? currentSubjects.filter((id) => id !== subjectId)
+        : [...currentSubjects, subjectId],
+    });
+  };
+
+  const handleReset = () => {
+    setLocalFilters({
+      search: null,
+      level_id: null,
+      subject_id: null,
+    });
+  };
+
+  const handleSubmit = () => {
+    setFilters(localFilters);
+    setOpenFilters(false);
+  };
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
@@ -81,13 +124,10 @@ const TeachersFilters = ({
                     {level.name}
                   </span>
                   <input
-                    onChange={() =>
-                      setFilters({
-                        ...filters,
-                        level_id: Number(level.id),
-                      })
-                    }
-                    checked={filters.level_id === level.id}
+                    onChange={() => toggleLevelSelection(Number(level.id))}
+                    checked={(localFilters.level_id || []).includes(
+                      Number(level.id)
+                    )}
                     type="checkbox"
                   />
                 </div>
@@ -105,40 +145,36 @@ const TeachersFilters = ({
                     {subject.name}
                   </span>
                   <input
-                    onChange={() =>
-                      setFilters({
-                        ...filters,
-                        subject_id: Number(subject.id),
-                      })
-                    }
-                    checked={filters.subject_id === subject.id}
+                    onChange={() => toggleSubjectSelection(Number(subject.id))}
+                    checked={(localFilters.subject_id || []).includes(
+                      Number(subject.id)
+                    )}
                     type="checkbox"
                   />
                 </div>
               ))}
             </div>
           </div>
-          <div className="relative mt-4">
+          <div className="relative mt-4 mb-6">
             <input
               type="text"
               onChange={(e) =>
-                setFilters({
-                  ...filters,
+                setLocalFilters({
+                  ...localFilters,
                   search: e.target.value,
                 })
               }
-              value={filters.search || ""}
+              value={localFilters.search || ""}
               placeholder="محتاج تبحث عن ايه انهاردة ...."
               className="w-full pl-10 pr-4 py-3 bg-white rounded-[30px] shadow-sm border-2 border-[#f1f1f2] text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic']"
             />
             <svg
-              className="absolute cursor-pointer left-3 top-1/2 transform -translate-y-1/2"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2"
               width="24"
               height="24"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              onClick={() => setOpenFilters(false)}
             >
               <path
                 opacity="0.5"
@@ -152,6 +188,22 @@ const TeachersFilters = ({
                 fill="#E55604"
               />
             </svg>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4 justify-center">
+            <button
+              onClick={handleReset}
+              className="px-8 py-3 bg-white rounded-[30px] border-2 border-[#f1f1f2] text-[#8d8d8d] text-base font-medium font-['SST Arabic'] hover:bg-[#f1f1f2] transition-colors"
+            >
+              إعادة تعيين
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="px-8 py-3 bg-[#e55604] rounded-[30px] text-white text-base font-medium font-['SST Arabic'] hover:bg-[#d14e03] transition-colors"
+            >
+              تطبيق الفلاتر
+            </button>
           </div>
         </div>
       </div>
