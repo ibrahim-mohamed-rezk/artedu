@@ -1,14 +1,58 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BooksFilters from "../popups/BooksFilters";
+import { BooksFilters as BooksFiltersType } from "@/libs/types/tpes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const BooksHeader = () => {
-  const [openFilters, setOpenFilters] = useState(false);
+  const [openFilters, setOpenFilters] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [filters, setFilters] = useState<BooksFiltersType>({
+    search: searchParams.get("search") || null,
+    level_id: searchParams.get("level_id")
+      ? Number(searchParams.get("level_id"))
+      : null,
+    subject_id: searchParams.get("subject_id")
+      ? Number(searchParams.get("subject_id"))
+      : null,
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (filters.search) {
+      params.set("search", filters.search);
+    } else {
+      params.delete("search");
+    }
+
+    if (filters.level_id) {
+      params.set("level_id", filters.level_id.toString());
+    } else {
+      params.delete("level_id");
+    }
+
+    if (filters.subject_id) {
+      params.set("subject_id", filters.subject_id.toString());
+    } else {
+      params.delete("subject_id");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [filters, searchParams, pathname, router]);
   return (
     <div className="w-full relative">
-      {openFilters && <BooksFilters setOpenFilters={setOpenFilters} />}
+      {openFilters && (
+        <BooksFilters
+          filters={filters}
+          setFilters={setFilters}
+          setOpenFilters={setOpenFilters}
+        />
+      )}
 
       <svg
         className="w-full h-auto md:min-h-[120px]"
@@ -160,6 +204,8 @@ const BooksHeader = () => {
           </div>
           <input
             type="text"
+            value={filters.search || ""}
+            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
             placeholder="...ابحث عن الكورسات"
             className="text-right w-full md:w-[400px] text-[#8d8d8d] text-base font-normal font-sst-arabic leading-loose tracking-tight flex-grow px-4 sm:text-sm md:text-xs lg:text-sm outline-none border-none"
           />

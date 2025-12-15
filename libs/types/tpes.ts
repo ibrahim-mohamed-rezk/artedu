@@ -105,3 +105,39 @@ export interface Analytics {
   teacher: string;
   total_result: number;
 }
+
+export interface Level {
+  id: string | number;
+  name: string;
+}
+
+export interface Subject {
+  id: string | number;
+  name: string;
+}
+
+export interface TeacherFilters {
+  search: string | null;
+  level_id: number | null;
+  subject_id: number | null;
+}
+
+export interface CourseFilters {
+  search: string | null;
+  level_id: number | null;
+  subject_id: number | null;
+  type: string | null;
+}
+
+export interface QuestionsBankFilters {
+  search: string | null;
+  level_id: number | null;
+  subject_id: number | null;
+  type: string | null;
+}
+
+export interface BooksFilters {
+  search: string | null;
+  level_id: number | null;
+  subject_id: number | null;
+}

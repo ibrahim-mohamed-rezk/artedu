@@ -1,17 +1,54 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { getData } from "@/libs/axios/backendServer";
+import {
+  CourseFilters as CourseFiltersType,
+  Level,
+  Subject,
+} from "@/libs/types/tpes";
+import { useEffect, useRef, useState } from "react";
 
 const CourseFilters = ({
   setOpenFilters,
+  filters,
+  setFilters,
 }: {
   setOpenFilters: React.Dispatch<React.SetStateAction<boolean>>;
+  filters: CourseFiltersType;
+  setFilters: (filters: CourseFiltersType) => void;
 }) => {
   const filterRef = useRef<HTMLDivElement>(null);
+  const [levels, setLevels] = useState<Level[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const feachLevels = async () => {
+    try {
+      const response = await getData("levels-api");
+      setLevels(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const feachSubjects = async () => {
+    try {
+      const response = await getData("subjects-api");
+      setSubjects(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    feachLevels();
+    feachSubjects();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
         setOpenFilters(false);
       }
     };
@@ -23,8 +60,11 @@ const CourseFilters = ({
   }, [setOpenFilters]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div ref={filterRef} className="w-full max-w-4xl p-5 bg-white rounded-[25px] border-2 border-[#f1f1f2] overflow-y-auto max-h-[90vh]">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+      <div
+        ref={filterRef}
+        className="w-full max-w-4xl p-5 bg-white rounded-[25px] border-2 border-[#f1f1f2] overflow-y-auto max-h-[90vh]"
+      >
         <div className="relative">
           <div className="mb-4">
             <div className="flex items-center justify-end gap-2 text-black text-base font-normal font-['SST Arabic']">
@@ -37,31 +77,42 @@ const CourseFilters = ({
               المراحل الدراسية
             </div>
             <div className="flex flex-wrap justify-end gap-4">
-              {["الثالث الثانوي", "الثاني الثانوي", "الاول الثانوي"].map(
-                (stage) => (
-                  <div key={stage} className="flex items-center gap-2">
-                    <span className="text-right text-black text-sm font-normal font-['SST Arabic']">
-                      {stage}
-                    </span>
-                    <div className="w-[18px] h-[18px] border-2 border-[#7f7f7f] rounded-[3px]"></div>
-                  </div>
-                )
-              )}
+              {levels.map((level) => (
+                <div key={level.id} className="flex items-center gap-2">
+                  <span className="text-right text-black text-sm font-normal font-['SST Arabic']">
+                    {level.name}
+                  </span>
+                  <input
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        level_id: level.id as number,
+                      })
+                    }
+                    checked={filters.level_id === level.id}
+                    type="checkbox"
+                  />
+                </div>
+              ))}
             </div>
           </div>
           <div className="mb-6">
             <div className="flex justify-center gap-4 mb-4">
-              {["مجاني", "مدفوع"].map((type) => (
+              {[
+                { name: "مجاني", key: "unpaid" },
+                { name: "مدفوع", key: "paid" },
+              ].map((type) => (
                 <div
-                  key={type}
-                  className={`px-5 py-3 rounded-[71px] border ${
-                    type === "مجاني"
+                  key={type.key}
+                  className={`px-5 py-3 cursor-pointer rounded-[71px] border ${
+                    type.key === filters.type
                       ? "bg-[#e55604]/20 border-[#e55604]"
                       : "bg-[#f1f1f2] border-[#f1f1f2]"
                   }`}
+                  onClick={() => setFilters({ ...filters, type: type.key })}
                 >
                   <span className="text-black text-base font-normal font-['SST Arabic']">
-                    {type}
+                    {type.name}
                   </span>
                 </div>
               ))}
@@ -72,19 +123,21 @@ const CourseFilters = ({
               المادة
             </div>
             <div className="flex flex-wrap justify-end gap-4">
-              {[
-                "لغة عربية",
-                "فيزياء",
-                "كيمياء",
-                "لغه انجليزية",
-                "لغة فرنسية",
-                "احياء",
-              ].map((subject) => (
-                <div key={subject} className="flex items-center gap-2">
+              {subjects.map((subject) => (
+                <div key={subject.id} className="flex items-center gap-2">
                   <span className="text-right text-black text-sm font-normal font-['SST Arabic']">
-                    {subject}
+                    {subject.name}
                   </span>
-                  <div className="w-[18px] h-[18px] border-2 border-[#7f7f7f] rounded-[3px]"></div>
+                  <input
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        subject_id: subject.id as number,
+                      })
+                    }
+                    checked={filters.subject_id === subject.id}
+                    type="checkbox"
+                  />
                 </div>
               ))}
             </div>
@@ -92,16 +145,23 @@ const CourseFilters = ({
           <div className="relative mt-4">
             <input
               type="text"
+              value={filters.search || ""}
+              onChange={(e) =>
+                setFilters({ ...filters, search: e.target.value })
+              }
               placeholder="محتاج تبحث عن ايه انهاردة ...."
               className="w-full pl-10 pr-4 py-3 bg-white rounded-[30px] shadow-sm border-2 border-[#f1f1f2] text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic']"
             />
             <svg
-              className="absolute left-3 top-1/2 transform -translate-y-1/2"
+              className="absolute cursor-pointer left-3 top-1/2 transform -translate-y-1/2"
               width="24"
               height="24"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              onClick={() => {
+                setOpenFilters(false);
+              }}
             >
               <path
                 opacity="0.5"

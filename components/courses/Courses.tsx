@@ -4,6 +4,7 @@ import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import CourseCard from "../cards/CourseCard";
 import { useAppSelector } from "@/libs/store/hooks";
+import { useSearchParams } from "next/navigation";
 
 interface Course {
   id: number;
@@ -21,17 +22,14 @@ interface Course {
 const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const { token } = useAppSelector((state) => state.user);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const getCourses = async () => {
       try {
-        const res = await getData(
-          "courses-api",
-          {},
-          {
-            authorization: "Bearer " + token,
-          }
-        );
+        const res = await getData("courses-api", searchParams, {
+          authorization: "Bearer " + token,
+        });
         setCourses(res.data.items);
       } catch (err) {
         console.log(err);
@@ -39,7 +37,7 @@ const Courses = () => {
     };
 
     getCourses();
-  }, [token]);
+  }, [token, searchParams]);
 
   return (
     <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
@@ -89,7 +87,10 @@ const Courses = () => {
       </div>
 
       {/* courses grid */}
-      <div dir="rtl" className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
+      <div
+        dir="rtl"
+        className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8"
+      >
         {courses?.map((course: Course) => (
           <CourseCard
             key={course.id}

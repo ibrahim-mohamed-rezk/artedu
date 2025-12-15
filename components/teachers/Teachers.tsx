@@ -4,14 +4,16 @@ import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import TeatcheCard from "../cards/TeatcheCard";
 import { Teachers as TeachersType } from "@/libs/types/tpes";
+import { useSearchParams } from "next/navigation";
 
 const Teachers = () => {
   const [teachers, setTeachers] = useState<TeachersType[]>([]);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const getteachers = async () => {
       try {
-        const res = await getData("teachers-api");
+        const res = await getData("teachers-api",  searchParams);
         setTeachers(res.data.items);
       } catch (err) {
         console.log(err);
@@ -19,12 +21,12 @@ const Teachers = () => {
     };
 
     getteachers();
-  }, []);
+  }, [searchParams]);
 
   return (
-    <div className="w-full pt-4 md:px-[50px] sm:pt-8 md:pt-12 lg:pt-16">
+    <div className="w-full mt-[130px] md:mt-0 pt-4 md:px-[50px] sm:pt-8 md:pt-12 lg:pt-16">
       {/* filters */}
-      <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+      {/* <div className="w-full max-w-[1518px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <div className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2">
             <div className="relative">
@@ -66,7 +68,7 @@ const Teachers = () => {
         <div className="text-right text-black text-sm sm:text-base font-normal font-['SST Arabic'] leading-[23.19px] tracking-tight">
           البحث بناء علي
         </div>
-      </div>
+      </div> */}
 
       {/* teachers grid */}
       <div className="grid direction-rtl grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">

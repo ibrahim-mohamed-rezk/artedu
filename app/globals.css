@@ -44,6 +44,10 @@
   .direction-rtl {
     direction: rtl;
   }
+  
+  .font-sst-arabic {
+    font-family: "SST Arabic";
+  }
 }
 
 /* toot */

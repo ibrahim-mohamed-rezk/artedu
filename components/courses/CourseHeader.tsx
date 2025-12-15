@@ -1,15 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CourseFilters from "../popups/CourseFilters";
+import { CourseFilters as CourseFiltersType } from "@/libs/types/tpes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const CourseHeader = () => {
   const [openFilters, setOpenFilters] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const [filters, setFilters] = useState<CourseFiltersType>({
+    search: searchParams.get("search") || null,
+    level_id: searchParams.get("level_id")
+      ? Number(searchParams.get("level_id"))
+      : null,
+    subject_id: searchParams.get("subject_id")
+      ? Number(searchParams.get("subject_id"))
+      : null,
+    type: searchParams.get("type") || null,
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (filters.search) {
+      params.set("search", filters.search);
+    } else {
+      params.delete("search");
+    }
+
+    if (filters.level_id) {
+      params.set("level_id", filters.level_id.toString());
+    } else {
+      params.delete("level_id");
+    }
+
+    if (filters.subject_id) {
+      params.set("subject_id", filters.subject_id.toString());
+    } else {
+      params.delete("subject_id");
+    }
+
+    if (filters.type) {
+      params.set("type", filters.type.toString());
+    } else {
+      params.delete("type");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [filters, searchParams, pathname, router]);
 
   return (
     <div className="w-full relative">
-      {openFilters && <CourseFilters setOpenFilters={setOpenFilters} />}
+      {openFilters && (
+        <CourseFilters
+          filters={filters}
+          setFilters={setFilters}
+          setOpenFilters={setOpenFilters}
+        />
+      )}
 
       <svg
         className="w-full h-auto md:min-h-[120px]"
@@ -174,6 +225,8 @@ const CourseHeader = () => {
           </div>
           <input
             type="text"
+            value={filters.search || ""}
+            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
             placeholder="...ابحث عن الكورسات"
             className="text-right w-full md:w-[400px] text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight flex-grow px-4 sm:text-sm md:text-xs lg:text-sm outline-none border-none"
           />

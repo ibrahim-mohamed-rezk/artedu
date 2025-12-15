@@ -1,20 +1,67 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TeachersFilters from "../popups/TeachersFilters";
+import { TeacherFilters } from "@/libs/types/tpes";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const TeachersHeader = () => {
-  const [openFilters, setOpenFilters] = useState(false);
+const CourseHeader = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [openFilters, setOpenFilters] = useState<boolean>(false);
+  const [filters, setFilters] = useState<TeacherFilters>({
+    search: searchParams.get("search") || null,
+    level_id: searchParams.get("level_id")
+      ? Number(searchParams.get("level_id"))
+      : null,
+    subject_id: searchParams.get("subject_id")
+      ? Number(searchParams.get("subject_id"))
+      : null,
+  });
+
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (filters.search) {
+      params.set("search", filters.search);
+    } else {
+      params.delete("search");
+    }
+
+    if (filters.level_id) {
+      params.set("level_id", filters.level_id.toString());
+    } else {
+      params.delete("level_id");
+    }
+
+    if (filters.subject_id) {
+      params.set("subject_id", filters.subject_id.toString());
+    } else {
+      params.delete("subject_id");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  }, [filters, searchParams, pathname, router]);
+
   return (
     <div className="w-full relative">
-      {openFilters && <TeachersFilters setOpenFilters={setOpenFilters} />}
+      {openFilters && (
+        <TeachersFilters
+          filters={filters}
+          setFilters={setFilters}
+          setOpenFilters={setOpenFilters}
+        />
+      )}
 
       <svg
-        className="w-full h-auto"
+        className="w-full h-auto md:min-h-[120px]"
         viewBox="0 0 1810 175"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="none"
       >
         <path
           d="M0 0H1810V158.628C1810 158.628 1259.67 174.973 906.885 175C552.628 175.027 0 158.628 0 158.628V0Z"
@@ -24,44 +71,40 @@ const TeachersHeader = () => {
       </svg>
 
       {/* buttons */}
-      <div className="absolute top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-2 sm:p-[2.76px] bg-white rounded-2xl sm:rounded-[20.69px] border border-[#f1f1f2] flex flex-col sm:flex-row items-center gap-2 sm:gap-[2.76px]">
-        <div className="w-[322.70px] h-[70.33px] p-[2.76px] bg-white rounded-[20.69px] border border-[#f1f1f2] justify-start items-center gap-[2.76px] inline-flex">
-          <Link
-            href="/teachers"
-            className="w-[317.19px] h-[64.82px] px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[17.93px] justify-center items-center gap-[20.69px] flex"
-          >
-            <div className="text-center text-white text-xl font-medium font-['SST Arabic'] leading-7 tracking-tight">
-              مدرسينا
-            </div>
-            <div data-svg-wrapper className="relative">
-              <svg
-                width="34"
-                height="34"
-                viewBox="0 0 34 34"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.7527 5.44369C17.793 4.52495 15.5969 4.52495 13.6372 5.44369L4.4097 9.76976C2.92581 10.4654 2.53893 12.4271 3.24906 13.783L3.24906 20.614C3.24906 21.1852 3.71214 21.6483 4.28337 21.6483C4.8546 21.6483 5.31767 21.1852 5.31767 20.614V15.3349L13.6373 19.2354C15.597 20.1541 17.7931 20.1541 19.7528 19.2354L28.9803 14.9093C30.9875 13.9683 30.9875 10.7108 28.9804 9.76983L19.7527 5.44369Z"
-                  fill="white"
-                />
-                <path
-                  opacity="0.5"
-                  d="M7.0415 16.1431L13.6373 19.2353C15.597 20.1541 17.7931 20.1541 19.7528 19.2353L26.3485 16.1431V23.5448C26.3485 24.9349 25.6542 26.2365 24.438 26.9099C22.4131 28.0314 19.1718 29.5777 16.695 29.5777C14.2182 29.5777 10.977 28.0314 8.95198 26.9099C7.73587 26.2365 7.0415 24.9349 7.0415 23.5448V16.1431Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-          </Link>
-        </div>
+      <div className="absolute top-[95px] sm:top-[110px] md:top-[30%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[2.76px] bg-white rounded-[10px] md:rounded-[20.69px] border border-[#f1f1f2] w-[95%] md:w-auto flex flex-row items-center gap-[2px]">
+        <Link
+          href="/teachers"
+          className="w-full md:w-auto px-[24.82px] py-[16.55px] bg-[#e55604] rounded-[10px] md:rounded-[17.93px] justify-center items-center gap-[20.69px] flex"
+        >
+          <div className="text-center text-white text-lg sm:text-xl font-medium font-['SST Arabic'] leading-7 tracking-tight">
+            مدرسينا
+          </div>
+          <div data-svg-wrapper className="relative">
+            <svg
+              className="w-8 h-8 sm:w-[34px] sm:h-[34px]"
+              viewBox="0 0 34 34"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19.7527 5.44369C17.793 4.52495 15.5969 4.52495 13.6372 5.44369L4.4097 9.76976C2.92581 10.4654 2.53893 12.4271 3.24906 13.783L3.24906 20.614C3.24906 21.1852 3.71214 21.6483 4.28337 21.6483C4.8546 21.6483 5.31767 21.1852 5.31767 20.614V15.3349L13.6373 19.2354C15.597 20.1541 17.7931 20.1541 19.7528 19.2354L28.9803 14.9093C30.9875 13.9683 30.9875 10.7108 28.9804 9.76983L19.7527 5.44369Z"
+                fill="white"
+              />
+              <path
+                opacity="0.5"
+                d="M7.0415 16.1431L13.6373 19.2353C15.597 20.1541 17.7931 20.1541 19.7528 19.2353L26.3485 16.1431V23.5448C26.3485 24.9349 25.6542 26.2365 24.438 26.9099C22.4131 28.0314 19.1718 29.5777 16.695 29.5777C14.2182 29.5777 10.977 28.0314 8.95198 26.9099C7.73587 26.2365 7.0415 24.9349 7.0415 23.5448V16.1431Z"
+                fill="white"
+              />
+            </svg>
+          </div>
+        </Link>
       </div>
 
       {/* search */}
-      <div className="h-[72px] absolute top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[15.90px] inline-flex">
-        <div className="cursor-pointer" onClick={() => setOpenFilters(true)}>
+      <div className="w-[95%] mx-auto md:w-auto absolute top-[170px] sm:top-[190px] md:top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[8px] md:gap-[15px] inline-flex">
+        <div onClick={() => setOpenFilters(true)} className="cursor-pointer">
           <svg
-            width="86"
-            height="86"
+            className="w-[55px] h-[55px] md:w-[86px] md:h-[86px]"
             viewBox="0 0 86 86"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -87,8 +130,8 @@ const TeachersHeader = () => {
                 shape-rendering="crispEdges"
               />
               <path
-                fillRule="evenodd"
-                clipRule="evenodd"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
                 d="M34.6526 23.6904H51.3471L39.2026 39.8831C39.0122 39.2225 38.7069 38.6554 38.2747 38.1551C38.003 37.8406 37.6236 37.5558 36.8647 36.9862L33.391 34.379C32.2599 33.53 31.6943 33.1055 31.3848 32.4215C31.0752 31.7376 31.0752 30.9125 31.0752 29.2624V28.1656C31.0752 26.056 31.0752 25.0012 31.5991 24.3458C32.123 23.6904 32.9662 23.6904 34.6526 23.6904Z"
                 fill="#E55604"
               />
@@ -137,11 +180,10 @@ const TeachersHeader = () => {
             </defs>
           </svg>
         </div>
-        <div className="pl-6 pr-[28.17px] pt-[16.26px] pb-[17.58px] bg-white rounded-[31.80px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-start items-center gap-[379.66px] flex overflow-hidden">
+        <div className="pl-6 pr-[28.17px] py-[5px] md:py-[16px] bg-white rounded-[15px] md:rounded-[31px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-between items-center flex overflow-hidden w-full max-w-[500px] sm:max-w-full">
           <div className="relative">
             <svg
-              width="40"
-              height="39"
+              className="w-[20px] h-[20px] sm:w-8 sm:h-8 md:w-10 md:h-10"
               viewBox="0 0 40 39"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -159,13 +201,17 @@ const TeachersHeader = () => {
               />
             </svg>
           </div>
-          <div className="text-right text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight">
-            محتاج تذاكر ايه انهاردة ....
-          </div>
+          <input
+            type="text"
+            value={filters.search || ""}
+            onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+            placeholder="...ابحث عن المدرسين"
+            className="text-right w-full md:w-[400px] text-[#8d8d8d] text-base font-normal font-['SST Arabic'] leading-loose tracking-tight flex-grow px-4 sm:text-sm md:text-xs lg:text-sm outline-none border-none"
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default TeachersHeader;
+export default CourseHeader;
