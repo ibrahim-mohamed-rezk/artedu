@@ -2,7 +2,6 @@
 
 import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
-import CourseCard from "../cards/CourseCard";
 import BankCard from "../cards/BankCard";
 
 interface Course {

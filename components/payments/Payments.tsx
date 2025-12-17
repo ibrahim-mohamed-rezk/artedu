@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 import { getData } from "@/libs/axios/backendServer";
 import PaymentCourse from "./PaymentCourse";
 import PaymentBook from "./PaymentBook";
-import BankCard from "../cards/BankCard";
 import PaymentBank from "./PaymentBank";
 
 const Payments = async ({
