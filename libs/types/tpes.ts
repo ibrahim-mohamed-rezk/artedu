@@ -127,6 +127,8 @@ export interface CourseFilters {
   level_id: number[] | null;
   subject_id: number[] | null;
   type: string | null;
+  sort_by: "price" | "created_at" | null;
+  sort_dir: "asc" | "desc" | null;
 }
 
 export interface QuestionsBankFilters {

@@ -37,7 +37,7 @@ const Books = () => {
       <div className="w-full md:px-[50px] mx-auto">
         <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
           {/* filters */}
-          <div className="w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+          {/* <div className="w-full mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-3">
               <div className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2">
                 <div className="relative">
@@ -79,7 +79,7 @@ const Books = () => {
             <div className="text-right text-black text-sm sm:text-base font-normal font-['SST Arabic'] leading-[23.19px] tracking-tight">
               البحث بناء علي
             </div>
-          </div>
+          </div> */}
 
           {/* teachers grid */}
           <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">

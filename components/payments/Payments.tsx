@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import { getData } from "@/libs/axios/backendServer";
 import PaymentCourse from "./PaymentCourse";
 import PaymentBook from "./PaymentBook";
+import BankCard from "../cards/BankCard";
+import PaymentBank from "./PaymentBank";
 
 const Payments = async ({
   params,
@@ -43,15 +45,17 @@ const Payments = async ({
             <div className="bg-white rounded-[20px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2]">
               {params.type === "course" ? (
                 <PaymentCourse cartData={cartData} />
+              ) : params.type === "bank" ? (
+                <PaymentBank cartData={cartData} />
               ) : params.type === "book" ? (
                 <PaymentBook cartData={cartData} />
               ) : (
                 redirect("/")
-              )} 
+              )}
             </div>
 
             <div className="bg-white rounded-[20px] mt-[10px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] p-6">
-              <form  className="space-y-6">
+              <form className="space-y-6">
                 <div>
                   <label className="block text-[#e55604] text-sm mb-2 w-full text-end">
                     الاسم كامل

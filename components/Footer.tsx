@@ -59,28 +59,32 @@ const Footer = () => {
 
             <div className="w-full lg:w-[161px] mb-4 order-1 lg:order-2">
               <div className="text-right text-[#0f2136] text-lg font-medium font-sst-arabic leading-[30px]">
-                الصفحة الرئيسية
+                <Link href={"/"}>الصفحة الرئيسية</Link>
               </div>
               <ul className="opacity-80 text-right text-[#02073e] text-[15px] font-normal font-sst-arabic leading-[37.50px] flex gap-[20px] mt-[10px] flex-row lg:flex-col justify-end lg:justify-start lg:items-end">
-                <li>مدرسينا</li>
-                <li>انضم الينا</li>
+                <li>
+                  {" "}
+                  <Link href={"/teachers"}>مدرسينا</Link>
+                </li>
                 <li>
                   <Link href={"/blogs"}>مقالات</Link>
                 </li>
-                <li>التوظيف</li>
+                <li>
+                  <Link href={"/join-us"}>التوظيف</Link>
+                </li>
               </ul>
             </div>
 
             <div className="w-full lg:w-[164px] mb-4 order-2 lg:order-3">
               <div className="text-right text-[#0f2136] text-lg font-medium font-sst-arabic leading-[30px]">
-                معلومات عنا
+                <Link href={"/about"}>معلومات عنا</Link>
               </div>
               <ul className="opacity-80 text-right text-[#02073e] text-[15px] font-normal font-sst-arabic leading-[37.50px] flex gap-[20px] mt-[10px] flex-row lg:flex-col justify-end lg:justify-start lg:items-end">
                 <li>
                   <Link href={"/contact-us"}>مركز الدعم</Link>
                 </li>
                 {/* <li>دعم العملاء</li> */}
-                <li>نبذة عنا</li>
+                {/* <li>نبذة عنا</li> */}
                 <li>
                   <Link href={"/terms-and-conditions"}>حقوق النشر</Link>
                 </li>
@@ -94,7 +98,9 @@ const Footer = () => {
           {/* footer top right */}
           <div className="flex order-1 lg:order-2 flex-col w-full lg:w-[40%] lg:max-w-[420px]  items-end mb-4 ">
             <div>
-              <img src="/images/footerLogo.png" alt="logo" className="mb-4" />
+              <Link href={"/"}>
+                <img src="/images/footerLogo.png" alt="logo" className="mb-4" />
+              </Link>
             </div>
             <div className="w-full flex flex-col justify-start mt-[24px] lg:mt-[40px] items-end gap-4">
               <div className="self-stretch text-right text-black text-base font-medium font-sst-arabic leading-normal">

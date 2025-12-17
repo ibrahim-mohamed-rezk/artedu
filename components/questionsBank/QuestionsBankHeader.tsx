@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import QuestionsBankFilters from "../popups/QuestionsBankFilters";
+// import QuestionsBankFilters from "../popups/QuestionsBankFilters";
 import { useEffect, useState } from "react";
 import { QuestionsBankFilters as QuestionsBankFiltersType } from "@/libs/types/tpes";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const QuestionsBankHeader = () => {
-  const [openFilters, setOpenFilters] = useState<boolean>(false);
+  // const [openFilters, setOpenFilters] = useState<boolean>(false);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -53,13 +53,13 @@ const QuestionsBankHeader = () => {
   }, [filters, searchParams, pathname, router]);
   return (
     <div className="w-full relative">
-      {openFilters && (
+      {/* {openFilters && (
         <QuestionsBankFilters
           filters={filters}
           setFilters={setFilters}
           setOpenFilters={setOpenFilters}
         />
-      )}
+      )} */}
 
       <svg
         className="w-full h-auto md:min-h-[120px]"
@@ -122,7 +122,7 @@ const QuestionsBankHeader = () => {
 
       {/* search */}
       <div className="w-[95%] mx-auto md:w-auto absolute top-[170px] sm:top-[190px] md:top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 justify-start items-center gap-[8px] md:gap-[15px] inline-flex">
-        <div onClick={() => setOpenFilters(true)} className="cursor-pointer">
+        {/* <div onClick={() => setOpenFilters(true)} className="cursor-pointer">
           <svg
             className="w-[55px] h-[55px] md:w-[86px] md:h-[86px]"
             viewBox="0 0 86 86"
@@ -199,7 +199,7 @@ const QuestionsBankHeader = () => {
               </filter>
             </defs>
           </svg>
-        </div>
+        </div> */}
         <div className="pl-6 pr-[28.17px] py-[5px] md:py-[16px] bg-white rounded-[15px] md:rounded-[31px] shadow-[0px_4.76986837387085px_6.3598246574401855px_0px_rgba(0,0,0,0.03)] border-2 border-[#f1f1f2] justify-between items-center flex overflow-hidden w-full max-w-[500px] sm:max-w-full">
           <div className="relative">
             <svg

@@ -20,6 +20,8 @@ const CourseHeader = () => {
       ? searchParams.get("subject_id")!.split(",").map(Number)
       : null,
     type: searchParams.get("type") || null,
+    sort_by: (searchParams.get("sort_by") as "price" | "created_at") || null,
+    sort_dir: (searchParams.get("sort_dir") as "asc" | "desc") || null,
   });
 
   useEffect(() => {
@@ -49,8 +51,20 @@ const CourseHeader = () => {
       params.delete("type");
     }
 
+    if (filters.sort_by) {
+      params.set("sort_by", filters.sort_by);
+    } else {
+      params.delete("sort_by");
+    }
+
+    if (filters.sort_dir) {
+      params.set("sort_dir", filters.sort_dir);
+    } else {
+      params.delete("sort_dir");
+    }
+
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }, [filters, searchParams, pathname, router]);
+  }, [filters, pathname, router]);
 
   return (
     <div className="w-full relative">

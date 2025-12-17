@@ -3,6 +3,7 @@
 import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import CourseCard from "../cards/CourseCard";
+import BankCard from "../cards/BankCard";
 
 interface Course {
   id: number;
@@ -35,7 +36,7 @@ const QuestionsBank = () => {
   return (
     <div className="w-full pt-4 md:px-[50px] sm:pt-8 md:pt-12 lg:pt-16">
       {/* filters */}
-      <div className="w-full max-w-[1518px] mx-auto flex flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+      {/* <div className="w-full max-w-[1518px] mx-auto flex flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <div
             
@@ -80,12 +81,15 @@ const QuestionsBank = () => {
         <div className="text-right text-black text-sm sm:text-base font-normal font-['SST Arabic'] leading-[23.19px] tracking-tight">
           البحث بناء علي
         </div>
-      </div>
+      </div> */}
 
       {/* courses grid */}
-      <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
+      <div
+        dir="rtl"
+        className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8"
+      >
         {questions?.map((question: Course) => (
-          <CourseCard
+          <BankCard
             key={question.id}
             courseName={question.name}
             courseImage={question.image}
@@ -93,7 +97,6 @@ const QuestionsBank = () => {
             courseTeacher={question.teacher}
             price={question.price}
             courseId={question.id}
-            type={"questionsBanck"}
             is_favorite={question.is_favorite}
           />
         ))}

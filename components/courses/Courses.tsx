@@ -4,7 +4,7 @@ import { getData } from "@/libs/axios/backendServer";
 import { useEffect, useState } from "react";
 import CourseCard from "../cards/CourseCard";
 import { useAppSelector } from "@/libs/store/hooks";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 interface Course {
   id: number;
@@ -24,6 +24,9 @@ const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const { token } = useAppSelector((state) => state.user);
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const getCourses = async () => {
@@ -40,12 +43,47 @@ const Courses = () => {
     getCourses();
   }, [token, searchParams]);
 
+  const handleSortChange = (
+    sortBy: "price" | "created_at",
+    sortDir: "asc" | "desc"
+  ) => {
+    const params = new URLSearchParams();
+
+    // Preserve all existing params
+    searchParams.forEach((value, key) => {
+      params.set(key, value);
+    });
+
+    // Set sort params
+    params.set("sort_by", sortBy);
+    params.set("sort_dir", sortDir);
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    setIsDropdownOpen(false);
+  };
+
+  const getSortLabel = () => {
+    const sortBy = searchParams.get("sort_by");
+    const sortDir = searchParams.get("sort_dir");
+
+    if (sortBy === "price" && sortDir === "asc")
+      return "السعر: من الأقل للأعلى";
+    if (sortBy === "price" && sortDir === "desc")
+      return "السعر: من الأعلى للأقل";
+    if (sortBy === "created_at" && sortDir === "desc") return "الأحدث أولاً";
+    if (sortBy === "created_at" && sortDir === "asc") return "الأقدم أولاً";
+    return "ترتيب حسب";
+  };
+
   return (
     <div className="w-full pt-4 sm:pt-8 md:pt-12 lg:pt-16">
       {/* filters */}
       <div className="w-full mx-auto flex flex-row justify-between items-center gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2">
+        <div className="flex items-center gap-3 relative sort-dropdown-container">
+          <div
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="px-3 py-2 bg-[#e55604]/20 rounded-lg shadow-sm border border-[#f1f1f2] flex items-center gap-2 cursor-pointer hover:bg-[#e55604]/30 transition-colors"
+          >
             <div className="relative">
               <svg
                 width="22"
@@ -78,9 +116,39 @@ const Courses = () => {
               </svg>
             </div>
             <div className="text-[#26577c] text-xs sm:text-sm font-normal font-['SST Arabic']">
-              ترتيب حسب
+              {getSortLabel()}
             </div>
           </div>
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <div className="absolute top-full z-[9999] left-0 mt-2 bg-white rounded-lg shadow-lg border border-[#f1f1f2] py-2 min-w-[200px]">
+              <div
+                onClick={() => handleSortChange("price", "asc")}
+                className="px-4 py-2 hover:bg-[#e55604]/10 cursor-pointer text-right text-sm font-['SST Arabic'] transition-colors"
+              >
+                السعر: من الأقل للأعلى
+              </div>
+              <div
+                onClick={() => handleSortChange("price", "desc")}
+                className="px-4 py-2 hover:bg-[#e55604]/10 cursor-pointer text-right text-sm font-['SST Arabic'] transition-colors"
+              >
+                السعر: من الأعلى للأقل
+              </div>
+              <div
+                onClick={() => handleSortChange("created_at", "desc")}
+                className="px-4 py-2 hover:bg-[#e55604]/10 cursor-pointer text-right text-sm font-['SST Arabic'] transition-colors"
+              >
+                الأحدث أولاً
+              </div>
+              <div
+                onClick={() => handleSortChange("created_at", "asc")}
+                className="px-4 py-2 hover:bg-[#e55604]/10 cursor-pointer text-right text-sm font-['SST Arabic'] transition-colors"
+              >
+                الأقدم أولاً
+              </div>
+            </div>
+          )}
         </div>
         <div className="text-right text-black text-sm sm:text-base font-normal font-['SST Arabic'] leading-[23.19px] tracking-tight">
           البحث بناء علي
