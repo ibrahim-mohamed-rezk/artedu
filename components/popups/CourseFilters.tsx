@@ -97,6 +97,8 @@ const CourseFilters = ({
       level_id: null,
       subject_id: null,
       type: null,
+      sort_by: null,
+      sort_dir: null,
     });
   };
 
