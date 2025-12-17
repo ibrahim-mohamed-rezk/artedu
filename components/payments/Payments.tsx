@@ -33,7 +33,6 @@ const Payments = async ({
 
   const cartData = await fetchCartData();
 
-  console.log(cartData);
 
   return (
     <div className="w-full">
@@ -181,7 +180,7 @@ const Payments = async ({
                 <div className="space-y-4 mb-6">
                   <div className="flex justify-between">
                     <span>سعر الكورس</span>
-                    <span>250.00 جنية</span>
+                    <span>{cartData.price} جنية</span>
                   </div>
                   <div className="flex justify-between">
                     <span>ضريبه</span>
@@ -191,7 +190,7 @@ const Payments = async ({
                 <div className="border-t border-[#f1f1f2] pt-4">
                   <div className="flex justify-between items-center">
                     <span className="font-medium">الاجمالي</span>
-                    <span className="text-lg font-bold">250.00 جنية</span>
+                    <span className="text-lg font-bold">{cartData.price} جنية</span>
                   </div>
                 </div>
               </div>

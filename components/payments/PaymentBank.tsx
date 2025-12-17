@@ -2,11 +2,12 @@ import { Courses } from "@/libs/types/tpes";
 import Link from "next/link";
 
 const PaymentBank = ({ cartData }: { cartData: Courses }) => {
+  console.log(cartData) 
   return (
     <Link href={`/courses/${cartData.id}`} className="flex flex-row w-full lg:w-fit justify-between py-2 px-3 rounded-lg gap-6 border border-[#f1f1f2] ">
       <img
         className="w-[clamp(100px,9.53125vw,500px)] h-[clamp(100px,5.46875vw,400px)] rounded-3xl"
-        src={cartData.cover}
+        src={cartData.image}
         alt="Product"
       />
       <div className="flex flex-col justify-between">
@@ -29,7 +30,7 @@ const PaymentBank = ({ cartData }: { cartData: Courses }) => {
             </svg>
             <span>{cartData.teacher}</span> 
           </div>
-          <h3 className="text-xl font-bold mb-4">{cartData.title}</h3>
+          <h3 className="text-xl font-bold mb-4">{cartData.name}</h3>
         </div>
         <div className="flex items-center justify-between gap-1">
           <span className="text-[10px]">جنيه</span>

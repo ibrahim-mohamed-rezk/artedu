@@ -28,6 +28,7 @@ export interface Courses {
   id: number;
   cour_no: string;
   title: string;
+  name?: string;
   description: string;
   meta_description: string;
   meta_keywords: string;
