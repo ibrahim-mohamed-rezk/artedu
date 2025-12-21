@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import BookCard from "../cards/BookCard";
 import { getData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
+import { useSearchParams } from "next/navigation";
 
 interface Book {
   name: string;
@@ -17,20 +18,17 @@ interface Book {
 const Books = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const { token } = useAppSelector((state) => state.user);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const response = await getData(
-        "books-api",
-        {},
-        {
-          authorization: `Bearer ${token}`,
-        }
-      );
+      const response = await getData("books-api", searchParams, {
+        authorization: `Bearer ${token}`,
+      });
       setBooks(response.data.items);
     };
     fetchBooks();
-  }, [token]);
+  }, [token, searchParams]);
 
   return (
     <div className="w-full ">

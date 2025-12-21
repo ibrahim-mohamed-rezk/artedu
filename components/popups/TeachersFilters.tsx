@@ -63,15 +63,15 @@ const TeachersFilters = ({
     };
   }, [setOpenFilters]);
 
-  const toggleLevelSelection = (levelId: number) => {
-    const currentLevels = localFilters.level_id || [];
-    const isSelected = currentLevels.includes(levelId);
+  const toggleLevelSelection = (levelName: string) => {
+    const currentLevels = localFilters.level || [];
+    const isSelected = currentLevels.includes(levelName);
 
     setLocalFilters({
       ...localFilters,
-      level_id: isSelected
-        ? currentLevels.filter((id) => id !== levelId)
-        : [...currentLevels, levelId],
+      level: isSelected
+        ? currentLevels.filter((name) => name !== levelName)
+        : [...currentLevels, levelName],
     });
   };
 
@@ -90,8 +90,9 @@ const TeachersFilters = ({
   const handleReset = () => {
     setLocalFilters({
       search: null,
-      level_id: null,
+      level: null,
       subject_id: null,
+      type: null,
     });
   };
 
@@ -124,10 +125,8 @@ const TeachersFilters = ({
                     {level.name}
                   </span>
                   <input
-                    onChange={() => toggleLevelSelection(Number(level.id))}
-                    checked={(localFilters.level_id || []).includes(
-                      Number(level.id)
-                    )}
+                    onChange={() => toggleLevelSelection(level.name)}
+                    checked={(localFilters.level || []).includes(level.name)}
                     type="checkbox"
                   />
                 </div>
@@ -149,6 +148,34 @@ const TeachersFilters = ({
                     checked={(localFilters.subject_id || []).includes(
                       Number(subject.id)
                     )}
+                    type="checkbox"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mb-6">
+            <div className="mb-2 text-right text-black text-base font-bold font-['SST Arabic']">
+              نوع التدريس
+            </div>
+            <div className="flex flex-wrap justify-end gap-4">
+              {[
+                { id: "online", name: "أونلاين" },
+                { id: "offline", name: "حضور" },
+                { id: "both", name: "الكل" },
+              ].map((type) => (
+                <div key={type.id} className="flex items-center gap-2">
+                  <span className="text-right text-black text-sm font-normal font-['SST Arabic']">
+                    {type.name}
+                  </span>
+                  <input
+                    onChange={() =>
+                      setLocalFilters({
+                        ...localFilters,
+                        type: localFilters.type === type.id ? null : type.id,
+                      })
+                    }
+                    checked={localFilters.type === type.id}
                     type="checkbox"
                   />
                 </div>

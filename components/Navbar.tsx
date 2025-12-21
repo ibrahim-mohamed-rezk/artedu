@@ -65,7 +65,7 @@ const Navbar = () => {
             ? `fixed right-0 top-0 h-[100vh] overflow-auto w-[300px] transform gap-[10px] ${
                 isOpen ? "translate-x-0" : "translate-x-full"
               } transition-transform duration-300 ease-in-out z-40 `
-            : "w-[120px] h-[100vh] min-h-[750px] order-10 gap-[30px]"
+            : "w-[120px] h-[100vh] min-h-fit order-10 gap-[30px]"
         } pt-[40px] pb-[40px] bg-[#fff2eb] z-[9000] rounded-tl-[15px] rounded-bl-[15px] flex flex-col justify-between items-center `}
       >
         {/* close mobile menu button  */}
@@ -293,7 +293,7 @@ const Navbar = () => {
           </div>
         ) : (
           <div
-            className={`flex-col justify-center items-center flex overflow-hidden ${
+            className={`flex-col justify-center items-center min-h-fit flex overflow-hidden ${
               isMobile ? "gap-[15px]" : "gap-[30px]"
             }`}
           >

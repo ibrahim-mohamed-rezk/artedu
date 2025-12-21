@@ -119,8 +119,9 @@ export interface Subject {
 
 export interface TeacherFilters {
   search: string | null;
-  level_id: number[] | null;
+  level: string[] | null;
   subject_id: number[] | null;
+  type: string | null;
 }
 
 export interface CourseFilters {

@@ -13,12 +13,13 @@ const CourseHeader = () => {
   const [openFilters, setOpenFilters] = useState<boolean>(false);
   const [filters, setFilters] = useState<TeacherFilters>({
     search: searchParams.get("search") || null,
-    level_id: searchParams.get("level_id")
-      ? searchParams.get("level_id")!.split(",").map(Number)
+    level: searchParams.get("level")
+      ? searchParams.get("level")!.split(",")
       : null,
     subject_id: searchParams.get("subject_id")
       ? searchParams.get("subject_id")!.split(",").map(Number)
       : null,
+    type: searchParams.get("type") || null,
   });
 
   useEffect(() => {
@@ -30,16 +31,22 @@ const CourseHeader = () => {
       params.delete("search");
     }
 
-    if (filters.level_id && filters.level_id.length > 0) {
-      params.set("level_id", filters.level_id.join(","));
+    if (filters.level && filters.level.length > 0) {
+      params.set("level", filters.level.join(","));
     } else {
-      params.delete("level_id");
+      params.delete("level");
     }
 
     if (filters.subject_id && filters.subject_id.length > 0) {
       params.set("subject_id", filters.subject_id.join(","));
     } else {
       params.delete("subject_id");
+    }
+
+    if (filters.type) {
+      params.set("type", filters.type);
+    } else {
+      params.delete("type");
     }
 
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });

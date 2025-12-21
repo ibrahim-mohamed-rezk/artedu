@@ -28,8 +28,8 @@ const Subjects = () => {
           href={`/courses?subject_id=${subject.id}`}
           className="px-4 py-2 md:px-6 md:py-3 lg:px-8 lg:py-4 rounded-3xl border-2 flex items-center justify-center overflow-hidden transition-all duration-300 ease-in-out hover:scale-105 cursor-pointer"
           style={{
-            backgroundColor: `${subjects[index]?.color}20`,
-            borderColor: subjects[index]?.border,
+            backgroundColor: `${subjects[index % subjects.length]?.color}20`,
+            borderColor: subjects[index % subjects.length]?.border,
           }}
         >
           <div className="text-right text-black text-base md:text-lg lg:text-xl font-medium font-sst-arabic capitalize">

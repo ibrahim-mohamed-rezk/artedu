@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { getData } from "@/libs/axios/backendServer";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -78,12 +79,18 @@ const Teacher = () => {
             <div className="w-full md:w-1/4 order-2 md:order-1">
               <div className="bg-white rounded-[30px] border border-[#f1f1f2] p-6">
                 <div className="flex flex-col gap-4">
-                  <button className="w-full py-4 px-6 bg-[#e55604] rounded-xl text-white font-medium text-center">
+                  <Link
+                    href={`/courses?teacher_id=${teacherId}`}
+                    className="w-full py-4 px-6 bg-[#e55604] rounded-xl text-white font-medium text-center block"
+                  >
                     كورساتي
-                  </button>
-                  <button className="w-full py-4 px-6 bg-[rgba(229,86,4,0.1)] border border-[#e55604] rounded-xl text-[#e55604] font-medium text-center">
+                  </Link>
+                  <Link
+                    href={`/books?teacher_id=${teacherId}`}
+                    className="w-full py-4 px-6 bg-[rgba(229,86,4,0.1)] border border-[#e55604] rounded-xl text-[#e55604] font-medium text-center block"
+                  >
                     كتبي
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
