@@ -195,7 +195,7 @@ const Navbar = () => {
               ></div>
             )}
 
-            <div className="relative">
+            <Link href="/notifications" className="relative cursor-pointer">
               <svg
                 width="33"
                 height="33"
@@ -213,7 +213,7 @@ const Navbar = () => {
                 />
               </svg>
               <div className="w-[10px] h-[10px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[1px] right-[4px]"></div>
-            </div>
+            </Link>
           </div>
         ) : (
           <div className="flex-col mt-[10px] md:mt-0 w-[90%] md:w-auto justify-end items-center gap-[20px] flex">
@@ -256,40 +256,41 @@ const Navbar = () => {
         {/* navigation links */}
         {isMobile ? (
           <div className="self-stretch px-[5px] flex-col justify-start items-start flex">
-            {isLoggedIn && userMenueItems.map((item, index) => (
-              <Link
-                href={item.fun ? "/login" : item.url || ""}
-                onClick={() => {
-                  if (item.fun) {
-                    item.fun();
-                  }
-                  setIsOpen(false);
-                }}
-                key={index}
-                className={`self-stretch py-[12px] px-[16px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex ${
-                  pathname === item.url ? "bg-[#26577C] text-white" : ""
-                } hover:bg-[#26577C] cursor-pointer hover:text-white`}
-              >
-                <div className="grow shrink basis-0 h-[32.79px] justify-start items-center gap-[10.93px] flex">
-                  <div
-                    className={`grow shrink basis-0 text-right text-xl font-medium font-['SST Arabic'] leading-loose `}
-                  >
-                    {item.text}
-                  </div>
-                  <div className="relative">
+            {isLoggedIn &&
+              userMenueItems.map((item, index) => (
+                <Link
+                  href={item.fun ? "/login" : item.url || ""}
+                  onClick={() => {
+                    if (item.fun) {
+                      item.fun();
+                    }
+                    setIsOpen(false);
+                  }}
+                  key={index}
+                  className={`self-stretch py-[12px] px-[16px] rounded-[10.93px] justify-start items-center gap-[16.40px] inline-flex ${
+                    pathname === item.url ? "bg-[#26577C] text-white" : ""
+                  } hover:bg-[#26577C] cursor-pointer hover:text-white`}
+                >
+                  <div className="grow shrink basis-0 h-[32.79px] justify-start items-center gap-[10.93px] flex">
                     <div
-                      className="w-[32px] h-[32px] bg-white rounded-full flex items-center justify-center p-[5px]"
-                      dangerouslySetInnerHTML={{
-                        __html: item.icon,
-                      }}
-                    />
-                    {item.badge && (
-                      <div className="w-[6px] h-[6px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[6px] right-[8px]" />
-                    )}
+                      className={`grow shrink basis-0 text-right text-xl font-medium font-['SST Arabic'] leading-loose `}
+                    >
+                      {item.text}
+                    </div>
+                    <div className="relative">
+                      <div
+                        className="w-[32px] h-[32px] bg-white rounded-full flex items-center justify-center p-[5px]"
+                        dangerouslySetInnerHTML={{
+                          __html: item.icon,
+                        }}
+                      />
+                      {item.badge && (
+                        <div className="w-[6px] h-[6px] rounded-full border border-[#21212E] bg-[#FF0E00] absolute top-[6px] right-[8px]" />
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
           </div>
         ) : (
           <div
