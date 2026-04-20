@@ -23,6 +23,7 @@ const Payments = ({
   const router = useRouter();
   const { userData, token } = useAppSelector((state) => state.user);
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [cartData, setCartData] = useState<any>(null);
   const [governorates, setGovernorates] = useState<Governorate[]>([]);
   const [areas, setAreas] = useState<Governorate[]>([]);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getData } from "@/libs/axios/backendServer";
 import VedioCard from "./VedioCard";
 import ExamCard from "./ExamCard";
@@ -42,12 +42,7 @@ interface Module {
 
 const Course = () => {
   const [course, setCourse] = useState<Course>({} as Course);
-  const [openedModuleId, setOpenedModuleId] = useState<number | null>(1);
-  const [openedModuleType, setOpenedModuleType] = useState<string | null>(null);
   const { courseId } = useParams();
-  const [openModuleData, setOpenModuleData] = useState<Module | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [videoRun, setVideoRun] = useState<boolean>(false);
   const router = useRouter();
 
   const { addToFavorites } = useAddToFavorites();
@@ -95,7 +90,6 @@ const Course = () => {
         );
         setCourse(response.data);
         console.log(response.data);
-        setOpenedModuleId(response.data.modules[0].id);
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
@@ -107,40 +101,6 @@ const Course = () => {
   useEffect(() => {
     setIsFav(course.is_favorite);
   }, [course, courseId]);
-
-  //   get curren module data
-  useEffect(() => {
-    const myModule = course?.modules?.find(
-      (module) => module.id === openedModuleId
-    );
-    setOpenedModuleType(myModule?.type || null);
-    setOpenModuleData(myModule || null);
-  }, [openedModuleId, course]);
-
-  //   video controle
-  useEffect(() => {
-    const handlePause = () => {
-      setVideoRun(false);
-    };
-
-    const handleOpen = () => {
-      setVideoRun(true);
-    };
-
-    const videoElement = videoRef.current;
-    if (videoElement) {
-      videoElement.addEventListener("pause", handlePause);
-      videoElement.addEventListener("play", handleOpen);
-    }
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      if (videoElement) {
-        videoElement.removeEventListener("pause", handlePause);
-        videoElement.removeEventListener("play", handleOpen);
-      }
-    };
-  }, [videoRef, videoRun, openedModuleId, course]);
 
   // handle course purchase
   const handlePurchase = () => {
@@ -174,7 +134,6 @@ const Course = () => {
                   if (index === 0) {
                     return (
                       <div
-                        onClick={() => setOpenedModuleId(module.id)}
                         key={module.id}
                         className="cursor-pointer"
                       >
