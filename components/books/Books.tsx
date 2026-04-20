@@ -80,7 +80,7 @@ const Books = () => {
           </div> */}
 
           {/* teachers grid */}
-          <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
+          <div dir="rtl" className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-8 sm:mt-12 px-4 sm:px-6 lg:px-8">
             {books?.map((book: Book) => (
               <BookCard
                 key={book?.id}

@@ -9,6 +9,7 @@ import "@/public/css/course.css";
 import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import { useAppSelector } from "@/libs/store/hooks";
 import { toast } from "react-toastify";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 
 interface Course {
   id: number;
@@ -191,107 +192,31 @@ const Course = () => {
 
           {/* Right side - Course details */}
           <div className="w-full lg:w-2/3 space-y-6 order-1 lg:order-2">
-            {/* open video screen */}
-            {openModuleData && openedModuleType === "video" && (
-              <div className="relative flex items-center justify-center bg-black/20 rounded-[58px] aspect-video cursor-pointer video-player">
-                {openModuleData?.details?.from === "youtube" ? (
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    className="rounded-[10px] lg:rounded-[30px] object-cover"
-                    src={openModuleData?.details?.url}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                ) : (
-                  <>
-                    <video
-                      className=" w-full rounded-[10px] lg:rounded-[30px] object-cover"
-                      controls
-                      src={openModuleData?.details?.url}
-                      ref={videoRef}
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                    <div className="absolute w-[180px] h-[180px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                      <button
-                        onClick={() => {
-                          if (videoRef.current) {
-                            if (videoRef.current.paused) {
-                              videoRef.current.play();
-                              setVideoRun(true);
-                            } else {
-                              videoRef.current.pause();
-                              setVideoRun(false);
-                            }
-                          }
-                        }}
-                        className="focus:outline-none play-button"
-                      >
-                        {videoRun ? (
-                          <svg
-                            width="182"
-                            height="182"
-                            viewBox="0 0 512 512"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
-                          >
-                            <rect
-                              width="512"
-                              height="512"
-                              rx="256"
-                              fill="#D9D9D9"
-                              fillOpacity="0.2"
-                            />
-                            <path
-                              d="M144 128C117.5 128 96 149.5 96 176V336C96 362.5 117.5 384 144 384H176C202.5 384 224 362.5 224 336V176C224 149.5 202.5 128 176 128H144ZM336 128C309.5 128 288 149.5 288 176V336C288 362.5 309.5 384 336 384H368C394.5 384 416 362.5 416 336V176C416 149.5 394.5 128 368 128H336Z"
-                              fill="#D9D9D9"
-                            />
-                          </svg>
-                        ) : (
-                          <svg
-                            width="182"
-                            height="182"
-                            viewBox="0 0 182 182"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-1/2 h-1/2 lg:w-auto lg:h-auto"
-                          >
-                            <rect
-                              x="0.447266"
-                              y="0.368622"
-                              width="181.241"
-                              height="181.241"
-                              rx="90.6203"
-                              fill="#D9D9D9"
-                              fillOpacity="0.2"
-                            />
-                            <path
-                              d="M66.6808 49.7506L138.975 90.4882L67.548 132.728L66.6808 49.7506Z"
-                              fill="#D9D9D9"
-                            />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
-                  </>
-                )}
+            {/* Message instead of video */}
+            <div className="relative flex items-center justify-center bg-gradient-to-br from-[#26577c]/10 to-[#26577c]/5 rounded-[30px] lg:rounded-[58px] aspect-video border-2 border-[#26577c]/20">
+              <div className="text-center px-8 py-12">
+                <svg
+                  className="w-20 h-20 mx-auto mb-6 text-[#26577c]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+                <h3 className="text-2xl lg:text-3xl font-bold text-[#26577c] mb-4 font-['SST Arabic']">
+                  مشاهدة كافة الكورسات على التطبيق فقط
+                </h3>
+                <p className="text-base lg:text-lg text-gray-600 font-['SST Arabic']">
+                  للاستمتاع بتجربة أفضل ومشاهدة جميع الدروس، يرجى تحميل التطبيق
+                </p>
               </div>
-            )}
-
-            {/* open exam screen */}
-            {/* {openModuleData && openedModuleType === "exam" && (
-              <div className=" flex items-center justify-center overflow-hidden rounded-[58px]">
-                <img
-                  className="w-full h-full"
-                  src={openModuleData?.details?.thumbnail}
-                  alt=""
-                />
-              </div>
-            )} */}
+            </div>
 
             {/* Course title and price */}
             <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
@@ -337,17 +262,30 @@ const Course = () => {
                     </button>
                   </div>
                   <div className=" flex mt-4 lg:mt-0">
-                    <div className=" flex justify-end items-end gap-1">
-                      <div className="text-right text-[#8c9ec5] text-xs font-medium font-sst-arabic capitalize">
-                        جنيه
-                      </div>
-                      <div className=" mb-[-5px] text-right text-[#26577c] text-[25px] font-bold font-sst-arabic capitalize">
-                        {course?.price || 0}
-                      </div>
-                    </div>
-                    <div className=" text-right text-black text-xs font-medium font-sst-arabic">
-                      : السعر
-                    </div>
+                    {isFreePrice(course?.price) ? (
+                      <>
+                        <div className="text-right text-[#26577c] text-lg font-bold font-sst-arabic">
+                          {formatPrice(course?.price)}
+                        </div>
+                        <div className="text-right text-black text-xs font-medium font-sst-arabic mr-2">
+                          : السعر
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className=" flex justify-end items-end gap-1">
+                          <div className="text-right text-[#8c9ec5] text-xs font-medium font-sst-arabic capitalize">
+                            جنيه
+                          </div>
+                          <div className=" mb-[-5px] text-right text-[#26577c] text-[25px] font-bold font-sst-arabic capitalize">
+                            {formatPrice(course?.price)}
+                          </div>
+                        </div>
+                        <div className=" text-right text-black text-xs font-medium font-sst-arabic">
+                          : السعر
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

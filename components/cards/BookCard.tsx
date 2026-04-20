@@ -5,6 +5,7 @@ import { useAppSelector } from "@/libs/store/hooks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 
 interface Props {
   title?: string;
@@ -72,12 +73,20 @@ const BookCard = ({ title, author, price, image, id, is_favorite }: Props) => {
             <span className="text-black text-base font-medium font-['SST Arabic']">
               السعر :
             </span>
-            <span className="text-[#26577c] text-xl font-bold font-['SST Arabic']">
-              {price}
-            </span>
-            <span className="text-[#8c9ec5] text-xs font-medium font-['SST Arabic'] ml-1">
-              جنيه
-            </span>
+            {isFreePrice(price) ? (
+              <span className="text-[#26577c] text-sm font-bold font-['SST Arabic'] mr-1">
+                {formatPrice(price)}
+              </span>
+            ) : (
+              <>
+                <span className="text-[#26577c] text-xl font-bold font-['SST Arabic']">
+                  {formatPrice(price)}
+                </span>
+                <span className="text-[#8c9ec5] text-xs font-medium font-['SST Arabic'] ml-1">
+                  جنيه
+                </span>
+              </>
+            )}
           </div>
         </div>
       </Link>

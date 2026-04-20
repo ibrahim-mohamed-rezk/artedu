@@ -9,6 +9,7 @@ import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import { useAppDispatch, useAppSelector } from "@/libs/store/hooks";
 import { getHomeData } from "@/libs/store/slices/homeSlice";
 import { toast } from "react-toastify";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 
 interface Book {
   id: number;
@@ -193,17 +194,30 @@ const Book = () => {
                   </div>
                 </div>
                 <div className="w-full lg:w-[164px] h-auto lg:h-[55.70px] relative mt-4 lg:mt-0 flex flex-row items-end justify-end">
-                  <div className="text-right text-[#8c9ec5] text-sm md:text-base lg:text-lg font-medium font-['SST Arabic'] capitalize">
-                    جنيه
-                  </div>
-                  <div className="flex items-end gap-1 md:gap-2 lg:gap-[6.19px]">
-                    <div className="text-right text-[#26577c] text-2xl lg:text-3xl lg:text-[38.68px] font-bold font-['SST Arabic'] capitalize">
-                      {book?.price}
-                    </div>
-                  </div>
-                  <div className="text-right text-nowrap mb-[20px] lg:mb-[30px] text-black text-base lg:text-lg font-medium font-['SST Arabic'] mr-1 lg:mr-2">
-                    : السعر
-                  </div>
+                  {isFreePrice(book?.price) ? (
+                    <>
+                      <div className="text-right text-[#26577c] text-lg lg:text-xl font-bold font-['SST Arabic']">
+                        {formatPrice(book?.price)}
+                      </div>
+                      <div className="text-right text-nowrap mb-[5px] text-black text-base lg:text-lg font-medium font-['SST Arabic'] mr-1 lg:mr-2">
+                        : السعر
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="text-right text-[#8c9ec5] text-sm md:text-base lg:text-lg font-medium font-['SST Arabic'] capitalize">
+                        جنيه
+                      </div>
+                      <div className="flex items-end gap-1 md:gap-2 lg:gap-[6.19px]">
+                        <div className="text-right text-[#26577c] text-2xl lg:text-3xl lg:text-[38.68px] font-bold font-['SST Arabic'] capitalize">
+                          {formatPrice(book?.price)}
+                        </div>
+                      </div>
+                      <div className="text-right text-nowrap mb-[20px] lg:mb-[30px] text-black text-base lg:text-lg font-medium font-['SST Arabic'] mr-1 lg:mr-2">
+                        : السعر
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

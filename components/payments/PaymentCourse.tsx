@@ -1,5 +1,6 @@
 import { Courses } from "@/libs/types/tpes";
 import Link from "next/link";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 
 const PaymentCourse = ({ cartData }: { cartData: Courses }) => {
   return (
@@ -32,11 +33,22 @@ const PaymentCourse = ({ cartData }: { cartData: Courses }) => {
           <h3 className="text-xl font-bold mb-4">{cartData.title}</h3>
         </div>
         <div className="flex items-center justify-between gap-1">
-          <span className="text-[10px]">جنيه</span>
-          <span className="text-[#26577c] text-lg font-bold">
-            {cartData.price || 0}
-          </span>
-          <span className="text-black text-lg">:السعر </span>
+          {isFreePrice(cartData.price) ? (
+            <>
+              <span className="text-[#26577c] text-base font-bold">
+                {formatPrice(cartData.price)}
+              </span>
+              <span className="text-black text-lg">:السعر </span>
+            </>
+          ) : (
+            <>
+              <span className="text-[10px]">جنيه</span>
+              <span className="text-[#26577c] text-lg font-bold">
+                {formatPrice(cartData.price)}
+              </span>
+              <span className="text-black text-lg">:السعر </span>
+            </>
+          )}
         </div>
       </div>
     </Link>

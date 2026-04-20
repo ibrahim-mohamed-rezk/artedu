@@ -1,5 +1,7 @@
 import { Books, Courses } from "@/libs/types/tpes";
 import React from "react";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
+import { useRouter } from "next/navigation";
 
 interface FavoriteCardProps {
   item: Books | Courses;
@@ -8,6 +10,14 @@ interface FavoriteCardProps {
 
 const FavoriteCard: React.FC<FavoriteCardProps> = ({ item, type }) => {
   const isBook = type === "books";
+  const price = isBook ? (item as Books)?.price : (item as Courses)?.price;
+  const router = useRouter();
+
+  const handlePurchase = () => {
+    const itemId = isBook ? (item as Books)?.id : (item as Courses)?.id;
+    const paymentType = isBook ? "book" : "course";
+    router.push(`/payments/${paymentType}/${itemId}`);
+  };
 
   return (
     <div className="w-full sm:w-96 relative bg-white rounded-3xl shadow-sm border border-zinc-100 mb-4">
@@ -40,17 +50,29 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item, type }) => {
 
           {/* السعر */}
           <div className="flex items-end gap-1">
-            <span className="text-slate-400 text-xs">جنيه</span>
-            <span className="text-cyan-800 text-base font-bold">
-              {isBook
-                ? (item as Books)?.price || 0
-                : (item as Courses)?.price || 0}
-            </span>
-            <span className="text-black text-sm">: السعر </span>
+            {isFreePrice(price) ? (
+              <>
+                <span className="text-cyan-800 text-sm font-bold">
+                  {formatPrice(price)}
+                </span>
+                <span className="text-black text-sm">: السعر </span>
+              </>
+            ) : (
+              <>
+                <span className="text-slate-400 text-xs">جنيه</span>
+                <span className="text-cyan-800 text-base font-bold">
+                  {formatPrice(price)}
+                </span>
+                <span className="text-black text-sm">: السعر </span>
+              </>
+            )}
           </div>
 
           {/* زر الشراء */}
-          <button className="w-full py-2 rounded-lg text-white text-sm font-medium bg-orange-600">
+          <button 
+            onClick={handlePurchase}
+            className="w-full py-2 rounded-lg text-white text-sm font-medium bg-orange-600 hover:bg-orange-700 transition-colors"
+          >
             شراء الآن
           </button>
         </div>

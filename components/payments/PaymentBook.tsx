@@ -1,6 +1,7 @@
 import { Books } from "@/libs/types/tpes";
 import Link from "next/link";
 import React from "react";
+import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 
 const PaymentBook = ({ cartData }: { cartData: Books }) => {
   console.log(cartData);
@@ -32,9 +33,15 @@ const PaymentBook = ({ cartData }: { cartData: Books }) => {
               <h3 className="text-xl font-bold mb-4">{cartData.name}</h3>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-[#26577c] text-lg font-bold">
-                {cartData.price} جنيه
-              </span>
+              {isFreePrice(cartData.price) ? (
+                <span className="text-[#26577c] text-base font-bold">
+                  {formatPrice(cartData.price)}
+                </span>
+              ) : (
+                <span className="text-[#26577c] text-lg font-bold">
+                  {formatPrice(cartData.price)} جنيه
+                </span>
+              )}
               <span className="text-black text-lg">السعر :</span>
             </div>
           </div>
