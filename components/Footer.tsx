@@ -83,8 +83,9 @@ const Footer = () => {
                 <li>
                   <Link href={"/contact-us"}>مركز الدعم</Link>
                 </li>
-                {/* <li>دعم العملاء</li> */}
-                {/* <li>نبذة عنا</li> */}
+                <li>
+                  <Link href={"/about"}>نبذة عنا</Link>
+                </li>
                 <li>
                   <Link href={"/terms-and-conditions"}>حقوق النشر</Link>
                 </li>
