@@ -51,7 +51,7 @@ const Teacher = () => {
           {teacher?.cover && (
             <div className="relative w-full z-10">
               <img
-                className="w-full h-[200px] sm:h-[300px] md:h-[380px] object-cover rounded-[20px]"
+                className="w-full h-[200px] sm:h-[300px] md:h-[380px] object-fit rounded-[20px]"
                 alt="Teacher background"
                 src={teacher?.cover}
               />
