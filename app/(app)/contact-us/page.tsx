@@ -1,6 +1,49 @@
-import React from "react";
+"use client";
+
+import { useState } from "react";
+import { postData } from "@/libs/axios/backendServer";
+import { toast } from "react-toastify";
 
 const ContactUsPage = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error("يرجى ملء جميع الحقول المطلوبة");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      const payload = new FormData();
+      payload.append("name", formData.name.trim());
+      payload.append("email", formData.email.trim());
+      payload.append("message", formData.message.trim());
+
+      const response = await postData("contact-api", payload);
+      toast.success(response?.msg || response?.message || "تم إرسال رسالتك بنجاح");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error: any) {
+      toast.error(error?.response?.data?.msg || "حدث خطأ أثناء إرسال الرسالة");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="w-full pt-[clamp(10px,2.6041667vw,100px)]">
       <div className="w-[95%] md:w-[clamp(100px,79.0625vw,30000px)] mx-auto">
@@ -22,13 +65,16 @@ const ContactUsPage = () => {
               <h2 className="text-[#0F2137] text-xl font-sst-arabic font-semibold text-right">
                 أرسل رسالة
               </h2>
-              <form className="flex flex-col gap-4">
+              <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-2">
                   <label className="text-right text-[#0F2137] font-sst-arabic">
                     الاسم الكامل
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="اكتب اسمك"
                     className="w-full text-right px-3 py-2 bg-white rounded-[10px] border border-[#e5e7eb] focus:border-[#26577c] outline-none font-sst-arabic"
                   />
@@ -39,6 +85,9 @@ const ContactUsPage = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="example@mail.com"
                     className="w-full text-right px-3 py-2 bg-white rounded-[10px] border border-[#e5e7eb] focus:border-[#26577c] outline-none font-sst-arabic"
                   />
@@ -48,6 +97,9 @@ const ContactUsPage = () => {
                     الرسالة
                   </label>
                   <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="اكتب رسالتك هنا"
                     rows={5}
                     className="w-full text-right px-3 py-2 bg-white rounded-[10px] border border-[#e5e7eb] focus:border-[#26577c] outline-none font-sst-arabic"
@@ -55,10 +107,11 @@ const ContactUsPage = () => {
                 </div>
                 <div className="flex justify-end">
                   <button
-                    type="button"
-                    className="px-5 py-2 bg-[#26577c] text-white rounded-[10px] font-sst-arabic"
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-5 py-2 bg-[#26577c] text-white rounded-[10px] font-sst-arabic disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    إرسال
+                    {isSubmitting ? "جاري الإرسال..." : "إرسال"}
                   </button>
                 </div>
               </form>
