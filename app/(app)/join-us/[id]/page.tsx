@@ -4,11 +4,11 @@ import { getData } from "@/libs/axios/backendServer";
 import { getWorkFromResponse } from "@/libs/helpers/works";
 
 type JoinUsDetailsPageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 const JoinUsDetailsPage = async ({ params }: JoinUsDetailsPageProps) => {
-  const { id } = params;
+  const { id } = await params;
 
   let job = null;
 

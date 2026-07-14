@@ -6,6 +6,7 @@ import PasswordInput from "../inputs/PasswordInput";
 import { postData, getData } from "@/libs/axios/backendServer"; // Assuming getData is a function to fetch data
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 interface LoginProps {
   className?: string;
@@ -148,7 +149,10 @@ const Signup = ({ className = "" }: LoginProps) => {
     } catch (error) {
       // Handle registration error
       console.error("فشل التسجيل", error);
-      toast.error("فشل التسجيل");
+      const errorMessage = getApiErrorMessage(error);
+      if (errorMessage) {
+        toast.error(errorMessage);
+      }
     }
   };
 

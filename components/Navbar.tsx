@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "@/libs/store/hooks";
+import { useCart } from "@/libs/hooks/useCart";
 import { userMenueItems } from "@/libs/helpers/userMenueItems";
 import { navbarItems } from "@/libs/helpers/navbarItems";
 import "@/public/css/navbar.css";
@@ -15,6 +16,7 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showProfileMenue, setShowProfileMenue] = useState(false);
   const { userData, token } = useAppSelector((state) => state.user);
+  const { count: cartCount } = useCart();
 
   useEffect(() => {
     if (token) setIsLoggedIn(true);
@@ -194,6 +196,35 @@ const Navbar = () => {
                 className="fixed z-[8000] w-[100vw] h-[100vh] top-0 left-0 bottom-0 right-0 bg-[#0000003b]"
               ></div>
             )}
+
+            <Link
+              href="/shopping-cart"
+              aria-label="سلة المشتريات"
+              className="relative cursor-pointer"
+            >
+              <svg
+                width="31"
+                height="31"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2.5 3.5h2l1.5 12.5a2 2 0 0 0 2 1.75h9.2a2 2 0 0 0 1.97-1.64l1.4-7.36H6"
+                  stroke="#26577C"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle cx="9.5" cy="20.2" r="1.5" fill="#26577C" />
+                <circle cx="17.5" cy="20.2" r="1.5" fill="#26577C" />
+              </svg>
+              {cartCount > 0 && (
+                <div className="min-w-[18px] h-[18px] px-1 rounded-full bg-[#e55604] text-white text-[11px] font-bold flex items-center justify-center absolute -top-[6px] -right-[6px]">
+                  {cartCount}
+                </div>
+              )}
+            </Link>
 
             <Link href="/notifications" className="relative cursor-pointer">
               <svg

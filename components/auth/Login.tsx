@@ -7,6 +7,7 @@ import PasswordInput from "../inputs/PasswordInput";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 interface LoginProps {
   className?: string;
@@ -45,7 +46,10 @@ const Login = ({ className = "" }: LoginProps) => {
       }
     } catch (error) {
       console.error("Login failed", error);
-      toast.error("خطأ في تسجيل الدخول");
+      const errorMessage = getApiErrorMessage(error);
+      if (errorMessage) {
+        toast.error(errorMessage);
+      }
     }
   };
 

@@ -10,6 +10,7 @@ import { useAddToFavorites } from "@/libs/hooks/useAddToFavorites";
 import { useAppSelector } from "@/libs/store/hooks";
 import { toast } from "react-toastify";
 import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 interface Course {
   id: number;
@@ -213,6 +214,12 @@ const Course = () => {
                         />
                       </svg>
                     </button>
+                    <AddToCartButton
+                      productType="course"
+                      productId={(courseId as string) ?? 0}
+                      variant="icon"
+                      className="!w-[58px] !h-[58px] !rounded-[14px] border-[3px] border-[#E55604]"
+                    />
                     <button
                       onClick={handlePurchase}
                       className="text-white text-[15px] font-medium font-sst-arabic text-nowrap h-[58px] w-full lg:w-[178px] px-4 lg:px-14 bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border flex justify-center items-center"

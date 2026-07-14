@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/libs/store/hooks";
 import { getHomeData } from "@/libs/store/slices/homeSlice";
 import { toast } from "react-toastify";
 import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 interface Book {
   id: number;
@@ -184,6 +185,12 @@ const Book = () => {
                       />
                     </svg>
                   </button>
+                  <AddToCartButton
+                    productType="book"
+                    productId={book?.id ?? 0}
+                    variant="icon"
+                    className="!w-[40px] !h-[40px] lg:!w-[66px] lg:!h-[58px] !rounded-[8px] lg:!rounded-[14px] border-[3px] border-[#E55604]"
+                  />
                   <div
                     onClick={handlePurchase}
                     className="w-full cursor-pointer lg:w-[402px] h-[45px] lg:h-[58px] px-3 md:px-4 lg:px-14 py-[7px] bg-[#e55604] rounded-[14px] shadow-[0px_3px_4px_0px_rgba(0,0,0,0.03)] border border-[#f1f1f2] flex justify-center items-center"

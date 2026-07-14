@@ -5,7 +5,7 @@ import PasswordInput from "@/components/inputs/PasswordInput";
 import { postData } from "@/libs/axios/backendServer";
 import { useAppSelector } from "@/libs/store/hooks";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 const Password = () => {
   const { token } = useAppSelector((state) => state.user);
@@ -28,10 +28,9 @@ const Password = () => {
       );
       toast.success("تم تحديث الرقم السري بنجاح");
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        toast.error(error.response?.data?.msg);
-      } else {
-        toast.error("حدث خطأ أثناء تحديث الرقم السري");
+      const errorMessage = getApiErrorMessage(error);
+      if (errorMessage) {
+        toast.error(errorMessage);
       }
     }
   };

@@ -1,5 +1,6 @@
 "use client";
 import { getData } from "@/libs/axios/backendServer";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 import { BlogTypes } from "@/libs/types/tpes";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ const BlogShow = () => {
         setError(null);
       } catch (err) {
         console.log(err);
-        setError("فشل تحميل المقال. يرجى المحاولة مرة أخرى لاحقًا.");
+        setError(getApiErrorMessage(err));
       } finally {
         setIsLoading(false);
       }

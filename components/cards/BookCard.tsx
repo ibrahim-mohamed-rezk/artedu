@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 interface Props {
   title?: string;
@@ -58,6 +59,14 @@ const BookCard = ({ title, author, price, image, id, is_favorite }: Props) => {
                 fill={isFav ? "red" : "#F1F1F2"}
               />
             </svg>
+          </div>
+          <div className="absolute top-[44px] left-2 z-50">
+            <AddToCartButton
+              productType="book"
+              productId={id ?? 0}
+              variant="icon"
+              stopPropagation
+            />
           </div>
         </div>
         <div className=" flex flex-col justify-between flex-grow">

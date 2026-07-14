@@ -6,6 +6,7 @@ import { updateUserData } from "@/libs/store/slices/userSlice";
 import axios from "axios";
 import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 interface Governorate {
   id: number;
@@ -272,16 +273,20 @@ const PersonalSettings = () => {
       dispatch(updateUserData(previousData));
 
       if (axios.isAxiosError(error)) {
-        const errorMsg =
-          error.response?.data?.msg || "حدث خطأ أثناء تحديث البيانات";
-        toast.error(errorMsg);
+        const errorMsg = getApiErrorMessage(error);
+        if (errorMsg) {
+          toast.error(errorMsg);
+        }
 
         // Handle field-specific errors from backend
         if (error.response?.data?.errors) {
           setErrors(error.response.data.errors);
         }
       } else {
-        toast.error("حدث خطأ في الاتصال بالخادم");
+        const errorMsg = getApiErrorMessage(error);
+        if (errorMsg) {
+          toast.error(errorMsg);
+        }
       }
     } finally {
       setIsLoading(false);

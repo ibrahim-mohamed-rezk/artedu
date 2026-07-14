@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 const VerifyCode = () => {
   const router = useRouter();
@@ -48,7 +49,10 @@ const VerifyCode = () => {
       router.push("/");
     } catch (error) {
       console.error("Error verifying code:", error);
-      toast.error("خطأ في تحقق من الهاتف");
+      const errorMessage = getApiErrorMessage(error);
+      if (errorMessage) {
+        toast.error(errorMessage);
+      }
     } finally {
       setLoading(false);
     }

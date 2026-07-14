@@ -69,6 +69,31 @@ export interface Courses {
   created_at: string;
 }
 
+export interface CartItemDetails {
+  id: number;
+  title?: string;
+  name?: string;
+  price: number;
+  teacher_name?: string;
+  teacher?: string;
+  subject?: string;
+  cover?: string;
+  image?: string;
+}
+
+export interface CartItem {
+  id: number;
+  user_id: number;
+  purchastable_id: number;
+  // Backend stores plural types: "courses" | "books"
+  purchastable_type: string;
+  created_at: string;
+  details: CartItemDetails;
+}
+
+// Product type accepted by the cart/checkout endpoints (singular)
+export type CartProductType = "course" | "book";
+
 export interface BlogTypes {
   id: number;
   user_id: number;

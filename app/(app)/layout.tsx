@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ReduxProvider from "@/libs/store/ReduxProvider";
 import AutoLogin from "@/components/auth/AutoLogin";
+import CartHydrator from "@/components/cart/CartHydrator";
 import { cookies } from "next/headers";
 import Script from "next/script";
 
@@ -75,6 +76,7 @@ export default async function RootLayout({
       <body className="relative">
         <ReduxProvider>
           <AutoLogin token={token?.value || null} />
+          <CartHydrator />
           <div className=" mx-auto items-stretch  flex">
             <Navbar />
             <main className="w-full mt-[72px] md:mt-0 mx-auto h-full order-1 max-h-[100vh] overflow-auto hide-scrollbar">

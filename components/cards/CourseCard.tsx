@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
+import AddToCartButton from "@/components/cart/AddToCartButton";
 
 interface Props {
   courseName: string;
@@ -119,6 +120,14 @@ const CourseCard = ({
               fill={isFav ? "red" : "#F1F1F2"}
             />
           </svg>
+        </div>
+        <div className="absolute top-[62px] left-4 z-50">
+          <AddToCartButton
+            productType="course"
+            productId={courseId}
+            variant="icon"
+            stopPropagation
+          />
         </div>
       </div>
     </Link>

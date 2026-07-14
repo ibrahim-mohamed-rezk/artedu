@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { postData } from "@/libs/axios/backendServer";
 import { toast } from "react-toastify";
+import { getApiErrorMessage } from "@/libs/helpers/apiError";
 
 const ContactUsPage = () => {
   const [formData, setFormData] = useState({
@@ -37,8 +38,11 @@ const ContactUsPage = () => {
       const response = await postData("contact-api", payload);
       toast.success(response?.msg || response?.message || "تم إرسال رسالتك بنجاح");
       setFormData({ name: "", email: "", message: "" });
-    } catch (error: any) {
-      toast.error(error?.response?.data?.msg || "حدث خطأ أثناء إرسال الرسالة");
+    } catch (error: unknown) {
+      const errorMessage = getApiErrorMessage(error);
+      if (errorMessage) {
+        toast.error(errorMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }
