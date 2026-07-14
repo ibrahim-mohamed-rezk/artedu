@@ -149,10 +149,7 @@ const Signup = ({ className = "" }: LoginProps) => {
     } catch (error) {
       // Handle registration error
       console.error("فشل التسجيل", error);
-      const errorMessage = getApiErrorMessage(error);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      }
+      toast.error(getApiErrorMessage(error, "فشل التسجيل"));
     }
   };
 

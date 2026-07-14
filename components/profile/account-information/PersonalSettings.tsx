@@ -273,20 +273,14 @@ const PersonalSettings = () => {
       dispatch(updateUserData(previousData));
 
       if (axios.isAxiosError(error)) {
-        const errorMsg = getApiErrorMessage(error);
-        if (errorMsg) {
-          toast.error(errorMsg);
-        }
+        toast.error(getApiErrorMessage(error, "حدث خطأ أثناء تحديث البيانات"));
 
         // Handle field-specific errors from backend
         if (error.response?.data?.errors) {
           setErrors(error.response.data.errors);
         }
       } else {
-        const errorMsg = getApiErrorMessage(error);
-        if (errorMsg) {
-          toast.error(errorMsg);
-        }
+        toast.error(getApiErrorMessage(error, "حدث خطأ في الاتصال بالخادم"));
       }
     } finally {
       setIsLoading(false);

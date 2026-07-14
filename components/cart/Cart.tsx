@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -31,11 +31,8 @@ const Cart = () => {
   const [submitting, setSubmitting] = useState(false);
   const [removingId, setRemovingId] = useState<number | null>(null);
 
-  // Ensure the cart is fresh when landing on this page
-  useEffect(() => {
-    if (token) fetchCart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  // CartHydrator (mounted app-wide in the layout) already loads the cart when a
+  // token becomes available, so no per-page fetch is needed here.
 
   const total = items.reduce(
     (sum, item) => sum + Number(item.details?.price ?? 0),
@@ -53,20 +50,34 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     if (submitting || items.length === 0) return;
+    // Paymob integration id (public identifier) — required by the backend for
+    // paid products. Set NEXT_PUBLIC_PAYMOB_INTEGRATION_ID in your env.
+    const integrationId = process.env.NEXT_PUBLIC_PAYMOB_INTEGRATION_ID;
+    if (total > 0 && !integrationId) {
+      toast.error("لم يتم ضبط معرف بوابة الدفع. يرجى مراجعة الإعدادات.");
+      return;
+    }
+
     setSubmitting(true);
     try {
-      // NOTE: depends on the backend `POST /cart/checkout` endpoint that
-      // creates a single Paymob intention for all cart items and returns a
-      // unified checkout URL. Coupon is passed as `cobon_code` per the API.
+      // POST /cart/checkout creates a single Paymob intention for all cart
+      // items and returns a unified checkout URL. Coupon -> `cobon_code`,
+      // Paymob integration -> `integration_id` (required when price > 0).
       const res = await postData(
         "cart/checkout",
-        { cobon_code: coupon || undefined },
+        {
+          cobon_code: coupon || undefined,
+          integration_id: total > 0 ? integrationId : undefined,
+        },
         { Authorization: `Bearer ${token}` }
       );
       const data = res?.data || {};
 
       if (data.direct_activation) {
         toast.success(res.msg || "تم تفعيل مشترياتك بنجاح");
+        // The items are now purchased and removed from the cart server-side;
+        // resync so the cart list and navbar badge reflect the empty cart.
+        await fetchCart();
         router.push("/cart");
         return;
       }
@@ -76,7 +87,7 @@ const Cart = () => {
       }
       toast.error("تعذر بدء عملية الدفع");
     } catch (error) {
-      toast.error(getApiErrorMessage(error) || "تعذر بدء عملية الدفع");
+      toast.error(getApiErrorMessage(error, "تعذر بدء عملية الدفع"));
     } finally {
       setSubmitting(false);
     }

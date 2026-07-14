@@ -24,8 +24,13 @@ export const cartSlice = createSlice({
       state.items = [];
       state.loaded = true;
     },
+    // Mark the cart as loaded without changing items (e.g. after a failed fetch)
+    // so consumers don't stay stuck on a loading state.
+    setCartLoaded: (state) => {
+      state.loaded = true;
+    },
   },
 });
 
-export const { setCartItems, clearCartItems } = cartSlice.actions;
+export const { setCartItems, clearCartItems, setCartLoaded } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -39,10 +39,7 @@ const ContactUsPage = () => {
       toast.success(response?.msg || response?.message || "تم إرسال رسالتك بنجاح");
       setFormData({ name: "", email: "", message: "" });
     } catch (error: unknown) {
-      const errorMessage = getApiErrorMessage(error);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      }
+      toast.error(getApiErrorMessage(error, "حدث خطأ أثناء إرسال الرسالة"));
     } finally {
       setIsSubmitting(false);
     }

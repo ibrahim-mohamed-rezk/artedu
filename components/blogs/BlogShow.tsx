@@ -20,7 +20,9 @@ const BlogShow = () => {
         setError(null);
       } catch (err) {
         console.log(err);
-        setError(getApiErrorMessage(err));
+        setError(
+          getApiErrorMessage(err, "فشل تحميل المقال. يرجى المحاولة مرة أخرى لاحقًا.")
+        );
       } finally {
         setIsLoading(false);
       }

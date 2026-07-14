@@ -46,10 +46,7 @@ const Login = ({ className = "" }: LoginProps) => {
       }
     } catch (error) {
       console.error("Login failed", error);
-      const errorMessage = getApiErrorMessage(error);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      }
+      toast.error(getApiErrorMessage(error, "خطأ في تسجيل الدخول"));
     }
   };
 

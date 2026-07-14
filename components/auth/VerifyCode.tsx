@@ -49,10 +49,7 @@ const VerifyCode = () => {
       router.push("/");
     } catch (error) {
       console.error("Error verifying code:", error);
-      const errorMessage = getApiErrorMessage(error);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      }
+      toast.error(getApiErrorMessage(error, "خطأ في تحقق من الهاتف"));
     } finally {
       setLoading(false);
     }

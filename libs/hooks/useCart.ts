@@ -1,6 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getData, postData } from "../axios/backendServer";
-import { setCartItems, clearCartItems } from "../store/slices/cartSlice";
+import {
+  setCartItems,
+  clearCartItems,
+  setCartLoaded,
+} from "../store/slices/cartSlice";
 import { toast } from "react-toastify";
 import { getApiErrorMessage } from "../helpers/apiError";
 import { CartProductType } from "../types/tpes";
@@ -23,6 +27,9 @@ export const useCart = () => {
       dispatch(setCartItems(res.data || []));
     } catch (error) {
       console.error("Error fetching cart:", error);
+      // Ensure consumers gated on `loaded` (e.g. the cart page spinner) don't
+      // hang forever when the fetch fails.
+      dispatch(setCartLoaded());
     }
   };
 
@@ -37,14 +44,14 @@ export const useCart = () => {
     try {
       const res = await postData(
         "cart/add",
-        { product_type: productType, product_id: productId },
+        { product_type: toProductType(productType), product_id: productId },
         authHeader()
       );
       dispatch(setCartItems(res.data || []));
       toast.success(res.msg || "تمت الإضافة إلى السلة");
       return { success: true, data: res };
     } catch (error) {
-      toast.error(getApiErrorMessage(error) || "تعذر الإضافة إلى السلة");
+      toast.error(getApiErrorMessage(error, "تعذر الإضافة إلى السلة"));
       return { success: false };
     }
   };
@@ -64,7 +71,7 @@ export const useCart = () => {
       toast.success(res.msg || "تمت الإزالة من السلة");
       return { success: true, data: res };
     } catch (error) {
-      toast.error(getApiErrorMessage(error) || "تعذر الإزالة من السلة");
+      toast.error(getApiErrorMessage(error, "تعذر الإزالة من السلة"));
       return { success: false };
     }
   };
@@ -77,7 +84,7 @@ export const useCart = () => {
       toast.success(res.msg || "تم تفريغ السلة");
       return { success: true, data: res };
     } catch (error) {
-      toast.error(getApiErrorMessage(error) || "تعذر تفريغ السلة");
+      toast.error(getApiErrorMessage(error, "تعذر تفريغ السلة"));
       return { success: false };
     }
   };

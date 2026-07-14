@@ -28,10 +28,7 @@ const Password = () => {
       );
       toast.success("تم تحديث الرقم السري بنجاح");
     } catch (error: unknown) {
-      const errorMessage = getApiErrorMessage(error);
-      if (errorMessage) {
-        toast.error(errorMessage);
-      }
+      toast.error(getApiErrorMessage(error, "حدث خطأ أثناء تحديث الرقم السري"));
     }
   };
 
