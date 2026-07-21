@@ -50,24 +50,17 @@ const Cart = () => {
 
   const handleCheckout = async () => {
     if (submitting || items.length === 0) return;
-    // Paymob integration id (public identifier) — required by the backend for
-    // paid products. Set NEXT_PUBLIC_PAYMOB_INTEGRATION_ID in your env.
-    const integrationId = process.env.NEXT_PUBLIC_PAYMOB_INTEGRATION_ID;
-    if (total > 0 && !integrationId) {
-      toast.error("لم يتم ضبط معرف بوابة الدفع. يرجى مراجعة الإعدادات.");
-      return;
-    }
 
     setSubmitting(true);
     try {
       // POST /cart/checkout creates a single Paymob intention for all cart
-      // items and returns a unified checkout URL. Coupon -> `cobon_code`,
-      // Paymob integration -> `integration_id` (required when price > 0).
+      // items and returns a unified checkout URL. The backend configures the
+      // Paymob integration and returns `payment_url`; the frontend only sends
+      // an optional coupon (`cobon_code`) and redirects to that URL.
       const res = await postData(
         "cart/checkout",
         {
           cobon_code: coupon || undefined,
-          integration_id: total > 0 ? integrationId : undefined,
         },
         { Authorization: `Bearer ${token}` }
       );

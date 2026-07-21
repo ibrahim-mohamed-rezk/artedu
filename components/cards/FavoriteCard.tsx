@@ -1,5 +1,7 @@
+"use client";
+
 import { Books, Courses } from "@/libs/types/tpes";
-import React from "react";
+import React, { useState } from "react";
 import { formatPrice, isFreePrice } from "@/libs/utils/formatPrice";
 import { useRouter } from "next/navigation";
 
@@ -11,7 +13,13 @@ interface FavoriteCardProps {
 const FavoriteCard: React.FC<FavoriteCardProps> = ({ item, type }) => {
   const isBook = type === "books";
   const price = isBook ? (item as Books)?.price : (item as Courses)?.price;
+  const cover = isBook ? (item as Books)?.image : (item as Courses)?.cover;
+  const title = isBook ? (item as Books)?.name : (item as Courses)?.title;
+  const teacher = isBook ? (item as Books)?.author : (item as Courses)?.teacher;
+  const subject = isBook ? (item as Books)?.subject : (item as Courses)?.subject;
+  const free = isFreePrice(price);
   const router = useRouter();
+  const [imgError, setImgError] = useState(false);
 
   const handlePurchase = () => {
     const itemId = isBook ? (item as Books)?.id : (item as Courses)?.id;
@@ -19,60 +27,118 @@ const FavoriteCard: React.FC<FavoriteCardProps> = ({ item, type }) => {
     router.push(`/payments/${paymentType}/${itemId}`);
   };
 
+  const showImage = cover && !imgError;
+
   return (
-    <div className="w-full sm:w-96 relative bg-white rounded-3xl shadow-sm border border-zinc-100 mb-4">
-      <div className="w-full h-full p-2.5 flex justify-between items-center">
-        {/* صورة العنصر */}
-        <div className="w-2/5 h-24  rounded-3xl flex justify-center items-center overflow-hidden">
-          <img
-            className="w-full h-full rounded-lg object-cover"
-            src={isBook ? (item as Books)?.image : (item as Courses)?.cover}
-            alt={isBook ? "Book cover" : "Course cover"}
-          />
+    <div className="group w-full sm:w-[420px] bg-white rounded-[24px] border border-[#f1f1f2] shadow-[0px_3px_10px_0px_rgba(0,0,0,0.04)] hover:shadow-[0px_10px_24px_0px_rgba(38,87,124,0.12)] hover:-translate-y-0.5 transition-all duration-200 overflow-hidden">
+      <div className="p-3 flex gap-4">
+        {/* Cover */}
+        <div className="relative w-[130px] h-[130px] shrink-0 rounded-[18px] overflow-hidden bg-gradient-to-br from-[#fff2eb] to-[#f4f7fa]">
+          {showImage ? (
+            <img
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              src={cover}
+              onError={() => setImgError(true)}
+              alt={title || (isBook ? "كتاب" : "كورس")}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-[#26577c]/40">
+              <svg
+                width="46"
+                height="46"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {isBook ? (
+                  <path
+                    d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 0 4 20.5V5.5ZM4 20.5A2.5 2.5 0 0 0 6.5 23H20"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                ) : (
+                  <>
+                    <rect
+                      x="3"
+                      y="4.5"
+                      width="18"
+                      height="15"
+                      rx="3"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M10.5 9.2v5.6l4.5-2.8-4.5-2.8Z"
+                      fill="currentColor"
+                    />
+                  </>
+                )}
+              </svg>
+            </div>
+          )}
+          {/* Type badge */}
+          <span className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur text-[#26577c] text-[10px] font-bold shadow-sm">
+            {isBook ? "كتاب" : "كورس"}
+          </span>
         </div>
 
-        {/* معلومات العنصر */}
-        <div className="w-3/5 flex flex-col items-end gap-2 px-2">
-          <div className="flex flex-col items-end gap-1">
-            <div className="flex items-center gap-1 text-cyan-800 text-xs">
-              <span className="font-light">
-                {isBook ? (item as Books)?.author : (item as Courses)?.teacher}
-              </span>
-              <span className="w-1 h-1 bg-cyan-800 rounded-full"></span>
-              <span>
-                {isBook ? (item as Books)?.subject : (item as Courses)?.subject}
-              </span>
+        {/* Info */}
+        <div className="flex-1 min-w-0 flex flex-col items-end text-right gap-1.5">
+          {(teacher || subject) && (
+            <div className="flex items-center gap-1.5 text-[#26577c] text-xs">
+              {subject && <span className="font-medium">{subject}</span>}
+              {teacher && subject && (
+                <span className="w-1 h-1 bg-[#26577c] rounded-full" />
+              )}
+              {teacher && <span className="font-light">{teacher}</span>}
             </div>
-            <div className="text-right text-black text-sm font-bold">
-              {isBook ? (item as Books)?.name : (item as Courses)?.title}
-            </div>
-          </div>
+          )}
 
-          {/* السعر */}
-          <div className="flex items-end gap-1">
-            {isFreePrice(price) ? (
-              <>
-                <span className="text-cyan-800 text-sm font-bold">
-                  {formatPrice(price)}
-                </span>
-                <span className="text-black text-sm">: السعر </span>
-              </>
+          <h3
+            title={title}
+            className="w-full text-right text-black text-[15px] font-bold font-sst-arabic leading-snug line-clamp-2"
+          >
+            {title || "بدون عنوان"}
+          </h3>
+
+          {/* Price pill */}
+          <div className="mt-auto">
+            {free ? (
+              <span className="inline-block px-3 py-1 rounded-full bg-[#26577c]/10 text-[#26577c] text-xs font-bold">
+                {formatPrice(price)}
+              </span>
             ) : (
-              <>
-                <span className="text-slate-400 text-xs">جنيه</span>
-                <span className="text-cyan-800 text-base font-bold">
-                  {formatPrice(price)}
-                </span>
-                <span className="text-black text-sm">: السعر </span>
-              </>
+              <span className="inline-flex items-baseline gap-1 px-3 py-1 rounded-full bg-[#fff2eb] text-[#e55604] font-bold">
+                <span className="text-base">{formatPrice(price)}</span>
+                <span className="text-[10px]">جنيه</span>
+              </span>
             )}
           </div>
 
-          {/* زر الشراء */}
-          <button 
+          {/* Buy button */}
+          <button
             onClick={handlePurchase}
-            className="w-full py-2 rounded-lg text-white text-sm font-medium bg-orange-600 hover:bg-orange-700 transition-colors"
+            className="w-full mt-1 py-2.5 rounded-[12px] text-white text-sm font-bold font-sst-arabic bg-[#e55604] hover:bg-[#e55604]/90 active:scale-[0.99] transition-all flex items-center justify-center gap-2"
           >
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M2.5 3.5h2l1.5 12.5a2 2 0 0 0 2 1.75h9.2a2 2 0 0 0 1.97-1.64l1.4-7.36H6"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="9.5" cy="20" r="1.4" fill="currentColor" />
+              <circle cx="17.5" cy="20" r="1.4" fill="currentColor" />
+            </svg>
             شراء الآن
           </button>
         </div>
